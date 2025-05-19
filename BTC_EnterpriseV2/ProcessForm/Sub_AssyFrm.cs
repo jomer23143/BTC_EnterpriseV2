@@ -125,18 +125,12 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                // Skip new row placeholder in DataGridView
                 if (row.IsNewRow)
                     continue;
-
-                // Get the cell values
                 var material = row.Cells["SerializedMaterial"].Value?.ToString();
                 var status = row.Cells["Scan Status"].Value?.ToString();
-
-                // Check if SerializedMaterial is not empty
                 if (!string.IsNullOrWhiteSpace(material))
                 {
-                    // Check if Scan Status is not "Yes"
                     if (!string.Equals(status, "Yes", StringComparison.OrdinalIgnoreCase))
                     {
                         allScanned = false;
@@ -177,17 +171,13 @@ namespace BTC_EnterpriseV2.ProcessForm
 
         private void DGV_SampleData()
         {
-
-            // Clear auto-generated columns (if any)
             dataGridView1.Columns.Clear();
-
-            // Add text columns
             dataGridView1.Columns.Add("NoProcess", "No. Process");
             dataGridView1.Columns.Add("Process", "Process");
             dataGridView1.Columns.Add("SerializedMaterial", "Serialized Material");
             dataGridView1.Columns.Add("SerialQuantity", "Serial Quantity");
             dataGridView1.Columns.Add("Scan Status", "status");
-            // Add image column
+
             DataGridViewImageColumn imgColumn = new DataGridViewImageColumn();
             imgColumn.Name = "ScanItemSerial";
             imgColumn.HeaderText = "Scan Item Serial";
@@ -205,13 +195,10 @@ namespace BTC_EnterpriseV2.ProcessForm
                 return bmp;
             }
 
-            // Usage:
+
             Image originalImage = Image.FromFile(defaultImagePath);
             Image resizedImage = ResizeImage(originalImage, 60, 60);
 
-
-
-            // Add sample rows
             dataGridView1.Rows.Add("P001", "Process1", "Material A", "1", "No", resizedImage);
             dataGridView1.Rows.Add("P002", "Process2", "Material B", "1", "No", resizedImage);
             dataGridView1.Rows.Add("P003", "Process3", "Material C", "1", "No", resizedImage);
@@ -224,17 +211,13 @@ namespace BTC_EnterpriseV2.ProcessForm
             if (e.ColumnIndex == dataGridView1.Columns["ScanItemSerial"].Index && e.RowIndex >= 0)
             {
                 ProcessScanner scan = new ProcessScanner(e.RowIndex);
-
-                // Subscribe to the SerialScanned event
                 scan.SerialScanned += (serial) =>
                 {
                     if (!string.IsNullOrEmpty(serial))
                     {
-                        // Update the "Scan Status" cell to "Yes"
+
                         dataGridView1.Rows[e.RowIndex].Cells["Scan Status"].Value = "Yes";
 
-                        // Optionally update other cells if needed
-                        // Example: dataGridView1.Rows[e.RowIndex].Cells["SerializedMaterial"].Value = serial;
                     }
                 };
 
