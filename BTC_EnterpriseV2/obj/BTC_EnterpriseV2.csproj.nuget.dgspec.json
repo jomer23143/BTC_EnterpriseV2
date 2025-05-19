@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {}
+    "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {
+    "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+        "projectUniqueName": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
         "projectName": "BTC_EnterpriseV2",
-        "projectPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
-        "packagesPath": "C:\\Users\\JomerAlo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
+        "projectPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+        "packagesPath": "C:\\Users\\GlynnDelaCruz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\JomerAlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\GlynnDelaCruz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -49,6 +49,40 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
+            "LiveCharts.Core": {
+              "target": "Package",
+              "version": "[0.9.8, )"
+            },
+            "LiveChartsCore.SkiaSharpView.WinForms": {
+              "target": "Package",
+              "version": "[2.0.0-rc5.4, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.3.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "QRCoder": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

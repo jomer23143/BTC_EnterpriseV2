@@ -1,4 +1,4 @@
-﻿namespace BTC_EnterpriseV2
+﻿namespace BTCP_EnterpriseV2
 {
     partial class Form1
     {

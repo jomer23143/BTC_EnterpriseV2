@@ -1,8 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-        <Compile Update="Form1.cs">
-            <SubType>Form</SubType>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\KitlistRecieving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MainDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SegmentFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserIdentificationfrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Warehousekitting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\AddSerialNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\CustomeAlert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\EndProcessScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\GetModalFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\ProcessScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\ScannerModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\SubAssy_Serial_Scanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProcessForm\Sub_AssyFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ReportChart\Report1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SideBar\Kitlist_Sidebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SideBar\ProcessSidebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SideBar\WarehouseKitingSidebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>
