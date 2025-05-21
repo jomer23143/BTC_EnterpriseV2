@@ -108,7 +108,30 @@ namespace BTC_EnterpriseV2.Utillities
                 return responseData;
             }
         }
+        public static async Task<string> PostRequest(string url, string jsonData)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url),
+                    Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
+                };
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseData = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"Server Error: {response.StatusCode}\n{responseData}");
+                }
+
+                return responseData;
+            }
+        }
 
 
     }

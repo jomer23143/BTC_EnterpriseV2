@@ -71,113 +71,133 @@ namespace BTC_EnterpriseV2.Forms
 
         private async void PostData()
         {
-
-            GetMoheaderDetails = KitList.GetMohDetails_DS(txtmo_number.Text);
-            object res = JsonConvert.SerializeObject(GetMoheaderDetails.Tables[1]);
-            string res1 = "";
-            List<Model.kitlist.item> item = (List<Model.kitlist.item>)JsonConvert.DeserializeObject(res.ToString(), typeof(List<Model.kitlist.item>));
-            if (res.ToString() != "[]")
+            try
             {
-                Model.kitlist.manufacturing_order man = new Model.kitlist.manufacturing_order
+                GetMoheaderDetails = KitList.GetMohDetails_DS(txtmo_number.Text);
+                if (GetMoheaderDetails == null || GetMoheaderDetails.Tables.Count < 2 || GetMoheaderDetails.Tables[1].Rows.Count == 0)
                 {
+                    MessageBox.Show("No data found for the given MO number.");
+                    return;
+                }
 
-                    mo_id = GetMoheaderDetails.Tables[0].Rows[0][0].ToString(),
-                    pcn_number = GetMoheaderDetails.Tables[0].Rows[0][1].ToString(),
-                    description = GetMoheaderDetails.Tables[0].Rows[0][2].ToString(),
-                    location = GetMoheaderDetails.Tables[0].Rows[0][3].ToString(),
-                    bom_item = GetMoheaderDetails.Tables[0].Rows[0][4].ToString(),
-                    bom_revision_number = GetMoheaderDetails.Tables[0].Rows[0][5].ToString(),
-                    order_quantity = GetMoheaderDetails.Tables[0].Rows[0][6].ToString(),
-                    order_date = GetMoheaderDetails.Tables[0].Rows[0][7].ToString(),
-                    kit_date = GetMoheaderDetails.Tables[0].Rows[0][8].ToString(),
-                    start_date = GetMoheaderDetails.Tables[0].Rows[0][9].ToString(),
-                    end_date = GetMoheaderDetails.Tables[0].Rows[0][10].ToString(),
+                // Convert item table to list
+                string res = JsonConvert.SerializeObject(GetMoheaderDetails.Tables[1]);
+                List<Model.kitlist.item> item = JsonConvert.DeserializeObject<List<Model.kitlist.item>>(res) ?? new();
+
+                // Build main object
+                var header = GetMoheaderDetails.Tables[0].Rows[0];
+                var man = new Model.kitlist.manufacturing_order
+                {
+                    mo_id = header[0]?.ToString() ?? "",
+                    pcn_number = header[1]?.ToString() ?? "",
+                    description = header[2]?.ToString() ?? "",
+                    location = header[3]?.ToString() ?? "",
+                    bom_item = header[4]?.ToString() ?? "",
+                    bom_revision_number = header[5]?.ToString() ?? "",
+                    order_quantity = header[6]?.ToString() ?? "",
+                    order_date = header[7]?.ToString() ?? "",
+                    kit_date = header[8]?.ToString() ?? "",
+                    start_date = header[9]?.ToString() ?? "",
+                    end_date = header[10]?.ToString() ?? "",
                     kit_list_items = item
                 };
-                res1 = JsonConvert.SerializeObject(man);
-            }
-            string responseData = "";
-            HttpResponseMessage response = new HttpResponseMessage();
-            using (HttpClient client = new HttpClient())
-            {
-                var content = new StringContent(res1, Encoding.UTF8, "application/json");
 
-                response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list", content);
-                responseData = await response.Content.ReadAsStringAsync();
-                if (response.StatusCode.ToString() == "422")
+                string res1 = JsonConvert.SerializeObject(man);
+                string responseData = "";
+
+                using (HttpClient client = new HttpClient())
                 {
+                    var content = new StringContent(res1, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list", content);
+                    responseData = await response.Content.ReadAsStringAsync();
+
+                    // Catch error responses before continuing
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        try
+                        {
+                            var errorResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseData);
+
+                            string errorMessage = "Unknown error occurred.";
+
+                            if (errorResponse.ContainsKey("message"))
+                            {
+                                errorMessage = errorResponse["message"]?.ToString() ?? errorMessage;
+                            }
+
+                            if (errorResponse.ContainsKey("errors"))
+                            {
+                                var errors = errorResponse["errors"]?.ToString();
+                                errorMessage += $"\nDetails: {errors}";
+                            }
+
+                            // MessageBox.Show(errorMessage, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            CustomeAlert alert = new CustomeAlert("Template", "No Template Created for this MO", CustomeAlert.Alertype.Error);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to parse error response:\n" + responseData, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        return;
+                    }
+
                     dynamic tmp = JsonConvert.DeserializeObject(responseData);
-                    kit_list_id1 = tmp.id;
-                    Model.kitlist.error_logs error = JsonConvert.DeserializeObject<Model.kitlist.error_logs>(responseData);
+                    kit_list_id1 = tmp?.id ?? 0;
+
                     string url = $"https://app.btcp-enterprise.com/api/kit-list-item?mo_id={txtmo_number.Text}&per_row=9999";
                     string modetails = await GetMohDetails(url);
-                    Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
-                    next_page = model_modetails.next_page_url;
-                    if (model_modetails.prev_page_url == null)
+                    var model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
+
+                    if (model_modetails == null)
                     {
-                        btnprevious_page.Enabled = false;
+                        MessageBox.Show("Failed to load kit list item details.");
+                        return;
                     }
-                    if (model_modetails.next_page_url == null)
-                        btnnext.Enabled = false;
-                    else
-                        btnnext.Enabled = true;
-                    string res3 = JsonConvert.SerializeObject(model_modetails.data);
-                    List<Model.kitlist.manufacturing_order_items> model = (List<Model.kitlist.manufacturing_order_items>)JsonConvert.DeserializeObject(res3, typeof(List<Model.kitlist.manufacturing_order_items>));
+
+                    next_page = model_modetails.next_page_url;
+                    btnprevious_page.Enabled = model_modetails.prev_page_url != null;
+                    btnnext.Enabled = model_modetails.next_page_url != null;
+
+                    lbl_rowcount.Text = $"{model_modetails.to} out of {model_modetails.total}";
+
+                    var model = model_modetails.data ?? new List<Model.kitlist.manufacturing_order_items>();
+
                     foreach (var row in model)
                     {
-                        if (row.status.name.ToUpper() == "COMPLETE")
+                        if (row?.status?.name?.ToUpper() == "COMPLETE")
                         {
                             bunifuloading.Hide();
-                            MessageBox.Show("This is MO number is already Complete");
+                            MessageBox.Show("This MO number is already Complete");
                             return;
                         }
                     }
-                    bunifuloading.Hide();
-                    dataGridView1.DataSource = model;
-                    lbl_rowcount.Text = model_modetails.to.ToString() + " out of " + model_modetails.total;
-                    kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[0].Cells[colid.Name].Value);
-                    kit_list_item_ipn = dataGridView1.Rows[0].Cells[colipn.Name].Value.ToString();
-                    total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[0].Cells[colpickqty.Name].Value);
-                    btnAddSerial.Enabled = true;
-                    btnscan.Enabled = true;
-                    btncomplete.Visible = true;
-                    btnincomplete.Visible = true;
-                }
-                else
-                {
-                    dynamic tmp = JsonConvert.DeserializeObject(responseData);
-                    kit_list_id1 = tmp.id;
 
-                    string url = $"https://app.btcp-enterprise.com/api/kit-list-item?mo_id={txtmo_number.Text}&per_row=9999";
-                    string modetails = await GetMohDetails(url);
-                    Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
-                    next_page = model_modetails.next_page_url;
-                    if (model_modetails.prev_page_url == null)
-                    {
-                        btnprevious_page.Enabled = false;
-                    }
-                    if (model_modetails.next_page_url == null)
-                        btnnext.Enabled = false;
-                    else
-                        btnnext.Enabled = true;
-                    lbl_rowcount.Text = model_modetails.to.ToString() + " out of " + model_modetails.total;
-                    string res3 = JsonConvert.SerializeObject(model_modetails.data);
-                    List<Model.kitlist.manufacturing_order_items> model = (List<Model.kitlist.manufacturing_order_items>)JsonConvert.DeserializeObject(res3, typeof(List<Model.kitlist.manufacturing_order_items>));
-                    bunifuloading.Hide();
                     dataGridView1.DataSource = model;
-                    kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[0].Cells[colid.Name].Value);
-                    kit_list_item_ipn = dataGridView1.Rows[0].Cells[colipn.Name].Value.ToString();
-                    total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[0].Cells[colpickqty.Name].Value);
+                    bunifuloading.Hide();
+
+                    // Set values from DataGridView
+                    if (dataGridView1.Rows.Count > 0)
+                    {
+                        var firstRow = dataGridView1.Rows[0];
+                        kit_list_item_id = Convert.ToInt32(firstRow.Cells[colid.Name]?.Value ?? 0);
+                        kit_list_item_ipn = firstRow.Cells[colipn.Name]?.Value?.ToString() ?? "";
+                        total_pick_quantity = Convert.ToInt32(firstRow.Cells[colpickqty.Name]?.Value ?? 0);
+                    }
+
                     btnAddSerial.Enabled = true;
                     btnscan.Enabled = true;
                     btncomplete.Visible = true;
                     btnincomplete.Visible = true;
+
+                    mo_number = txtmo_number.Text;
                 }
-                mo_number = txtmo_number.Text;
-                //dataGridView2.Rows[0].Cells[0].Selected = true;
-                //dataGridView2.BeginEdit(true);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private async Task<string> GetMohDetails(string url)
         {
             DataTable dt = new DataTable();

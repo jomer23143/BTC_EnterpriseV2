@@ -161,14 +161,8 @@ namespace BTCP_EnterpriseV2.Forms
             showScanner.SerialScanned += async (serial) =>
             {
                 scannedSerial = Convert.ToString(serial);
-                string processId = "";
-                string processName = "";
-                string moid = "";
-                string seg = "";
-                string serialnumber = string.Empty;
-                string toplvlipn = string.Empty;
-                string generatedcode = "SUBD1C500DS24A0001";
-                Manage_SubAssy.OpenChildForm(new Sub_AssyFrm(moid, serialnumber, toplvlipn, seg, processName, generatedcode), sender);
+
+                Manage_SubAssy.OpenChildForm(new Sub_AssyFrm(scannedSerial), sender);
             };
             this.FormBorderStyle = FormBorderStyle.None;
             showScanner.ShowDialog(this);
