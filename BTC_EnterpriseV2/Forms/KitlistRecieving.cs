@@ -13,7 +13,7 @@ namespace BTC_EnterpriseV2.Forms
             InitializeComponent();
             YUI yui = new YUI();
             yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
-            yui.RoundedTextBox(txtmo_number, 8, Color.White);
+            yui.RoundedTextBox(txtmo_number, 6, Color.Gainsboro);
             Pb_loading.Visible = false;
         }
 
@@ -385,14 +385,30 @@ namespace BTC_EnterpriseV2.Forms
             if (dataGridView1.Rows.Count == 0)
                 return;
 
-            if (dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value.ToString().ToUpper() == "OKAY" || dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value.ToString().ToUpper() == "OK")
+            string editedColumnName = dataGridView1.Columns[e.ColumnIndex].Name;
+
+            if (editedColumnName == colcomment.Name)
             {
-                dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value = 1;
+                var valueObj = dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value;
+                var comment = valueObj?.ToString().Trim().ToUpper();
+
+                if (comment == "OK" || comment == "OKAY" || comment == "OKEY")
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value = true;
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value = false;
+                }
             }
-            else
+            else if (editedColumnName == colstatus_item.Name)
             {
-                dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value = 0;
+                var isChecked = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value);
+                dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value = isChecked ? "OKAY" : "";
             }
         }
+
+
+
     }
 }

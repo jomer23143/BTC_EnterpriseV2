@@ -245,6 +245,7 @@
             lbl_station.Size = new Size(353, 62);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
+            lbl_station.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel_statusprocess
             // 
@@ -507,7 +508,7 @@
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.Padding = new Padding(3);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(37, 45, 55);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(22, 27, 45);
             dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;

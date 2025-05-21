@@ -37,6 +37,9 @@
     <Compile Update="Modal\ScannerModal.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\ScanSerialNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\SubAssy_Serial_Scanner.cs">
       <SubType>Form</SubType>
     </Compile>

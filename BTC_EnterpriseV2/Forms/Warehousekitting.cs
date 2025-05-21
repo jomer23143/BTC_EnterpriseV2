@@ -69,6 +69,7 @@ namespace BTC_EnterpriseV2.Forms
             }
         }
 
+
         private async void PostData()
         {
             try
@@ -111,35 +112,60 @@ namespace BTC_EnterpriseV2.Forms
                     var response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list", content);
                     responseData = await response.Content.ReadAsStringAsync();
 
-                    // Catch error responses before continuing
+                    // Default: continue only if response was successful
+                    bool continueProcessing = response.IsSuccessStatusCode;
+
                     if (!response.IsSuccessStatusCode)
                     {
                         try
                         {
-                            var errorResponse = JsonConvert.DeserializeObject<Dictionary<string, object>>(responseData);
+                            var apiError = JsonConvert.DeserializeObject<Model.kitlist.ApiError>(responseData);
 
-                            string errorMessage = "Unknown error occurred.";
+                            // Check specific known error
+                            bool isMoExistError =
+                                apiError?.message == "Manufacturing Order already exist" &&
+                                apiError.errors != null &&
+                                apiError.errors.ContainsKey("mo_id") &&
+                                apiError.errors["mo_id"].Contains("mo_id already exist");
 
-                            if (errorResponse.ContainsKey("message"))
+                            if (isMoExistError)
                             {
-                                errorMessage = errorResponse["message"]?.ToString() ?? errorMessage;
-                            }
+                                // Special case: allow to continue
+                                //  MessageBox.Show("Manufacturing Order already exists. Continuing the process...");
+                                CustomeAlert alert = new CustomeAlert("Template", "Manufacturing Order already exists. Continuing the process...", CustomeAlert.Alertype.Warning);
+                                alert.ShowDialog();
+                                continueProcessing = true;
 
-                            if (errorResponse.ContainsKey("errors"))
+                                // Optionally store the returned ID if needed
+                                kit_list_id1 = apiError.id;
+                            }
+                            else
                             {
-                                var errors = errorResponse["errors"]?.ToString();
-                                errorMessage += $"\nDetails: {errors}";
-                            }
+                                // Generic error
+                                var errorMessage = apiError?.message ?? "Unknown error occurred.";
 
-                            // MessageBox.Show(errorMessage, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            CustomeAlert alert = new CustomeAlert("Template", "No Template Created for this MO", CustomeAlert.Alertype.Error);
+                                if (apiError.errors != null && apiError.errors.Count > 0)
+                                {
+                                    foreach (var error in apiError.errors)
+                                    {
+                                        errorMessage += $"\n{error.Key}: {string.Join(", ", error.Value)}";
+                                    }
+                                }
+
+                                CustomeAlert alert = new CustomeAlert("Template", errorMessage, CustomeAlert.Alertype.Error);
+                                alert.ShowDialog();
+                            }
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Failed to parse error response:\n" + responseData, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            CustomeAlert alert = new CustomeAlert("Template", ex.Message + "\n\nRaw Response:\n" + responseData, CustomeAlert.Alertype.Error);
+                            alert.ShowDialog();
                         }
-                        return;
+
+                        if (!continueProcessing) return;
                     }
+
+
 
                     dynamic tmp = JsonConvert.DeserializeObject(responseData);
                     kit_list_id1 = tmp?.id ?? 0;
@@ -582,6 +608,28 @@ namespace BTC_EnterpriseV2.Forms
             }
             AddSerialNumber addSerialnumber = new AddSerialNumber();
             addSerialnumber.Show();
+        }
+
+        private async void btnscan_Click(object sender, EventArgs e)
+        {
+            list_serial.Clear();
+            string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
+            string responseData = await GetMohDetails(url);
+            List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
+
+            foreach (var item in serials)
+            {
+                string[] data1 = new string[]
+                 {
+                    Convert.ToInt32(item.id).ToString(),
+                    item.kit_list_part_serial_number,
+                    Convert.ToInt32(item.is_scan).ToString()
+                 };
+                list_serial.Rows.Add(data1);
+            }
+
+            ScanSerialNumber ScanSerialnumber = new ScanSerialNumber(this, kit_list_item_id);
+            ScanSerialnumber.Show();
         }
     }
 }

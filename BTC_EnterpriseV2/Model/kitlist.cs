@@ -95,7 +95,7 @@
             public string created_at { get; set; }
             public string updated_at { get; set; }
             public List<serials> serial { get; set; }
-            public statuss status { get; set; }
+            public status status { get; set; }
             // public string[] history { get; set; }
         }
         public class serials
@@ -107,9 +107,10 @@
             public int is_scan { get; set; }
             public string created_at { get; set; }
             public string updated_at { get; set; }
-            public string status { get; set; }
+            public status status { get; set; }
+
         }
-        public class statuss
+        public class status
         {
             public int id { get; set; }
             public string name { get; set; }
@@ -192,5 +193,15 @@
             public int id { get; set; }
             public int is_scan { get; set; }
         }
+
+        public class ApiError
+        {
+            public string message { get; set; }
+            public Dictionary<string, List<string>> errors { get; set; }
+            public int id { get; set; }
+            public int kit_list_status_id { get; set; }
+        }
+
+
     }
 }

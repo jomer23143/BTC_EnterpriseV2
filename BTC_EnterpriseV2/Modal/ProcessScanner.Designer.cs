@@ -188,6 +188,7 @@
             lbl_generatedserial.Size = new Size(50, 20);
             lbl_generatedserial.TabIndex = 10;
             lbl_generatedserial.Text = "label3";
+            lbl_generatedserial.Visible = false;
             // 
             // ProcessScanner
             // 

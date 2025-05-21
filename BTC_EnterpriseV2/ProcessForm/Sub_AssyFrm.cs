@@ -133,7 +133,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         return;
                     }
 
-                    lbl_processStatus.Text = "In Progress";
+                    lbl_processStatus.Text = "Processing";
                     lbl_processStatus.ForeColor = Color.FromArgb(7, 222, 151);
 
                     lbl_toplvlipn.Text = data.mo_id;
@@ -263,61 +263,50 @@ namespace BTC_EnterpriseV2.ProcessForm
 
         private void EndProcessValidation()
         {
-            bool allScanned = true;
-            bool hasZeroCount = false;
+            bool hasMismatch = false;
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.IsNewRow)
                     continue;
 
-                var serialqty = row.Cells["serial_quantity"].Value?.ToString();
-                var serialcount = row.Cells["serial_count"].Value?.ToString();
-                var status = row.Cells["ScanItemSerial"].Value?.ToString();
+                var serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
+                var serialCountStr = row.Cells["serial_count"].Value?.ToString();
 
-                // Check if serial count is 0
-                if (serialcount != serialqty)
+                if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
                 {
-                    hasZeroCount = true;
+                    MessageBox.Show("Invalid serial quantity or count format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Debug.WriteLine($"Serial Quantity: {serialQty}, Serial Count: {serialCount}");
+
+                if (serialCount != serialQty)
+                {
+                    hasMismatch = true;
                     break;
                 }
+            }
 
-                // If quantity equals count, check if scanned
-                if (serialqty == serialcount)
+            if (hasMismatch)
+            {
+                MessageBox.Show("One or more items have mismatched serial counts. Please complete scanning before ending the process.", "Process Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // All quantities matched - proceed
+            EndProcessScanner endProcess = new EndProcessScanner();
+            endProcess.SerialScanned += (serial) =>
+            {
+                if (!string.IsNullOrEmpty(serial))
                 {
-                    if (!string.Equals(status, "Yes", StringComparison.OrdinalIgnoreCase))
-                    {
-                        allScanned = false;
-                        break;
-                    }
+                    SaveProcess();
                 }
-            }
+            };
 
-            if (hasZeroCount)
-            {
-                MessageBox.Show("One or more processes have serials not scanned. Please complete scanning before ending the process.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (allScanned)
-            {
-                EndProcessScanner endProcess = new EndProcessScanner();
-                endProcess.SerialScanned += (serial) =>
-                {
-                    if (!string.IsNullOrEmpty(serial))
-                    {
-                        SaveProcess();
-                    }
-                };
-
-                endProcess.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("Please scan all item serial numbers for each process to proceed.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            endProcess.ShowDialog();
         }
+
 
 
 
@@ -362,24 +351,11 @@ namespace BTC_EnterpriseV2.ProcessForm
                 }
                 var processname = row.Cells["name"].Value?.ToString();
                 // Start scanning
-                ProcessScanner scan = new ProcessScanner(e.RowIndex, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
-                scan.SerialScanned += async (serial) =>
-                {
-                    if (!string.IsNullOrWhiteSpace(serial))
-                    {
-                        var processId = row.Cells["id"].Value?.ToString();
-                        if (!string.IsNullOrWhiteSpace(processId))
-                        {
-                            await Get_Process_response(
-                                lbl_generatedserial.Text,
-                                processId,
-                                serial
-                            );
-                        }
-                    }
-                };
-
+                var processId = row.Cells["id"].Value?.ToString();
+                ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
                 scan.ShowDialog();
+                await Get_SubAsy_Process(lbl_generatedserial.Text);
+
             }
         }
 
@@ -430,7 +406,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         return;
                     }
 
-                    lbl_processStatus.Text = "In Progress";
+                    lbl_processStatus.Text = "Processing";
                     lbl_processStatus.ForeColor = Color.Green;
 
                     lbl_toplvlipn.Text = data.mo_id;

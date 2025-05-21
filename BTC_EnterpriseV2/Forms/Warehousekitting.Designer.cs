@@ -138,6 +138,7 @@
             btnscan.TabIndex = 1;
             btnscan.Text = "Scan Serial";
             btnscan.UseVisualStyleBackColor = false;
+            btnscan.Click += btnscan_Click;
             // 
             // label2
             // 
@@ -611,7 +612,6 @@
         private Panel panel2;
         private Button btnserial;
         private Button btncomplete;
-        private DataGridView dataGridView1;
         private TextBox txtserial_number;
         private Label lbl_rowcount;
         private Label label3;
@@ -650,5 +650,6 @@
         private Button btnnext;
         private Button btnprevious_page;
         private PictureBox bunifuloading;
+        public DataGridView dataGridView1;
     }
 }
