@@ -5,7 +5,6 @@ using BTC_EnterpriseV2.Forms;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.ReportChart;
-using BTC_EnterpriseV2.SideBar;
 using BTC_EnterpriseV2.YaoUI;
 using BTCP_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
@@ -268,12 +267,14 @@ namespace BTCP_EnterpriseV2.Forms
 
         private void warehouseRecievingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new SideBar.WarehouseKitingSidebar(), sender);
+            //formManager.OpenChildForm(new SideBar.WarehouseKitingSidebar(), sender);
+            Manage_SubAssy.OpenChildForm(new Warehousekitting(), sender);
         }
 
         private void kitlistRecievingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new Kitlist_Sidebar(), sender);
+            //  formManager.OpenChildForm(new Kitlist_Sidebar(), sender);
+            Manage_SubAssy.OpenChildForm(new KitlistRecieving(), sender);
         }
 
 

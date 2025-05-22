@@ -41,6 +41,8 @@ namespace BTC_EnterpriseV2.Forms
             list_serial.Columns.Add("id");
             list_serial.Columns.Add("kit_list_part_serial_number");
             list_serial.Columns.Add("is_scan");
+            btnAddSerial.Enabled = false;
+            btnscan.Enabled = false;
         }
 
 
@@ -630,6 +632,16 @@ namespace BTC_EnterpriseV2.Forms
 
             ScanSerialNumber ScanSerialnumber = new ScanSerialNumber(this, kit_list_item_id);
             ScanSerialnumber.Show();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int rowindex = dataGridView1.CurrentCell.RowIndex;
+            //int columnindex = dataGridView1.CurrentCell.ColumnIndex;
+            kit_list_item_ipn = dataGridView1.Rows[rowindex].Cells[colipn.Name].Value.ToString();
+            kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+            total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colpickqty.Name].Value);
+            rowid = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
         }
     }
 }

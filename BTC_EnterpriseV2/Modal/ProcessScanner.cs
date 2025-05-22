@@ -45,7 +45,8 @@ namespace BTC_EnterpriseV2.Modal
             tempcount = int.Parse(count);
             lbl_scancount.Text = count + " out of " + qty;
             lbl_generatedserial.Text = serialnumber;
-            await Get_SubAsy_Process(serialnumber);
+            int myprocessid = int.Parse(processId);
+            await Get_ScannedItems(serialnumber, myprocessid);
         }
 
         private async void txt_serialnumber_KeyDown(object sender, KeyEventArgs e)
@@ -97,7 +98,7 @@ namespace BTC_EnterpriseV2.Modal
 
         }
 
-        public async Task Get_SubAsy_Process(string serial)
+        public async Task Get_ScannedItems(string serial, int processId)
         {
             try
             {
@@ -131,22 +132,21 @@ namespace BTC_EnterpriseV2.Modal
 
                     if (data.process != null && data.process.Any())
                     {
-                        foreach (var proc in data.process)
+                        var matchingProcess = data.process.FirstOrDefault(p => p.id == processId);
+
+                        if (matchingProcess != null && matchingProcess.serial != null)
                         {
-                            if (proc.serial != null && proc.serial.Any())
-                            {
-                                //lbl_generatedserial.Text = data.;
-                                LoadProcessData(proc.serial);
-                                break; // Load only the first process with serials
-                            }
+                            LoadProcessData(matchingProcess.serial);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No matching process ID or serial data found.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("No valid serial data found in process.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("No valid process data found.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-
-
                 }
                 else
                 {
@@ -162,6 +162,7 @@ namespace BTC_EnterpriseV2.Modal
                 Debug.WriteLine($"API Error: {ex.Message}");
             }
         }
+
 
         private void LoadProcessData(List<Sub_Asy_Process_Model.Serial> serials)
         {

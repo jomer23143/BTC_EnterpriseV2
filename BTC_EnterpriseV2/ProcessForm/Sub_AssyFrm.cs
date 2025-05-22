@@ -186,6 +186,11 @@ namespace BTC_EnterpriseV2.ProcessForm
             Image originalImage = Image.FromFile(defaultImagePath);
             Image resizedImage = ResizeImage(originalImage, 60, 60);
 
+            string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "file.png");
+            Image viewImage = Image.FromFile(viewImagePath);
+            Image resizedImage2 = ResizeImage(viewImage, 60, 60);
+
+
             int index = 1;
             foreach (var process in processes)
             {
@@ -199,7 +204,17 @@ namespace BTC_EnterpriseV2.ProcessForm
                     process.serial_count = process.serial_quantity - process.serial_count;
                 }
 
-                dataGridView1.Rows.Add(index++, process.name, process.ipn_number, process.serial_quantity, process.serial_count, process.id, resizedImage);
+
+                bool isCompleted = process.serial_count >= process.serial_quantity;
+
+                int remaining = process.serial_quantity - process.serial_count;
+                if (remaining < 0) remaining = 0;
+
+                Image iconToShow = isCompleted ? resizedImage2 : resizedImage;
+
+                dataGridView1.Rows.Add(index++, process.name, process.ipn_number, process.serial_quantity, process.serial_count, process.id, iconToShow);
+
+
             }
 
             Image ResizeImage(Image img, int width, int height)
@@ -346,8 +361,18 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 if (serialCount == serialQty)
                 {
-                    MessageBox.Show("This process is already fully scanned.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    DialogResult = MessageBox.Show("This process is already Done, do you want to view more details?.", "Process Information", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (DialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        ViewScanedDetails view = new ViewScanedDetails();
+                        view.ShowDialog();
+                    }
+
                 }
                 var processname = row.Cells["name"].Value?.ToString();
                 // Start scanning

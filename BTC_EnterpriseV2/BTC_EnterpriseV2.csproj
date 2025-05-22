@@ -45,6 +45,9 @@
     <None Update="Assets\error.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\file.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\logout_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

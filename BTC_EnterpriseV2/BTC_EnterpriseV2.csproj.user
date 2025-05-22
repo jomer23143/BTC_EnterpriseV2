@@ -43,6 +43,9 @@
     <Compile Update="Modal\SubAssy_Serial_Scanner.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\ViewScanedDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProcessForm\Sub_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>

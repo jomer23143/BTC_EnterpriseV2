@@ -153,3 +153,5 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ProcessScanner.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.EndProcessScanner.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ScanSerialNumber.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\net8.0-windows\Assets\file.png
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ViewScanedDetails.resources

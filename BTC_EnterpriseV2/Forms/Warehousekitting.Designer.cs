@@ -323,6 +323,7 @@
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Size = new Size(1363, 548);
             dataGridView1.TabIndex = 5;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // colipn
             // 
