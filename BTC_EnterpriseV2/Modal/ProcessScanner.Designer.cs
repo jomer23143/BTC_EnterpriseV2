@@ -32,7 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             button1 = new Button();
-            label1 = new Label();
+            lbl_msg = new Label();
             txt_serialnumber = new TextBox();
             pbimage = new PictureBox();
             panel_processname = new Panel();
@@ -65,15 +65,16 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // label1
+            // lbl_msg
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(181, 176);
-            label1.Name = "label1";
-            label1.Size = new Size(264, 20);
-            label1.TabIndex = 6;
-            label1.Text = "Please Scan Item Serial Number here.";
+            lbl_msg.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_msg.ForeColor = Color.White;
+            lbl_msg.Location = new Point(12, 176);
+            lbl_msg.Name = "lbl_msg";
+            lbl_msg.Size = new Size(593, 20);
+            lbl_msg.TabIndex = 6;
+            lbl_msg.Text = "Please Scan Item Serial Number here.";
+            lbl_msg.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // txt_serialnumber
             // 
@@ -164,6 +165,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(12, 215);
             label2.Name = "label2";
             label2.Size = new Size(201, 20);
@@ -174,6 +176,7 @@
             // 
             lbl_scancount.AutoSize = true;
             lbl_scancount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_scancount.ForeColor = Color.White;
             lbl_scancount.Location = new Point(212, 214);
             lbl_scancount.Name = "lbl_scancount";
             lbl_scancount.Size = new Size(78, 20);
@@ -183,6 +186,7 @@
             // lbl_generatedserial
             // 
             lbl_generatedserial.AutoSize = true;
+            lbl_generatedserial.ForeColor = Color.White;
             lbl_generatedserial.Location = new Point(86, 79);
             lbl_generatedserial.Name = "lbl_generatedserial";
             lbl_generatedserial.Size = new Size(50, 20);
@@ -194,6 +198,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(37, 45, 55);
             ClientSize = new Size(617, 421);
             Controls.Add(lbl_generatedserial);
             Controls.Add(panel_dgv);
@@ -201,7 +206,7 @@
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(lbl_scancount);
-            Controls.Add(label1);
+            Controls.Add(lbl_msg);
             Controls.Add(txt_serialnumber);
             Controls.Add(pbimage);
             FormBorderStyle = FormBorderStyle.None;
@@ -219,7 +224,7 @@
         #endregion
 
         private Button button1;
-        private Label label1;
+        private Label lbl_msg;
         private TextBox txt_serialnumber;
         private PictureBox pbimage;
         private Panel panel_processname;

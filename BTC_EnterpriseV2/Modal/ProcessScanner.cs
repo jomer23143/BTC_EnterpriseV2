@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
@@ -37,6 +38,7 @@ namespace BTC_EnterpriseV2.Modal
             this.qty = qty;
             this.count = count;
             this.serialnumber = generatedseril;
+            lbl_msg.Text = "Please scan the serial number of the item to be processed.";
         }
 
         private async void ProcessScanner_Load(object sender, EventArgs e)
@@ -68,15 +70,22 @@ namespace BTC_EnterpriseV2.Modal
                     );
 
                     txt_serialnumber.Clear();
-                    tempcount++;
 
                     lbl_scancount.Text = $"{tempcount} out of {tempqty}";
 
 
                     if (tempcount == tempqty)
                     {
-                        MessageBox.Show("All required items have been scanned.", "Scan Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
+                        DialogResult = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        if (DialogResult == DialogResult.Yes)
+                        {
+                            this.Close();
+                        }
+                        else
+                        {
+                            return;
+                        }
+
                     }
                 }
                 else
@@ -172,7 +181,6 @@ namespace BTC_EnterpriseV2.Modal
             dataGridView1.Columns.Add("NoProcess", "No.");
             dataGridView1.Columns.Add("serial_number", "Item Serial Number");
 
-            // Set column width
             dataGridView1.Columns["NoProcess"].Width = 50;
 
             int index = 1;
@@ -182,62 +190,80 @@ namespace BTC_EnterpriseV2.Modal
             }
         }
 
-
-
         public async Task Get_Process_response(string serial, string processid, string kitserial)
         {
             try
             {
-                var processidClean = processid.Trim();
-                var kitserialClean = kitserial.Trim();
-                var serialClean = serial.Trim();
+                // Sanitize inputs
                 var postData = new
                 {
-                    process_id = processidClean,
-                    kit_serial = kitserialClean,
-                    serial_number = serialClean
+                    process_id = processid.Trim(),
+                    kit_serial = kitserial.Trim(),
+                    serial_number = serial.Trim()
                 };
                 string json = JsonConvert.SerializeObject(postData);
-                Debug.WriteLine("Request JSON: " + json);
 
                 string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
-                Debug.WriteLine("Response: " + jsonResponse);
 
+                // Check if the response is empty or invalid HTML
                 if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
                 {
-                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ShowMessage("Invalid response from server.", Color.Red);
                     return;
                 }
-
                 var token = JToken.Parse(jsonResponse);
 
+                // Handle object-based response (likely error/info)
                 if (token.Type == JTokenType.Object && token["message"] != null)
                 {
-                    var error = token.ToObject<ApiErrorResponse>();
-                    MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string message = token["message"]?.ToString();
+                    string kitSerialError = token["errors"]?["kit_serial"]?.FirstOrDefault()?.ToString();
+
+                    if (!string.IsNullOrWhiteSpace(message))
+                    {
+                        ShowMessage(message, Color.Orange);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(kitSerialError))
+                    {
+                        ShowMessage(kitSerialError, Color.Red);
+                    }
+                    else
+                    {
+                        ShowMessage("An unknown error occurred.", Color.Red);
+                    }
+
                     return;
                 }
-
+                // Handle array-based response (expected successful data)
                 if (token.Type == JTokenType.Array)
                 {
-                    var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
+                    List<Sub_Asy_Process_Model.Root> result;
+                    try
+                    {
+                        result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
+                    }
+                    catch (Exception parseEx)
+                    {
+                        ShowMessage("Failed to parse process data.", Color.Red);
+                        //  Debug.WriteLine("Parse Error: " + parseEx);
+                        return;
+                    }
+
                     var data = result?.FirstOrDefault();
 
                     if (data == null)
                     {
-                        MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        ShowMessage("No valid process data returned.", Color.Red);
                         return;
                     }
-
-
                     lbl_generatedserial.Text = data.serial_number;
-
-                    ///   LoadProcessData(data.process);
-
+                    // LoadProcessData(data.process);
+                    tempcount++;
+                    ShowMessage("Process data retrieved successfully.", Color.Green);
                 }
                 else
                 {
-                    MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ShowMessage("Unexpected response format.", Color.Red);
                 }
             }
             catch (JsonReaderException ex)
@@ -246,8 +272,59 @@ namespace BTC_EnterpriseV2.Modal
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"API Error: {ex.Message}");
+                Debug.WriteLine($"❗ API Error: {ex}");
+                // i try to catch json from the errorr message
+                var match = Regex.Match(ex.Message, @"\{.*\}", RegexOptions.Singleline);
+                if (match.Success)
+                {
+                    try
+                    {
+                        var token = JToken.Parse(match.Value);
+                        string message = token["message"]?.ToString();
+                        string kitSerialError = token["errors"]?["kit_serial"]?.FirstOrDefault()?.ToString();
+
+                        if (!string.IsNullOrWhiteSpace(message))
+                            ShowMessage(message, Color.Orange);
+                        else if (!string.IsNullOrWhiteSpace(kitSerialError))
+                            ShowMessage(kitSerialError, Color.Red);
+                        else
+                            ShowMessage("An unknown error occurred.", Color.Red);
+
+                        return;
+                    }
+                    catch (Exception parseEx)
+                    {
+                        Debug.WriteLine("Failed to parse error JSON: " + parseEx);
+                    }
+                }
+
+                ShowMessage("Serial not found. It may be invalid, unregistered, or entered incorrectly.", Color.Red);
             }
+
+        }
+
+        private void ShowMessage(string message, Color color)
+        {
+            lbl_msg.ForeColor = color;
+            lbl_msg.Text = message;
+        }
+
+
+        private void LoadProcessData2(string serial)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            dataGridView1.Columns.Add("NoProcess", "No.");
+            dataGridView1.Columns.Add("serial_number", "Item Serial Number");
+
+            dataGridView1.Columns["NoProcess"].Width = 50;
+
+            int index = 1;
+            //foreach (var serial in serials)
+            //{
+            //    dataGridView1.Rows.Add(index++, serial.serial_number);
+            //}
         }
 
     }

@@ -33,7 +33,6 @@
             timer1 = new System.Windows.Forms.Timer(components);
             panel_menubar = new Panel();
             btn_home = new Button();
-            button4 = new Button();
             btn_productionprocess = new Button();
             btn_subasemble = new Button();
             BTN_Warehouse = new Button();
@@ -65,7 +64,6 @@
             // 
             panel_menubar.BackColor = Color.FromArgb(22, 27, 45);
             panel_menubar.Controls.Add(btn_home);
-            panel_menubar.Controls.Add(button4);
             panel_menubar.Controls.Add(btn_productionprocess);
             panel_menubar.Controls.Add(btn_subasemble);
             panel_menubar.Controls.Add(BTN_Warehouse);
@@ -76,7 +74,7 @@
             panel_menubar.Dock = DockStyle.Top;
             panel_menubar.Location = new Point(0, 0);
             panel_menubar.Name = "panel_menubar";
-            panel_menubar.Size = new Size(2382, 66);
+            panel_menubar.Size = new Size(1614, 66);
             panel_menubar.TabIndex = 0;
             panel_menubar.MouseDown += panel_menubar_MouseDown;
             // 
@@ -94,23 +92,6 @@
             btn_home.TabIndex = 6;
             btn_home.UseVisualStyleBackColor = true;
             btn_home.Click += btn_home_Click;
-            // 
-            // button4
-            // 
-            button4.Cursor = Cursors.Hand;
-            button4.FlatAppearance.BorderColor = Color.FromArgb(0, 192, 0);
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Calibri", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button4.ForeColor = SystemColors.ControlLightLight;
-            button4.Location = new Point(1213, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(263, 42);
-            button4.TabIndex = 5;
-            button4.Text = "Template";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
             // 
             // btn_productionprocess
             // 
@@ -175,7 +156,7 @@
             // 
             lbl_currentdate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_currentdate.ForeColor = Color.White;
-            lbl_currentdate.Location = new Point(2154, 39);
+            lbl_currentdate.Location = new Point(1386, 39);
             lbl_currentdate.Name = "lbl_currentdate";
             lbl_currentdate.Size = new Size(216, 20);
             lbl_currentdate.TabIndex = 3;
@@ -187,7 +168,7 @@
             lbl_time.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_time.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_time.ForeColor = Color.FromArgb(100, 180, 45);
-            lbl_time.Location = new Point(2153, 8);
+            lbl_time.Location = new Point(1385, 8);
             lbl_time.Name = "lbl_time";
             lbl_time.Size = new Size(216, 28);
             lbl_time.TabIndex = 2;
@@ -196,7 +177,8 @@
             // 
             // settingimage
             // 
-            settingimage.Image = (Image)resources.GetObject("settingimage.Image");
+            settingimage.BackgroundImage = (Image)resources.GetObject("settingimage.BackgroundImage");
+            settingimage.BackgroundImageLayout = ImageLayout.Center;
             settingimage.Location = new Point(319, 10);
             settingimage.Name = "settingimage";
             settingimage.Size = new Size(55, 51);
@@ -210,7 +192,7 @@
             panel_sidebar.BackColor = Color.Transparent;
             panel_sidebar.Location = new Point(3, 19);
             panel_sidebar.Name = "panel_sidebar";
-            panel_sidebar.Size = new Size(298, 1147);
+            panel_sidebar.Size = new Size(298, 836);
             panel_sidebar.TabIndex = 1;
             // 
             // panel_main_display
@@ -221,7 +203,7 @@
             panel_main_display.Controls.Add(pictureBox1);
             panel_main_display.Location = new Point(320, 19);
             panel_main_display.Name = "panel_main_display";
-            panel_main_display.Size = new Size(2012, 1147);
+            panel_main_display.Size = new Size(1244, 836);
             panel_main_display.TabIndex = 2;
             panel_main_display.SizeChanged += panel_main_display_SizeChanged;
             // 
@@ -231,14 +213,14 @@
             panel_chart.BackColor = Color.White;
             panel_chart.Location = new Point(33, 233);
             panel_chart.Name = "panel_chart";
-            panel_chart.Size = new Size(1954, 896);
+            panel_chart.Size = new Size(1186, 585);
             panel_chart.TabIndex = 1;
             // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(363, 24);
+            pictureBox1.Location = new Point(-21, 24);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(1137, 151);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -252,7 +234,7 @@
             panel_Subassy_Display.Controls.Add(panel_main_display);
             panel_Subassy_Display.Location = new Point(12, 72);
             panel_Subassy_Display.Name = "panel_Subassy_Display";
-            panel_Subassy_Display.Size = new Size(2357, 1169);
+            panel_Subassy_Display.Size = new Size(1589, 858);
             panel_Subassy_Display.TabIndex = 3;
             // 
             // contextMenuStrip1
@@ -262,7 +244,7 @@
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { warehouseRecievingToolStripMenuItem, kitlistRecievingToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(314, 76);
+            contextMenuStrip1.Size = new Size(284, 76);
             // 
             // warehouseRecievingToolStripMenuItem
             // 
@@ -271,8 +253,8 @@
             warehouseRecievingToolStripMenuItem.ForeColor = SystemColors.ControlDarkDark;
             warehouseRecievingToolStripMenuItem.Image = (Image)resources.GetObject("warehouseRecievingToolStripMenuItem.Image");
             warehouseRecievingToolStripMenuItem.Name = "warehouseRecievingToolStripMenuItem";
-            warehouseRecievingToolStripMenuItem.Size = new Size(313, 36);
-            warehouseRecievingToolStripMenuItem.Text = "Warehouse Recieving";
+            warehouseRecievingToolStripMenuItem.Size = new Size(283, 36);
+            warehouseRecievingToolStripMenuItem.Text = "Warehouse Kitting";
             warehouseRecievingToolStripMenuItem.Click += warehouseRecievingToolStripMenuItem_Click;
             // 
             // kitlistRecievingToolStripMenuItem
@@ -282,7 +264,7 @@
             kitlistRecievingToolStripMenuItem.ForeColor = SystemColors.ControlDarkDark;
             kitlistRecievingToolStripMenuItem.Image = (Image)resources.GetObject("kitlistRecievingToolStripMenuItem.Image");
             kitlistRecievingToolStripMenuItem.Name = "kitlistRecievingToolStripMenuItem";
-            kitlistRecievingToolStripMenuItem.Size = new Size(313, 36);
+            kitlistRecievingToolStripMenuItem.Size = new Size(283, 36);
             kitlistRecievingToolStripMenuItem.Text = "Kitlist Recieving";
             kitlistRecievingToolStripMenuItem.Click += kitlistRecievingToolStripMenuItem_Click;
             // 
@@ -291,7 +273,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(37, 45, 55);
-            ClientSize = new Size(2382, 1253);
+            ClientSize = new Size(1614, 942);
             Controls.Add(panel_Subassy_Display);
             Controls.Add(panel_menubar);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -314,7 +296,6 @@
         private Button BTN_Warehouse;
         private Button btn_productionprocess;
         private Button btn_subasemble;
-        private Button button4;
         public Label lbl_currentdate;
         public Label lbl_time;
         public System.Windows.Forms.Timer timer1;

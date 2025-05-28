@@ -82,11 +82,20 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             await Get_SubAsy_Process(generatedSerial);
 
-            _startTime = DateTime.Now;
-            lbl_timestart.Text = _startTime.ToString("HH:mm:ss");
-            lbl_duration.Text = "00:00:00";
-            lbl_date.Text = _startTime.ToString("dddd, MMMM-dd-yyyy");
-            timer1.Start();
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            TimeSpan duration = DateTime.Now - _startTime;
+            lbl_duration.Text = FormatDuration(duration);
+        }
+
+
+        private string FormatDuration(TimeSpan duration)
+        {
+            return $"{duration.Days} Day{(duration.Days != 1 ? "s" : "")} : " +
+                   $"{duration.Hours} hr{(duration.Hours != 1 ? "s" : "")} : " +
+                   $"{duration.Minutes} min{(duration.Minutes != 1 ? "s" : "")} : " +
+                   $"{duration.Seconds} Second{(duration.Seconds != 1 ? "s" : "")}";
         }
 
 
@@ -141,6 +150,44 @@ namespace BTC_EnterpriseV2.ProcessForm
                     lbl_station.Text = data.name;
                     lbl_generatedserial.Text = data.serial_number;
 
+                    var rawStartTime = data.duration?.FirstOrDefault()?.start_time;
+                    var rawEndTime = data.duration?.FirstOrDefault()?.end_time;
+
+                    if (!string.IsNullOrWhiteSpace(rawStartTime) && DateTime.TryParse(rawStartTime, out var parsedStart))
+                    {
+                        lbl_timestart.Text = parsedStart.ToString("HH:mm:ss");
+                        lbl_date.Text = parsedStart.ToString("dddd, MMMM-dd-yyyy");
+                        _startTime = parsedStart;
+
+                        if (!string.IsNullOrWhiteSpace(rawEndTime) && DateTime.TryParse(rawEndTime, out var parsedEnd))
+                        {
+                            lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                            lbl_processStatus.Text = "Done";
+                            lbl_processStatus.ForeColor = Color.Red;
+                            btn_scan.Text = "This  Process is already Done";
+                            btn_scan.Enabled = false;
+                            TimeSpan duration = parsedEnd - parsedStart;
+                            lbl_duration.Text = FormatDuration(duration);
+                        }
+                        else
+                        {
+                            lbl_timeEnd.Text = "-:-:-";
+                            TimeSpan duration = DateTime.Now - parsedStart;
+                            lbl_duration.Text = FormatDuration(duration);
+                            timer1.Start();
+                        }
+                    }
+                    else
+                    {
+                        // Fallback if even start time fails 
+                        lbl_timestart.Text = "-";
+                        lbl_date.Text = "-";
+                        lbl_timeEnd.Text = "-:-:-";
+                        lbl_duration.Text = "0 Days : 00: 00  :00 ";
+                    }
+
+
+
                     LoadProcessData(data.process);
 
                 }
@@ -186,7 +233,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             Image originalImage = Image.FromFile(defaultImagePath);
             Image resizedImage = ResizeImage(originalImage, 60, 60);
 
-            string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "file.png");
+            string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
             Image viewImage = Image.FromFile(viewImagePath);
             Image resizedImage2 = ResizeImage(viewImage, 60, 60);
 
@@ -246,11 +293,6 @@ namespace BTC_EnterpriseV2.ProcessForm
             yUI.RoundedButton(btn_scan, 10, Color.FromArgb(17, 40, 86));
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            TimeSpan duration = DateTime.Now - _startTime;
-            lbl_duration.Text = duration.ToString(@"hh\:mm\:ss");
-        }
 
         private void btn_scan_Click(object sender, EventArgs e)
         {
@@ -290,7 +332,8 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
                 {
-                    MessageBox.Show("Invalid serial quantity or count format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // MessageBox.Show("Invalid serial quantity or count format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("THE ABI FORM WILL NOW ENTERING", "FOR ABI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -305,37 +348,26 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             if (hasMismatch)
             {
-                MessageBox.Show("One or more items have mismatched serial counts. Please complete scanning before ending the process.", "Process Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //  MessageBox.Show("One or more items have mismatched serial counts. Please complete scanning before ending the process.", "Process Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("THE ABI FORM WILL NOW ENTERING", "FOR ABI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // All quantities matched - proceed
             EndProcessScanner endProcess = new EndProcessScanner();
-            endProcess.SerialScanned += (serial) =>
+            endProcess.SerialScanned += async (serial) =>
             {
                 if (!string.IsNullOrEmpty(serial))
                 {
-                    SaveProcess();
+                    var status = 3;
+
+                    await End_Process(serial, status);
+
                 }
             };
 
             endProcess.ShowDialog();
         }
-
-
-
-
-        private void SaveProcess()
-        {
-            MessageBox.Show("The Process is Sucessfully saved.");
-            lbl_processStatus.Text = "Done";
-            lbl_processStatus.ForeColor = Color.Red;
-        }
-
-
-
-
-
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -348,6 +380,9 @@ namespace BTC_EnterpriseV2.ProcessForm
                 var serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
                 var serialCountStr = row.Cells["serial_count"].Value?.ToString();
 
+                var processname = row.Cells["name"].Value?.ToString();
+                // Start scanning
+                var processId = row.Cells["id"].Value?.ToString();
 
                 // Try to parse to integers
                 bool qtyParsed = int.TryParse(serialQtyStr, out int serialQty);
@@ -369,14 +404,14 @@ namespace BTC_EnterpriseV2.ProcessForm
                     }
                     else
                     {
-                        ViewScanedDetails view = new ViewScanedDetails();
+
+                        ViewScanedDetails view = new ViewScanedDetails(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
                         view.ShowDialog();
+                        return;
                     }
 
                 }
-                var processname = row.Cells["name"].Value?.ToString();
-                // Start scanning
-                var processId = row.Cells["id"].Value?.ToString();
+
                 ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
                 scan.ShowDialog();
                 await Get_SubAsy_Process(lbl_generatedserial.Text);
@@ -438,7 +473,6 @@ namespace BTC_EnterpriseV2.ProcessForm
                     lbl_segment.Text = "Sub Assymbly";
                     lbl_station.Text = data.name;
                     lbl_generatedserial.Text = data.serial_number;
-
                     LoadProcessData(data.process);
 
                 }
@@ -457,6 +491,106 @@ namespace BTC_EnterpriseV2.ProcessForm
             }
         }
 
+
+        // Method for End the processs 
+        public async Task End_Process(string serial, int status)
+        {
+            try
+            {
+
+                var serialClean = serial.Trim();
+                var statusClean = status;
+                var postData = new
+                {
+                    serial_number = serialClean,
+                    status_id = statusClean
+                };
+                string json = JsonConvert.SerializeObject(postData);
+                Debug.WriteLine("Request JSON: " + json);
+
+                string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
+                Debug.WriteLine("Response: " + jsonResponse);
+
+                if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
+                {
+                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var token = JToken.Parse(jsonResponse);
+
+                if (token.Type == JTokenType.Object && token["message"] != null)
+                {
+                    var error = token.ToObject<ApiErrorResponse>();
+                    MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                if (token.Type == JTokenType.Array)
+                {
+                    var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
+                    var data = result?.FirstOrDefault();
+
+                    if (data == null)
+                    {
+                        MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    var rawStartTime = data.duration?.FirstOrDefault()?.start_time;
+                    var rawEndTime = data.duration?.FirstOrDefault()?.end_time;
+
+                    if (!string.IsNullOrWhiteSpace(rawStartTime) && DateTime.TryParse(rawStartTime, out var parsedStart))
+                    {
+                        lbl_timestart.Text = parsedStart.ToString("HH:mm:ss");
+                        lbl_date.Text = parsedStart.ToString("dddd, MMMM-dd-yyyy");
+                        _startTime = parsedStart;
+
+                        if (!string.IsNullOrWhiteSpace(rawEndTime) && DateTime.TryParse(rawEndTime, out var parsedEnd))
+                        {
+                            lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                            lbl_processStatus.Text = "Done";
+                            lbl_processStatus.ForeColor = Color.Red;
+
+                            btn_scan.Text = "This  Process is already Done";
+                            btn_scan.Enabled = false;
+                            TimeSpan duration = parsedEnd - parsedStart;
+                            lbl_duration.Text = FormatDuration(duration);
+                            timer1.Stop();
+                        }
+                        else
+                        {
+                            lbl_timeEnd.Text = "-:-:-";
+                            TimeSpan duration = DateTime.Now - parsedStart;
+                            lbl_duration.Text = FormatDuration(duration);
+                            timer1.Start();
+                        }
+                    }
+                    else
+                    {
+                        // Fallback if even start time fails 
+                        lbl_timestart.Text = "-";
+                        lbl_date.Text = "-";
+                        lbl_timeEnd.Text = "-:-:-";
+                        lbl_duration.Text = "0 Days : 00: 00  :00 ";
+                    }
+
+
+                }
+                else
+                {
+                    MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (JsonReaderException ex)
+            {
+                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"API Error: {ex.Message}");
+            }
+        }
 
 
     }

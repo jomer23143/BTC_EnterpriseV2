@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sub_AssyFrm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             panel_info2 = new Panel();
             btn_scan = new Button();
@@ -233,7 +233,7 @@
             panel_processname.Controls.Add(lbl_station);
             panel_processname.Location = new Point(594, 11);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(369, 62);
+            panel_processname.Size = new Size(290, 62);
             panel_processname.TabIndex = 1;
             // 
             // lbl_station
@@ -242,7 +242,7 @@
             lbl_station.ForeColor = Color.FromArgb(7, 222, 151);
             lbl_station.Location = new Point(8, 0);
             lbl_station.Name = "lbl_station";
-            lbl_station.Size = new Size(353, 62);
+            lbl_station.Size = new Size(273, 62);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
             lbl_station.TextAlign = ContentAlignment.MiddleCenter;
@@ -334,19 +334,19 @@
             panel_duration.BackColor = Color.White;
             panel_duration.Controls.Add(lbl_duration);
             panel_duration.Controls.Add(label10);
-            panel_duration.Location = new Point(1109, 9);
+            panel_duration.Location = new Point(1060, 9);
             panel_duration.Name = "panel_duration";
-            panel_duration.Size = new Size(238, 43);
+            panel_duration.Size = new Size(403, 43);
             panel_duration.TabIndex = 0;
             // 
             // lbl_duration
             // 
             lbl_duration.AutoSize = true;
-            lbl_duration.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_duration.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_duration.ForeColor = Color.FromArgb(0, 0, 192);
-            lbl_duration.Location = new Point(117, 7);
+            lbl_duration.Location = new Point(109, 11);
             lbl_duration.Name = "lbl_duration";
-            lbl_duration.Size = new Size(86, 28);
+            lbl_duration.Size = new Size(80, 25);
             lbl_duration.TabIndex = 0;
             lbl_duration.Text = "00:00:00";
             lbl_duration.TextAlign = ContentAlignment.MiddleCenter;
@@ -368,7 +368,7 @@
             panel_end.BackColor = Color.White;
             panel_end.Controls.Add(lbl_timeEnd);
             panel_end.Controls.Add(label8);
-            panel_end.Location = new Point(846, 9);
+            panel_end.Location = new Point(797, 9);
             panel_end.Name = "panel_end";
             panel_end.Size = new Size(238, 43);
             panel_end.TabIndex = 0;
@@ -402,7 +402,7 @@
             panel_date.BackColor = Color.White;
             panel_date.Controls.Add(lbl_date);
             panel_date.Controls.Add(label6);
-            panel_date.Location = new Point(172, 9);
+            panel_date.Location = new Point(123, 9);
             panel_date.Name = "panel_date";
             panel_date.Size = new Size(386, 43);
             panel_date.TabIndex = 0;
@@ -436,7 +436,7 @@
             panel_start.BackColor = Color.White;
             panel_start.Controls.Add(lbl_timestart);
             panel_start.Controls.Add(label2);
-            panel_start.Location = new Point(583, 9);
+            panel_start.Location = new Point(534, 9);
             panel_start.Name = "panel_start";
             panel_start.Size = new Size(238, 43);
             panel_start.TabIndex = 0;
@@ -488,15 +488,15 @@
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.SeaGreen;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.Padding = new Padding(4);
-            dataGridViewCellStyle1.SelectionBackColor = Color.SeaGreen;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.SeaGreen;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.Padding = new Padding(4);
+            dataGridViewCellStyle3.SelectionBackColor = Color.SeaGreen;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
             dataGridView1.Dock = DockStyle.Fill;
@@ -505,13 +505,13 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.Padding = new Padding(3);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(22, 27, 45);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.Padding = new Padding(3);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(22, 27, 45);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1605, 610);
             dataGridView1.TabIndex = 4;
