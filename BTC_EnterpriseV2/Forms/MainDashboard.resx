@@ -120,9 +120,6 @@
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="panel_menubar.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btn_home.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -598,7 +595,7 @@
   <data name="settingimage.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAA
-        rgAAAK4B+ff3XQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAH3SURBVEhLYxgF
+        rAAAAKwBhgk01AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAH3SURBVEhLYxgF
         BMHcZ+oms1+oXUw8H/Ar/ZLPfqgwg9+xOEOfY3HngfgvEP/HhvlWdf/nXdWDgflW9/wXX9v6XWt7eQzD
         7Beql4EW/I89GwTWlHfFNRtkgc+x+LPoBqJjXBbAsPi61u9AC9TeI1uQc8V9MsSCuJfIhmHDhCwQXNP1
         j2HWC7U2mAUhJ8N/F19zkgdbcDSuAZuhyJiQBUqbao+AzGKY+1zdseiaSwfMcBjwPRZr730sPg0XVtlS

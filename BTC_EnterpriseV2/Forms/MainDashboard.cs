@@ -5,6 +5,7 @@ using BTC_EnterpriseV2.Forms;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.ReportChart;
+using BTC_EnterpriseV2.SideBar;
 using BTC_EnterpriseV2.YaoUI;
 using BTCP_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
@@ -37,7 +38,10 @@ namespace BTCP_EnterpriseV2.Forms
         }
         private void Setting_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Settings clicked");
+            PasswordForm passwordForm = new PasswordForm();
+            passwordForm.StartPosition = FormStartPosition.CenterScreen;
+            passwordForm.ShowDialog(this);
+            //this.Close();
         }
 
         private void Logout_Click(object? sender, EventArgs e)
@@ -63,6 +67,19 @@ namespace BTCP_EnterpriseV2.Forms
             childForm.BringToFront();
             childForm.Show();
         }
+        //this is for main panel form
+        public void Load_MainPanel(Form mainPanel)
+        {
+            if (this.panel_Subassy_Display.Controls.Count > 0)
+                this.panel_Subassy_Display.Controls.Clear(); // Remove existing controls
+            mainPanel.TopLevel = false;
+            mainPanel.FormBorderStyle = FormBorderStyle.None;
+            mainPanel.Dock = DockStyle.Fill;
+            this.panel_Subassy_Display.Controls.Add(mainPanel);
+            this.panel_Subassy_Display.Tag = mainPanel;
+            mainPanel.BringToFront();
+            mainPanel.Show();
+        }
         //this is for load sidebar form
         public void LoadSideBar(Form Sidbar)
         {
@@ -79,12 +96,13 @@ namespace BTCP_EnterpriseV2.Forms
         }
         private void panel_menubar_MouseDown(object sender, MouseEventArgs e)
         {
-            DragForm.ReleaseCapture();
-            DragForm.SendMessage(this.Handle, 0x112, 0xf012, 0);
+            // DragForm.ReleaseCapture();
+            // DragForm.SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
 
         private async void MainDashboard_Load(object sender, EventArgs e)
         {
+            formManager.OpenChildForm(new MainSidebar(), sender);
             await ViewChar();
 
 
@@ -148,8 +166,8 @@ namespace BTCP_EnterpriseV2.Forms
         {
             if (this.panel_sidebar.Controls.Count > 0)
                 this.panel_sidebar.Controls.Clear();
-
-            SubAssy_Serial_Scanner showScanner = new SubAssy_Serial_Scanner();
+            var segmentname = "Sub Assembly";
+            SubAssy_Serial_Scanner showScanner = new SubAssy_Serial_Scanner(segmentname);
             var scannedSerial = string.Empty;
             object[] responsedata;
             string boomid = string.Empty;

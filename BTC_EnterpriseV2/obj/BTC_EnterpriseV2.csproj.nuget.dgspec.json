@@ -66,6 +66,14 @@
               "target": "Package",
               "version": "[6.0.2, )"
             },
+            "Microsoft.ReportingServices.ReportViewerControl.WebForms": {
+              "target": "Package",
+              "version": "[150.1652.0, )"
+            },
+            "Microsoft.ReportingServices.ReportViewerControl.Winforms": {
+              "target": "Package",
+              "version": "[150.1652.0, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[9.3.0, )"

@@ -123,7 +123,7 @@
             btn_subasemble.Name = "btn_subasemble";
             btn_subasemble.Size = new Size(263, 42);
             btn_subasemble.TabIndex = 5;
-            btn_subasemble.Text = "Sub Assymble";
+            btn_subasemble.Text = "Sub Assembly";
             btn_subasemble.UseVisualStyleBackColor = true;
             btn_subasemble.Click += button2_Click;
             // 

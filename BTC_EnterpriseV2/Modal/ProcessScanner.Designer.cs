@@ -37,29 +37,29 @@
             pbimage = new PictureBox();
             panel_processname = new Panel();
             lbl_processname = new Label();
-            panel_dgv = new Panel();
             dataGridView1 = new DataGridView();
             label2 = new Label();
             lbl_scancount = new Label();
             lbl_generatedserial = new Label();
             ((System.ComponentModel.ISupportInitialize)pbimage).BeginInit();
             panel_processname.SuspendLayout();
-            panel_dgv.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.BackColor = Color.SteelBlue;
+            button1.BackColor = Color.Transparent;
             button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatAppearance.MouseOverBackColor = Color.Salmon;
+            button1.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
+            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 0);
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(501, 384);
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.Location = new Point(597, 383);
             button1.Name = "button1";
-            button1.Size = new Size(104, 31);
+            button1.Size = new Size(130, 40);
             button1.TabIndex = 7;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = false;
@@ -69,7 +69,7 @@
             // 
             lbl_msg.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_msg.ForeColor = Color.White;
-            lbl_msg.Location = new Point(12, 176);
+            lbl_msg.Location = new Point(57, 184);
             lbl_msg.Name = "lbl_msg";
             lbl_msg.Size = new Size(593, 20);
             lbl_msg.TabIndex = 6;
@@ -79,10 +79,10 @@
             // txt_serialnumber
             // 
             txt_serialnumber.BorderStyle = BorderStyle.None;
-            txt_serialnumber.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_serialnumber.Location = new Point(125, 146);
+            txt_serialnumber.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_serialnumber.Location = new Point(145, 146);
             txt_serialnumber.Name = "txt_serialnumber";
-            txt_serialnumber.Size = new Size(369, 27);
+            txt_serialnumber.Size = new Size(430, 31);
             txt_serialnumber.TabIndex = 5;
             txt_serialnumber.TextAlign = HorizontalAlignment.Center;
             txt_serialnumber.TextChanged += txt_serialnumber_TextChanged;
@@ -91,7 +91,7 @@
             // pbimage
             // 
             pbimage.Image = (Image)resources.GetObject("pbimage.Image");
-            pbimage.Location = new Point(243, 60);
+            pbimage.Location = new Point(309, 60);
             pbimage.Name = "pbimage";
             pbimage.Size = new Size(121, 80);
             pbimage.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -104,7 +104,7 @@
             panel_processname.Controls.Add(lbl_processname);
             panel_processname.Location = new Point(12, 7);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(593, 47);
+            panel_processname.Size = new Size(715, 47);
             panel_processname.TabIndex = 8;
             // 
             // lbl_processname
@@ -112,19 +112,10 @@
             lbl_processname.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             lbl_processname.Location = new Point(10, 5);
             lbl_processname.Name = "lbl_processname";
-            lbl_processname.Size = new Size(575, 36);
+            lbl_processname.Size = new Size(692, 36);
             lbl_processname.TabIndex = 0;
             lbl_processname.Text = "test";
             lbl_processname.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // panel_dgv
-            // 
-            panel_dgv.BackColor = Color.White;
-            panel_dgv.Controls.Add(dataGridView1);
-            panel_dgv.Location = new Point(12, 238);
-            panel_dgv.Name = "panel_dgv";
-            panel_dgv.Size = new Size(593, 140);
-            panel_dgv.TabIndex = 9;
             // 
             // dataGridView1
             // 
@@ -132,7 +123,7 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.BackgroundColor = Color.FromArgb(37, 45, 55);
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.RaisedVertical;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
@@ -146,9 +137,8 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Location = new Point(12, 237);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
@@ -158,7 +148,7 @@
             dataGridViewCellStyle2.SelectionBackColor = Color.White;
             dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.Size = new Size(593, 140);
+            dataGridView1.Size = new Size(715, 140);
             dataGridView1.TabIndex = 0;
             // 
             // label2
@@ -199,9 +189,9 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(37, 45, 55);
-            ClientSize = new Size(617, 421);
+            ClientSize = new Size(739, 429);
+            Controls.Add(dataGridView1);
             Controls.Add(lbl_generatedserial);
-            Controls.Add(panel_dgv);
             Controls.Add(panel_processname);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -215,7 +205,6 @@
             Load += ProcessScanner_Load;
             ((System.ComponentModel.ISupportInitialize)pbimage).EndInit();
             panel_processname.ResumeLayout(false);
-            panel_dgv.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -228,7 +217,6 @@
         private TextBox txt_serialnumber;
         private PictureBox pbimage;
         private Panel panel_processname;
-        private Panel panel_dgv;
         private Label label2;
         private Label lbl_scancount;
         private Label lbl_processname;

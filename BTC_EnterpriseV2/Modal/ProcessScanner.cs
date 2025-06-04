@@ -28,10 +28,9 @@ namespace BTC_EnterpriseV2.Modal
             this.StartPosition = FormStartPosition.CenterScreen;
             YUI yUI = new YUI();
             yUI.RoundedFormsDocker(this, 8);
-            yUI.RoundedButton(button1, 6, Color.Tomato);
             yUI.RoundedTextBox(txt_serialnumber, 6, Color.White);
             yUI.RoundedPanelDocker(panel_processname, 6);
-            yUI.RoundedPanelDocker(panel_dgv, 6);
+
             this.rowindex = rowindex;
             this.processId = processid;
             this.lbl_processname.Text = processname;

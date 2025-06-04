@@ -13,6 +13,9 @@
     <Compile Update="Forms\MainDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\PrintQRFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\SegmentFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -25,6 +28,9 @@
     <Compile Update="Modal\AddSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\CustomDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\CustomeAlert.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -32,6 +38,21 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\GetModalFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\PasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\printingqrviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\Printqrcodeform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\PrintViewFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\ProcessDoneModal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\ProcessScanner.cs">
@@ -49,6 +70,9 @@
     <Compile Update="Modal\ViewScanedDetails.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ProcessForm\Pre_AssyFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProcessForm\Sub_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +80,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\Kitlist_Sidebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SideBar\MainSidebar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\ProcessSidebar.cs">

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BTC_EnterpriseV2.ABI;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
@@ -19,6 +20,7 @@ namespace BTC_EnterpriseV2.ProcessForm
         public string? serialnumber;
         public string? generatedcode;
         public string generatedSerial;
+        private string processname;
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
         public Sub_AssyFrm(string scangeneratedSerial)
         {
@@ -27,6 +29,8 @@ namespace BTC_EnterpriseV2.ProcessForm
             yUI.RoundedPanelDocker(panel_info1, 12);
             yUI.RoundedPanelDocker(panel_info2, 12);
             yUI.RoundedPanelDocker(panel_start, 12);
+            yUI.RoundedPanelDocker(panel_dateend, 12);
+            yUI.RoundedPanelDocker(panel_operator, 12);
             yUI.RoundedPanelDocker(panel_end, 12);
             yUI.RoundedPanelDocker(panel_duration, 12);
             yUI.RoundedPanelDocker(panel_date, 12);
@@ -37,6 +41,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             yUI.RoundedButton(btn_scan, 10, Color.FromArgb(17, 40, 86));
             QrController();
             this.generatedSerial = scangeneratedSerial;
+            pb_loader.Visible = false;
         }
 
         private void QrController()
@@ -79,7 +84,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             lbl_toplvlipn.Text = toplvlipn;
             lbl_station.Text = station;
             lbl_generatedserial.Text = generatedcode;
-
+            pb_loader.Visible = true;
             await Get_SubAsy_Process(generatedSerial);
 
         }
@@ -104,26 +109,32 @@ namespace BTC_EnterpriseV2.ProcessForm
             public string? message { get; set; }
         }
 
+
         public async Task Get_SubAsy_Process(string serial)
         {
             try
             {
+                // Clean and prepare serial
                 var serialClean = serial.Trim();
                 var postData = new { serial_number = serialClean };
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
+                // API call
                 string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
                 Debug.WriteLine("Response: " + jsonResponse);
 
+                // Basic validation
                 if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
                 {
                     MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // Parse response
                 var token = JToken.Parse(jsonResponse);
 
+                // Handle error object
                 if (token.Type == JTokenType.Object && token["message"] != null)
                 {
                     var error = token.ToObject<ApiErrorResponse>();
@@ -131,6 +142,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     return;
                 }
 
+                // Handle valid array response
                 if (token.Type == JTokenType.Array)
                 {
                     var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
@@ -141,55 +153,110 @@ namespace BTC_EnterpriseV2.ProcessForm
                         MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-
-                    lbl_processStatus.Text = "Processing";
-                    lbl_processStatus.ForeColor = Color.FromArgb(7, 222, 151);
-
+                    // Populate labels
                     lbl_toplvlipn.Text = data.mo_id;
-                    lbl_segment.Text = "Sub Assymbly";
+                    lbl_segment.Text = "Sub Assembly";
                     lbl_station.Text = data.name;
                     lbl_generatedserial.Text = data.serial_number;
 
+                    var durationItem = data.duration?.FirstOrDefault();
                     var rawStartTime = data.duration?.FirstOrDefault()?.start_time;
                     var rawEndTime = data.duration?.FirstOrDefault()?.end_time;
 
-                    if (!string.IsNullOrWhiteSpace(rawStartTime) && DateTime.TryParse(rawStartTime, out var parsedStart))
+                    if (durationItem == null)
                     {
-                        lbl_timestart.Text = parsedStart.ToString("HH:mm:ss");
-                        lbl_date.Text = parsedStart.ToString("dddd, MMMM-dd-yyyy");
-                        _startTime = parsedStart;
+                        MessageBox.Show("No duration data found.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                        if (!string.IsNullOrWhiteSpace(rawEndTime) && DateTime.TryParse(rawEndTime, out var parsedEnd))
-                        {
-                            lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                    int reqValidator = durationItem.manufacturing_order_station_status_id;
+
+                    switch (reqValidator)
+                    {
+                        case 1:
+                            lbl_processStatus.Text = "In Progress";
+                            lbl_processStatus.ForeColor = Color.FromArgb(7, 222, 151);
+                            break;
+
+                        case 2:
+                            lbl_processStatus.Text = "Pending";
+                            lbl_processStatus.ForeColor = Color.OrangeRed;
+                            break;
+
+                        case 3:
                             lbl_processStatus.Text = "Done";
                             lbl_processStatus.ForeColor = Color.Red;
-                            btn_scan.Text = "This  Process is already Done";
+                            btn_scan.Text = "This Process is already Done";
                             btn_scan.Enabled = false;
-                            TimeSpan duration = parsedEnd - parsedStart;
-                            lbl_duration.Text = FormatDuration(duration);
+                            //ProcessDoneModal processDoneModal = new ProcessDoneModal(lbl_station.Text);
+                            //processDoneModal.ShowDialog();
+                            using (var dialog = new ProcessDoneModal(lbl_station.Text))
+                            {
+                                dialog.StartPosition = FormStartPosition.CenterScreen;
+                                dialog.ShowDialog();
+                                if (dialog.Result == DialogResult.OK)
+                                {
+                                    // Handle OK result if needed
+                                }
+                                else if (dialog.Result == DialogResult.Cancel)
+                                {
+                                    // Handle Cancel result if needed
+                                }
+                            }
+                            break;
+
+                        default:
+                            lbl_processStatus.Text = "Unknown Status";
+                            lbl_processStatus.ForeColor = Color.Gray;
+                            break;
+                    }
+
+                    if (data.duration != null && data.duration.Count > 0)
+                    {
+                        var firstDuration = data.duration.First();
+                        var lastDuration = data.duration.Last();
+
+                        if (!string.IsNullOrWhiteSpace(firstDuration.start_time) &&
+                            DateTime.TryParse(firstDuration.start_time, out var parsedStart))
+                        {
+                            lbl_timestart.Text = parsedStart.ToString("HH:mm:ss");
+                            lbl_date.Text = parsedStart.ToString("dddd, MMMM dd, yyyy");
+                            _startTime = parsedStart;
+
+                            if (!string.IsNullOrWhiteSpace(lastDuration.end_time) &&
+                                DateTime.TryParse(lastDuration.end_time, out var parsedEnd))
+                            {
+                                lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                                lbl_date_end.Text = parsedEnd.ToString("dddd, MMMM dd, yyyy");
+                                lbl_duration.Text = FormatDuration(parsedEnd - parsedStart);
+                            }
+                            else
+                            {
+                                lbl_timeEnd.Text = "-:-:-";
+                                lbl_date_end.Text = "-:-:-";
+                                lbl_duration.Text = FormatDuration(DateTime.Now - parsedStart);
+                                timer1.Start();
+                            }
                         }
                         else
                         {
+                            lbl_timestart.Text = "-";
+                            lbl_date.Text = "-";
                             lbl_timeEnd.Text = "-:-:-";
-                            TimeSpan duration = DateTime.Now - parsedStart;
-                            lbl_duration.Text = FormatDuration(duration);
-                            timer1.Start();
+                            lbl_duration.Text = "0 Days : 00 : 00 : 00";
                         }
                     }
                     else
                     {
-                        // Fallback if even start time fails 
                         lbl_timestart.Text = "-";
                         lbl_date.Text = "-";
-                        lbl_timeEnd.Text = "-:-:-";
-                        lbl_duration.Text = "0 Days : 00: 00  :00 ";
+                        lbl_timeEnd.Text = "-";
+                        lbl_date_end.Text = "-";
+                        lbl_duration.Text = "0 Days : 00 : 00 : 00";
                     }
 
-
-
                     LoadProcessData(data.process);
-
+                    pb_loader.Visible = false;
                 }
                 else
                 {
@@ -300,7 +367,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             PB_qrcode.Visible = true;
             lbl_qrinfo.Visible = true;
             string id = string.Empty;
-            string processname = "Sub Assy";
+            string processname = "Sub Assembly";
             string moid = mo;
             string segment = psegment;
             GenerateQRCode(lbl_generatedserial.Text);
@@ -329,12 +396,29 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 var serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
                 var serialCountStr = row.Cells["serial_count"].Value?.ToString();
-
+                processname = row.Cells["name"].Value?.ToString();
                 if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
                 {
-                    // MessageBox.Show("Invalid serial quantity or count format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    MessageBox.Show("THE ABI FORM WILL NOW ENTERING", "FOR ABI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    using (var dialog = new CustomDialog("ABI", "Invalid quantity or count value., would you like to proceed for ABI?"))
+                    {
+                        dialog.StartPosition = FormStartPosition.CenterScreen;
+                        dialog.ShowDialog();
+                        if (dialog.Result == DialogResult.OK)
+                        {
+                            ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, generatedSerial, processname);
+                            aBI_Frm.ShowDialog();
+                            return;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+
+
+
+
                 }
 
                 Debug.WriteLine($"Serial Quantity: {serialQty}, Serial Count: {serialCount}");
@@ -348,9 +432,21 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             if (hasMismatch)
             {
-                //  MessageBox.Show("One or more items have mismatched serial counts. Please complete scanning before ending the process.", "Process Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                MessageBox.Show("THE ABI FORM WILL NOW ENTERING", "FOR ABI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                using (var dialog = new CustomDialog("ABI", "Invalid quantity or count value., would you like to proceed for ABI?"))
+                {
+                    dialog.StartPosition = FormStartPosition.CenterScreen;
+                    dialog.ShowDialog();
+                    if (dialog.Result == DialogResult.OK)
+                    {
+                        ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, generatedSerial, processname);
+                        aBI_Frm.ShowDialog();
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
             }
 
             // All quantities matched - proceed
@@ -470,7 +566,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     lbl_processStatus.ForeColor = Color.Green;
 
                     lbl_toplvlipn.Text = data.mo_id;
-                    lbl_segment.Text = "Sub Assymbly";
+                    lbl_segment.Text = "Sub Assembly";
                     lbl_station.Text = data.name;
                     lbl_generatedserial.Text = data.serial_number;
                     LoadProcessData(data.process);
@@ -549,6 +645,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         if (!string.IsNullOrWhiteSpace(rawEndTime) && DateTime.TryParse(rawEndTime, out var parsedEnd))
                         {
                             lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                            lbl_date_end.Text = parsedEnd.ToString("dddd, MMMM-dd-yyyy");
                             lbl_processStatus.Text = "Done";
                             lbl_processStatus.ForeColor = Color.Red;
 
@@ -561,6 +658,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         else
                         {
                             lbl_timeEnd.Text = "-:-:-";
+                            lbl_date_end.Text = "-:-:-";
                             TimeSpan duration = DateTime.Now - parsedStart;
                             lbl_duration.Text = FormatDuration(duration);
                             timer1.Start();
@@ -568,10 +666,10 @@ namespace BTC_EnterpriseV2.ProcessForm
                     }
                     else
                     {
-                        // Fallback if even start time fails 
                         lbl_timestart.Text = "-";
                         lbl_date.Text = "-";
                         lbl_timeEnd.Text = "-:-:-";
+                        lbl_date_end.Text = "-:-:-";
                         lbl_duration.Text = "0 Days : 00: 00  :00 ";
                     }
 
@@ -592,6 +690,9 @@ namespace BTC_EnterpriseV2.ProcessForm
             }
         }
 
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
     }
 }

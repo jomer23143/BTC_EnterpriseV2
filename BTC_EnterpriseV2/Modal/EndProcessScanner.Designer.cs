@@ -45,12 +45,13 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(293, 161);
+            button1.Location = new Point(293, 195);
             button1.Name = "button1";
             button1.Size = new Size(104, 31);
             button1.TabIndex = 11;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label1
             // 
@@ -87,7 +88,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(425, 205);
+            ClientSize = new Size(425, 260);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(txt_serialnumber);

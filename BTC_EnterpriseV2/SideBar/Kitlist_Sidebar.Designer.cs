@@ -103,7 +103,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(256, 771);
+            ClientSize = new Size(256, 760);
             Controls.Add(btn_abi);
             Controls.Add(btn_ncticket);
             Controls.Add(btn_kitlist);

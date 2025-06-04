@@ -6,7 +6,7 @@
         {
             public int id { get; set; }
             public int manufacturing_order_segment_id { get; set; }
-            public int manufacturing_order_segment_status_id { get; set; }
+            public int manufacturing_order_station_status_id { get; set; }
             public string name { get; set; }
             public string product_ref_code { get; set; }
             public string product_ref_count { get; set; }

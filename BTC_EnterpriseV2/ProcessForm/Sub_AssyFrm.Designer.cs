@@ -30,8 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sub_AssyFrm));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
             panel_info2 = new Panel();
             btn_scan = new Button();
@@ -53,12 +53,18 @@
             label5 = new Label();
             label1 = new Label();
             panel2 = new Panel();
+            panel_operator = new Panel();
+            lbl_operator = new Label();
+            label13 = new Label();
             panel_duration = new Panel();
             lbl_duration = new Label();
             label10 = new Label();
             panel_end = new Panel();
             lbl_timeEnd = new Label();
             label8 = new Label();
+            panel_dateend = new Panel();
+            lbl_date_end = new Label();
+            label11 = new Label();
             panel_date = new Panel();
             lbl_date = new Label();
             label6 = new Label();
@@ -74,6 +80,7 @@
             Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewImageColumn();
             timer1 = new System.Windows.Forms.Timer(components);
+            pb_loader = new PictureBox();
             panel1.SuspendLayout();
             panel_info2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_qrcode).BeginInit();
@@ -83,11 +90,14 @@
             panel_processname.SuspendLayout();
             panel_statusprocess.SuspendLayout();
             panel2.SuspendLayout();
+            panel_operator.SuspendLayout();
             panel_duration.SuspendLayout();
             panel_end.SuspendLayout();
+            panel_dateend.SuspendLayout();
             panel_date.SuspendLayout();
             panel_start.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pb_loader).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -318,32 +328,70 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(37, 45, 55);
+            panel2.Controls.Add(panel_operator);
             panel2.Controls.Add(panel_duration);
             panel2.Controls.Add(panel_end);
+            panel2.Controls.Add(panel_dateend);
             panel2.Controls.Add(panel_date);
             panel2.Controls.Add(panel_start);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 703);
+            panel2.Location = new Point(0, 666);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1623, 64);
+            panel2.Size = new Size(1623, 101);
             panel2.TabIndex = 1;
+            panel2.Paint += panel2_Paint;
+            // 
+            // panel_operator
+            // 
+            panel_operator.Anchor = AnchorStyles.Bottom;
+            panel_operator.BackColor = Color.FromArgb(22, 27, 45);
+            panel_operator.Controls.Add(lbl_operator);
+            panel_operator.Controls.Add(label13);
+            panel_operator.Location = new Point(1130, 51);
+            panel_operator.Name = "panel_operator";
+            panel_operator.Size = new Size(412, 43);
+            panel_operator.TabIndex = 0;
+            // 
+            // lbl_operator
+            // 
+            lbl_operator.AutoSize = true;
+            lbl_operator.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_operator.ForeColor = Color.FromArgb(255, 128, 0);
+            lbl_operator.Location = new Point(122, 8);
+            lbl_operator.Name = "lbl_operator";
+            lbl_operator.Size = new Size(148, 25);
+            lbl_operator.TabIndex = 0;
+            lbl_operator.Text = "Sample Operator";
+            lbl_operator.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(13, 7);
+            label13.Name = "label13";
+            label13.Size = new Size(101, 28);
+            label13.TabIndex = 0;
+            label13.Text = "Operator :";
+            label13.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel_duration
             // 
             panel_duration.Anchor = AnchorStyles.Bottom;
-            panel_duration.BackColor = Color.White;
+            panel_duration.BackColor = Color.FromArgb(22, 27, 45);
             panel_duration.Controls.Add(lbl_duration);
             panel_duration.Controls.Add(label10);
-            panel_duration.Location = new Point(1060, 9);
+            panel_duration.Location = new Point(1129, 6);
             panel_duration.Name = "panel_duration";
-            panel_duration.Size = new Size(403, 43);
+            panel_duration.Size = new Size(412, 43);
             panel_duration.TabIndex = 0;
             // 
             // lbl_duration
             // 
             lbl_duration.AutoSize = true;
             lbl_duration.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_duration.ForeColor = Color.FromArgb(0, 0, 192);
+            lbl_duration.ForeColor = Color.Yellow;
             lbl_duration.Location = new Point(109, 11);
             lbl_duration.Name = "lbl_duration";
             lbl_duration.Size = new Size(80, 25);
@@ -355,6 +403,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.White;
             label10.Location = new Point(13, 7);
             label10.Name = "label10";
             label10.Size = new Size(98, 28);
@@ -365,10 +414,10 @@
             // panel_end
             // 
             panel_end.Anchor = AnchorStyles.Bottom;
-            panel_end.BackColor = Color.White;
+            panel_end.BackColor = Color.FromArgb(22, 27, 45);
             panel_end.Controls.Add(lbl_timeEnd);
             panel_end.Controls.Add(label8);
-            panel_end.Location = new Point(797, 9);
+            panel_end.Location = new Point(636, 6);
             panel_end.Name = "panel_end";
             panel_end.Size = new Size(238, 43);
             panel_end.TabIndex = 0;
@@ -389,6 +438,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
             label8.Location = new Point(13, 7);
             label8.Name = "label8";
             label8.Size = new Size(101, 28);
@@ -396,33 +446,69 @@
             label8.Text = "Time End :";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // panel_dateend
+            // 
+            panel_dateend.Anchor = AnchorStyles.Bottom;
+            panel_dateend.BackColor = Color.FromArgb(22, 27, 45);
+            panel_dateend.Controls.Add(lbl_date_end);
+            panel_dateend.Controls.Add(label11);
+            panel_dateend.Location = new Point(636, 51);
+            panel_dateend.Name = "panel_dateend";
+            panel_dateend.Size = new Size(403, 43);
+            panel_dateend.TabIndex = 0;
+            // 
+            // lbl_date_end
+            // 
+            lbl_date_end.AutoSize = true;
+            lbl_date_end.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_date_end.ForeColor = Color.Red;
+            lbl_date_end.Location = new Point(140, 8);
+            lbl_date_end.Name = "lbl_date_end";
+            lbl_date_end.Size = new Size(233, 28);
+            lbl_date_end.TabIndex = 0;
+            lbl_date_end.Text = "wendesday,May-28-2025";
+            lbl_date_end.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.White;
+            label11.Location = new Point(11, 7);
+            label11.Name = "label11";
+            label11.Size = new Size(100, 28);
+            label11.TabIndex = 0;
+            label11.Text = "Date End :";
+            label11.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // panel_date
             // 
             panel_date.Anchor = AnchorStyles.Bottom;
-            panel_date.BackColor = Color.White;
+            panel_date.BackColor = Color.FromArgb(22, 27, 45);
             panel_date.Controls.Add(lbl_date);
             panel_date.Controls.Add(label6);
-            panel_date.Location = new Point(123, 9);
+            panel_date.Location = new Point(126, 51);
             panel_date.Name = "panel_date";
-            panel_date.Size = new Size(386, 43);
+            panel_date.Size = new Size(403, 43);
             panel_date.TabIndex = 0;
             // 
             // lbl_date
             // 
             lbl_date.AutoSize = true;
             lbl_date.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_date.ForeColor = Color.Black;
+            lbl_date.ForeColor = Color.LimeGreen;
             lbl_date.Location = new Point(140, 8);
             lbl_date.Name = "lbl_date";
-            lbl_date.Size = new Size(86, 28);
+            lbl_date.Size = new Size(233, 28);
             lbl_date.TabIndex = 0;
-            lbl_date.Text = "00:00:00";
+            lbl_date.Text = "wendesday,May-28-2025";
             lbl_date.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
             label6.Location = new Point(11, 7);
             label6.Name = "label6";
             label6.Size = new Size(130, 28);
@@ -433,10 +519,10 @@
             // panel_start
             // 
             panel_start.Anchor = AnchorStyles.Bottom;
-            panel_start.BackColor = Color.White;
+            panel_start.BackColor = Color.FromArgb(22, 27, 45);
             panel_start.Controls.Add(lbl_timestart);
             panel_start.Controls.Add(label2);
-            panel_start.Location = new Point(534, 9);
+            panel_start.Location = new Point(126, 6);
             panel_start.Name = "panel_start";
             panel_start.Size = new Size(238, 43);
             panel_start.TabIndex = 0;
@@ -445,7 +531,7 @@
             // 
             lbl_timestart.AutoSize = true;
             lbl_timestart.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_timestart.ForeColor = Color.Green;
+            lbl_timestart.ForeColor = Color.LimeGreen;
             lbl_timestart.Location = new Point(128, 8);
             lbl_timestart.Name = "lbl_timestart";
             lbl_timestart.Size = new Size(86, 28);
@@ -457,6 +543,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(13, 7);
             label2.Name = "label2";
             label2.Size = new Size(109, 28);
@@ -469,7 +556,7 @@
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 93);
             panel3.Name = "panel3";
-            panel3.Size = new Size(10, 610);
+            panel3.Size = new Size(10, 573);
             panel3.TabIndex = 2;
             // 
             // panel4
@@ -477,7 +564,7 @@
             panel4.Dock = DockStyle.Right;
             panel4.Location = new Point(1615, 93);
             panel4.Name = "panel4";
-            panel4.Size = new Size(8, 610);
+            panel4.Size = new Size(8, 573);
             panel4.TabIndex = 3;
             // 
             // dataGridView1
@@ -488,32 +575,33 @@
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.SeaGreen;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.Padding = new Padding(4);
-            dataGridViewCellStyle3.SelectionBackColor = Color.SeaGreen;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.SeaGreen;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.Padding = new Padding(4);
+            dataGridViewCellStyle1.SelectionBackColor = Color.SeaGreen;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.Location = new Point(10, 93);
+            dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.Padding = new Padding(3);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(22, 27, 45);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.Padding = new Padding(3);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(22, 27, 45);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1605, 610);
+            dataGridView1.Size = new Size(1605, 573);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -561,12 +649,24 @@
             // 
             timer1.Tick += timer1_Tick;
             // 
+            // pb_loader
+            // 
+            pb_loader.Anchor = AnchorStyles.Top;
+            pb_loader.Image = (Image)resources.GetObject("pb_loader.Image");
+            pb_loader.Location = new Point(636, 222);
+            pb_loader.Name = "pb_loader";
+            pb_loader.Size = new Size(361, 263);
+            pb_loader.SizeMode = PictureBoxSizeMode.StretchImage;
+            pb_loader.TabIndex = 3;
+            pb_loader.TabStop = false;
+            // 
             // Sub_AssyFrm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1623, 767);
+            Controls.Add(pb_loader);
             Controls.Add(dataGridView1);
             Controls.Add(panel4);
             Controls.Add(panel3);
@@ -589,15 +689,20 @@
             panel_statusprocess.ResumeLayout(false);
             panel_statusprocess.PerformLayout();
             panel2.ResumeLayout(false);
+            panel_operator.ResumeLayout(false);
+            panel_operator.PerformLayout();
             panel_duration.ResumeLayout(false);
             panel_duration.PerformLayout();
             panel_end.ResumeLayout(false);
             panel_end.PerformLayout();
+            panel_dateend.ResumeLayout(false);
+            panel_dateend.PerformLayout();
             panel_date.ResumeLayout(false);
             panel_date.PerformLayout();
             panel_start.ResumeLayout(false);
             panel_start.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pb_loader).EndInit();
             ResumeLayout(false);
         }
 
@@ -645,5 +750,12 @@
         private Panel panel_processname;
         private Panel panel_segment;
         private Panel panel_moid;
+        private Panel panel_dateend;
+        private Label lbl_date_end;
+        private Label label11;
+        private Panel panel_operator;
+        private Label lbl_operator;
+        private Label label13;
+        private PictureBox pb_loader;
     }
 }

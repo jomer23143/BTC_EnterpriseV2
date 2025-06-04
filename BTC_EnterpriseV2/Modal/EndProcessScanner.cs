@@ -3,6 +3,7 @@
     public partial class EndProcessScanner : Form
     {
         public event Action<string?> SerialScanned = delegate { };
+        string apiUrl = "https://app.btcp-enterprise.com/api/login-production";
         public EndProcessScanner()
         {
             InitializeComponent();
@@ -17,5 +18,14 @@
                 this.Close();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+
+
     }
 }
