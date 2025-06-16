@@ -279,6 +279,7 @@ namespace BTCP_EnterpriseV2.Forms
             if (this.panel_sidebar.Controls.Count > 0)
                 this.panel_sidebar.Controls.Clear();
             Manage_SubAssy.closeAForm();
+            formManager.OpenChildForm(new MainSidebar(), sender);
             UIManager.OpenChildForm(new Report1(), sender);
 
         }

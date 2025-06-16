@@ -37,6 +37,7 @@
             panel2 = new Panel();
             btncomplete = new Button();
             dataGridView1 = new DataGridView();
+            Pb_loading = new PictureBox();
             colstatus_item = new DataGridViewCheckBoxColumn();
             colpart_serial = new DataGridViewTextBoxColumn();
             colipn = new DataGridViewTextBoxColumn();
@@ -70,7 +71,6 @@
             colitem_number = new DataGridViewTextBoxColumn();
             colgroup = new DataGridViewTextBoxColumn();
             colkit_list_id = new DataGridViewTextBoxColumn();
-            Pb_loading = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -83,8 +83,9 @@
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1244, 58);
+            panel1.Size = new Size(1088, 44);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -92,9 +93,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Tai Le", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(100, 180, 45);
-            label1.Location = new Point(12, 18);
+            label1.Location = new Point(10, 14);
             label1.Name = "label1";
-            label1.Size = new Size(198, 29);
+            label1.Size = new Size(159, 23);
             label1.TabIndex = 0;
             label1.Text = "Kit List Recieving";
             // 
@@ -102,18 +103,19 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(12, 81);
+            label2.Location = new Point(10, 61);
             label2.Name = "label2";
-            label2.Size = new Size(131, 28);
+            label2.Size = new Size(105, 21);
             label2.TabIndex = 1;
             label2.Text = "MO Number :";
             // 
             // txtmo_number
             // 
             txtmo_number.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtmo_number.Location = new Point(147, 74);
+            txtmo_number.Location = new Point(129, 56);
+            txtmo_number.Margin = new Padding(3, 2, 3, 2);
             txtmo_number.Name = "txtmo_number";
-            txtmo_number.Size = new Size(415, 38);
+            txtmo_number.Size = new Size(364, 32);
             txtmo_number.TabIndex = 2;
             txtmo_number.TextChanged += textBox1_TextChanged;
             txtmo_number.KeyDown += txtmo_number_KeyDown;
@@ -122,9 +124,10 @@
             // 
             panel2.Controls.Add(btncomplete);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 628);
+            panel2.Location = new Point(0, 471);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1244, 64);
+            panel2.Size = new Size(1088, 48);
             panel2.TabIndex = 3;
             // 
             // btncomplete
@@ -136,9 +139,10 @@
             btncomplete.FlatStyle = FlatStyle.Flat;
             btncomplete.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btncomplete.ForeColor = Color.White;
-            btncomplete.Location = new Point(12, 7);
+            btncomplete.Location = new Point(10, 5);
+            btncomplete.Margin = new Padding(3, 2, 3, 2);
             btncomplete.Name = "btncomplete";
-            btncomplete.Size = new Size(182, 45);
+            btncomplete.Size = new Size(159, 34);
             btncomplete.TabIndex = 0;
             btncomplete.Text = "Save";
             btncomplete.UseVisualStyleBackColor = false;
@@ -161,12 +165,25 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colstatus_item, colpart_serial, colipn, coldescription, coltype, colmfg, colmfgprodcode, collocation, colstock, colunitqty, colmoqty, colwipqty, colpickqty, colshortqty, colkit_quantity, colrecieved_quantity, colreject_quantity, colunit, colinvoicenumber, colkitted, colindividualkitted, coltrack, colrack, colcomment, colcreated_at, colupdated_at, colstatus, colhistory, colid, colmo_id, colitem_number, colgroup, colkit_list_id });
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(12, 115);
+            dataGridView1.Location = new Point(10, 86);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1220, 507);
+            dataGridView1.Size = new Size(1068, 380);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            // 
+            // Pb_loading
+            // 
+            Pb_loading.Anchor = AnchorStyles.Top;
+            Pb_loading.Image = (Image)resources.GetObject("Pb_loading.Image");
+            Pb_loading.Location = new Point(478, 230);
+            Pb_loading.Margin = new Padding(3, 2, 3, 2);
+            Pb_loading.Name = "Pb_loading";
+            Pb_loading.Size = new Size(133, 114);
+            Pb_loading.SizeMode = PictureBoxSizeMode.StretchImage;
+            Pb_loading.TabIndex = 5;
+            Pb_loading.TabStop = false;
             // 
             // colstatus_item
             // 
@@ -387,6 +404,7 @@
             colupdated_at.HeaderText = "updated_at";
             colupdated_at.MinimumWidth = 6;
             colupdated_at.Name = "colupdated_at";
+            colupdated_at.Visible = false;
             colupdated_at.Width = 125;
             // 
             // colstatus
@@ -452,23 +470,12 @@
             colkit_list_id.Visible = false;
             colkit_list_id.Width = 125;
             // 
-            // Pb_loading
-            // 
-            Pb_loading.Anchor = AnchorStyles.Top;
-            Pb_loading.Image = (Image)resources.GetObject("Pb_loading.Image");
-            Pb_loading.Location = new Point(546, 336);
-            Pb_loading.Name = "Pb_loading";
-            Pb_loading.Size = new Size(152, 122);
-            Pb_loading.SizeMode = PictureBoxSizeMode.StretchImage;
-            Pb_loading.TabIndex = 5;
-            Pb_loading.TabStop = false;
-            // 
             // KitlistRecieving
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1244, 692);
+            ClientSize = new Size(1088, 519);
             Controls.Add(Pb_loading);
             Controls.Add(dataGridView1);
             Controls.Add(panel2);
@@ -476,6 +483,7 @@
             Controls.Add(label2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "KitlistRecieving";
             Text = "KitlistRecieving";
             panel1.ResumeLayout(false);
@@ -495,6 +503,8 @@
         private TextBox txtmo_number;
         private Panel panel2;
         private DataGridView dataGridView1;
+        private Button btncomplete;
+        private PictureBox Pb_loading;
         private DataGridViewCheckBoxColumn colstatus_item;
         private DataGridViewTextBoxColumn colpart_serial;
         private DataGridViewTextBoxColumn colipn;
@@ -528,7 +538,5 @@
         private DataGridViewTextBoxColumn colitem_number;
         private DataGridViewTextBoxColumn colgroup;
         private DataGridViewTextBoxColumn colkit_list_id;
-        private Button btncomplete;
-        private PictureBox Pb_loading;
     }
 }

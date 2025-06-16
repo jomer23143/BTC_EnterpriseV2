@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {}
+    "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {
+    "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+        "projectUniqueName": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
         "projectName": "BTC_EnterpriseV2",
-        "projectPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
-        "packagesPath": "C:\\Users\\GlynnDelaCruz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
+        "projectPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+        "packagesPath": "C:\\Users\\JomerAlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\GlynnDelaCruz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\JomerAlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -66,13 +66,9 @@
               "target": "Package",
               "version": "[6.0.2, )"
             },
-            "Microsoft.ReportingServices.ReportViewerControl.WebForms": {
+            "Microsoft.TeamFoundationServer.ExtendedClient": {
               "target": "Package",
-              "version": "[150.1652.0, )"
-            },
-            "Microsoft.ReportingServices.ReportViewerControl.Winforms": {
-              "target": "Package",
-              "version": "[150.1652.0, )"
+              "version": "[19.225.1, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -86,9 +82,17 @@
               "target": "Package",
               "version": "[1.6.0, )"
             },
+            "ReportViewerCore.WinForms": {
+              "target": "Package",
+              "version": "[15.1.26, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.9.0, )"
+            },
+            "Zen.Barcode.Rendering.Framework": {
+              "target": "Package",
+              "version": "[3.1.10729.1, )"
             }
           },
           "imports": [

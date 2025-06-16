@@ -11,7 +11,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Report\Report1.rdlc" />
+    <None Remove="Report\RptQrcode.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="the_logo_wKB_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Report1.rdlc" />
+    <EmbeddedResource Include="Report\RptQrcode.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,15 +33,27 @@
     <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.0-rc5.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
-    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.WebForms" Version="150.1652.0" />
-    <PackageReference Include="Microsoft.ReportingServices.ReportViewerControl.Winforms" Version="150.1652.0" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="19.225.1" />
     <PackageReference Include="MySql.Data" Version="9.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.26" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="Zen.Barcode.Rendering.Framework" Version="3.1.10729.1" />
 </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BarCodeWizFonts.QrCode">
+      <HintPath>..\..\..\..\Documents\BarCodeWiz Examples\QR Code Fonts Trial\DotNet\RDLC_WinForms\dll\BarCodeWizFonts.QrCode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   
   <ItemGroup>
+    <Compile Update="Dataset\ReportData.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReportData.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -88,6 +110,10 @@
     </None>
     <None Update="Assets\warning_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Dataset\ReportData.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReportData.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

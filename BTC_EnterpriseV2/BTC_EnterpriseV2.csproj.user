@@ -70,6 +70,9 @@
     <Compile Update="Modal\ViewScanedDetails.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\ViewStationGeneratedSerials.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProcessForm\Pre_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +80,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ReportChart\Report1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ReportChart\ReportVeiwerQRCode.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\Kitlist_Sidebar.cs">
@@ -91,5 +97,10 @@
     <Compile Update="SideBar\WarehouseKitingSidebar.cs">
       <SubType>Form</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Dataset\ReportData.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 </Project>

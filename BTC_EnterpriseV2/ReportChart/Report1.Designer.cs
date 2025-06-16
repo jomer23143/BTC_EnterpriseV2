@@ -38,31 +38,34 @@
             // 
             panel_chart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel_chart.BackColor = Color.White;
-            panel_chart.Location = new Point(12, 168);
+            panel_chart.Location = new Point(10, 126);
+            panel_chart.Margin = new Padding(3, 2, 3, 2);
             panel_chart.Name = "panel_chart";
-            panel_chart.Size = new Size(1178, 589);
+            panel_chart.Size = new Size(1031, 442);
             panel_chart.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(40, 11);
+            pictureBox1.Location = new Point(35, 8);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1137, 151);
+            pictureBox1.Size = new Size(995, 113);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
             // 
             // Report1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(37, 45, 55);
-            ClientSize = new Size(1202, 769);
+            ClientSize = new Size(1052, 577);
             Controls.Add(pictureBox1);
             Controls.Add(panel_chart);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Report1";
             Text = "Report1";
             Load += Report1_Load;
