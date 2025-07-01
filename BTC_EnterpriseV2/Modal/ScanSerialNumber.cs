@@ -1,6 +1,8 @@
 ﻿using System.Data;
+using System.Text;
 using BTC_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
+using Google.Protobuf.WellKnownTypes;
 using Newtonsoft.Json;
 
 namespace BTC_EnterpriseV2.Modal
@@ -10,7 +12,10 @@ namespace BTC_EnterpriseV2.Modal
         Forms.Warehousekitting Kitlistfrm;
         string id = "";
         public int _rowid;
-        public ScanSerialNumber(Warehousekitting kitlist, int rowid)
+        int total_count = 1;
+        DataTable dt_serials;
+        DialogResult dr = DialogResult.Cancel;
+        public ScanSerialNumber(Warehousekitting kitlist, int rowid,DataTable dtSerials)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -21,18 +26,31 @@ namespace BTC_EnterpriseV2.Modal
             txtserial_number.Focus();
             this.Kitlistfrm = kitlist;
             this._rowid = rowid;
+            dt_serials = dtSerials;
         }
 
         private void ScanSerialNumber_Load(object sender, EventArgs e)
         {
-            id = Forms.Warehousekitting.kit_list_item_id.ToString();
-            label1.Text = string.Format("IPN : {0}", Forms.Warehousekitting.kit_list_item_ipn);
-            lbl_rowcount.Text = string.Format("0 out of {0}", Forms.Warehousekitting.total_pick_quantity);
-            dgSerialnumber.DataSource = Forms.Warehousekitting.list_serial;
+            //id = Forms.Warehousekitting.kit_list_item_id.ToString();
+            //label1.Text = string.Format("IPN : {0}", Forms.Warehousekitting.kit_list_item_ipn);
+            //foreach (DataRow item in Forms.Warehousekitting.list_serial.Rows)
+            //{
+            //    if (item["is_scan"].ToString() == "1")
+            //    {
+            //        total_count++;
+            //    }
+            //}
+           
+            //dgSerialnumber.DataSource = Forms.Warehousekitting.list_serial;
+            load_serials();
             is_scan_initialize_datagridviewrows();
             txtserial_number.Focus();
         }
+        private void load_serials()
+        {
+            dgSerialnumber.DataSource= dt_serials;
 
+        }
         private void is_scan_initialize_datagridviewrows()
         {
             for (int currenrow = 0; currenrow < dgSerialnumber.Rows.Count; currenrow++)
@@ -41,6 +59,7 @@ namespace BTC_EnterpriseV2.Modal
 
                 if (value != null && value.ToString() == "1")
                 {
+                    lbl_rowcount.Text = string.Format("{0} out of {1}", total_count++, Forms.Warehousekitting.total_pick_quantity);
                     dgSerialnumber.Rows[currenrow].Cells[colscan.Name].Value = 1;
                 }
                 else
@@ -83,7 +102,7 @@ namespace BTC_EnterpriseV2.Modal
             }
         }
 
-        private void btnsave_serial_Click(object sender, EventArgs e)
+        private async void btnsave_serial_Click(object sender, EventArgs e)
         {
             List<Model.kitlist.serial_details> list_serial_details = new List<Model.kitlist.serial_details>();
             foreach (DataGridViewRow row in dgSerialnumber.Rows)
@@ -99,16 +118,16 @@ namespace BTC_EnterpriseV2.Modal
             {
                 kit_list_item_serial = list_serial_details
             };
-            //string json = JsonConvert.SerializeObject(scan_Serial);
-            //string responseData = "";
-            //HttpResponseMessage response = new HttpResponseMessage();
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+            string json = JsonConvert.SerializeObject(scan_Serial);
+            string responseData = "";
+            HttpResponseMessage response = new HttpResponseMessage();
+            using (HttpClient client = new HttpClient())
+            {
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //    response = await client.PostAsync($@"https://app.btcp-enterprise.com/api/kit-list-item-serial/scan-serial", content);
-            //    responseData = await response.Content.ReadAsStringAsync();
-            //}
+                response = await client.PostAsync($@"https://app.btcp-enterprise.com/api/kit-list-item-serial/scan-serial", content);
+                responseData = await response.Content.ReadAsStringAsync();
+            }
             for (int i = 0; i < Kitlistfrm.dataGridView1.Rows.Count; i++)
             {
                 if (Kitlistfrm.dataGridView1.Rows[i].Cells["colid"].Value.ToString() == _rowid.ToString())
@@ -116,7 +135,7 @@ namespace BTC_EnterpriseV2.Modal
                     Kitlistfrm.dataGridView1.Rows[i].Cells["colkitted"].Value = scan_qty;
                 }
             }
-
+           dr= DialogResult.OK;
         }
 
         private async void refresh_modetails()
@@ -175,7 +194,9 @@ namespace BTC_EnterpriseV2.Modal
 
         private void btn_close_Click(object sender, EventArgs e)
         {
+
             this.Close();
+            
         }
     }
 }

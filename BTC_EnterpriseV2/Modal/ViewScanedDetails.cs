@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
@@ -21,8 +22,8 @@ namespace BTC_EnterpriseV2.Modal
         public string processId;
         public int tempqty = 0;
         public int tempcount = 0;
-
-        public ViewScanedDetails(int rowindex, string processid, string processname, string generatedseril, string qty, string count)
+        DataTable dtSerial;
+        public ViewScanedDetails(int rowindex, string processid, string processname, string generatedseril, string qty, string count,DataTable dtserial)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,13 +36,15 @@ namespace BTC_EnterpriseV2.Modal
             this.qty = qty;
             this.count = count;
             this.serialnumber = generatedseril;
+            dtSerial = dtserial;
         }
 
         private async void ViewScanedDetails_Load(object sender, EventArgs e)
         {
-            lbl_generatedserial.Text = serialnumber;
-            int myprocessid = int.Parse(processId);
-            await Get_ScannedItems(serialnumber, myprocessid);
+            LoadProcessData(dtSerial);
+            //lbl_generatedserial.Text = serialnumber;
+            //int myprocessid = int.Parse(processId);
+            //await Get_ScannedItems(serialnumber, myprocessid);
         }
 
 
@@ -126,6 +129,26 @@ namespace BTC_EnterpriseV2.Modal
             foreach (var serial in serials)
             {
                 dataGridView1.Rows.Add(index++, serial.serial_number);
+            }
+        }
+        private void LoadProcessData(DataTable dt)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            dataGridView1.Columns.Add("NoProcess", "No.");
+            dataGridView1.Columns.Add("serial_number", "Item Serial Number");
+
+            dataGridView1.Columns["NoProcess"].Width = 50;
+
+            int index = 1;
+            foreach (DataRow serial in dt.Rows)
+            {
+                if (processId == serial[1].ToString())
+                {
+                    dataGridView1.Rows.Add(index++, serial[2]);
+                }
+                
             }
         }
 

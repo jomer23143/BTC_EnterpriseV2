@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Text;
 using BTCP_EnterpriseV2.YaoUI;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Newtonsoft.Json;
 
 namespace BTC_EnterpriseV2.Forms
@@ -8,6 +9,7 @@ namespace BTC_EnterpriseV2.Forms
     public partial class KitlistRecieving : Form
     {
         int kitlist_id1 = 0;
+        CheckBox headerchk = new CheckBox();
         public KitlistRecieving()
         {
             InitializeComponent();
@@ -15,6 +17,7 @@ namespace BTC_EnterpriseV2.Forms
             yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedTextBox(txtmo_number, 6, Color.Gainsboro);
             Pb_loading.Visible = false;
+            btncomplete.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -32,11 +35,26 @@ namespace BTC_EnterpriseV2.Forms
                 string json_mo_details = JsonConvert.SerializeObject(model_mo.data);
                 dynamic temp = JsonConvert.DeserializeObject(json_mo_details);
                 List<Model.kitlist.manufacturing_order_items> model_mo_details = (List<Model.kitlist.manufacturing_order_items>)JsonConvert.DeserializeObject(json_mo_details, typeof(List<Model.kitlist.manufacturing_order_items>));
-
+                bool check = true;
+                if (model_mo_details.Count > 0)
+                {
+                    btncomplete.Enabled = true;
+                }
                 dataGridView1.DataSource = model_mo_details;
                 foreach (var item in model_mo_details)
                 {
+                    if (kitlist_id1 != 0) continue;
                     kitlist_id1 = item.kit_list_item_status_id;
+                }
+                if (kitlist_id1 == 2)
+                {
+                    headerchk.AutoCheck = false;
+                    colstatus_item.ReadOnly = true;
+                }
+                else if (kitlist_id1 == 1)
+                {
+                    headerchk.AutoCheck = true;
+                    colstatus_item.ReadOnly = false;
                 }
                 for (int currenrow = 0; currenrow < dataGridView1.Rows.Count; currenrow++)
                 {
@@ -44,12 +62,13 @@ namespace BTC_EnterpriseV2.Forms
                     {
                         dataGridView1.Rows[currenrow].Cells[colstatus_item.Name].Value = 1;
                     }
-                    else
+                    else if(dataGridView1.Rows[currenrow].Cells[colkit_list_id.Name].Value.ToString() == "1")
                     {
                         dataGridView1.Rows[currenrow].Cells[colstatus_item.Name].Value = 0;
+                        check = false;
                     }
-
                 }
+                headerchk.Checked = check;
                 Pb_loading.Hide();
             }
         }
@@ -82,6 +101,7 @@ namespace BTC_EnterpriseV2.Forms
         }
         private async void saved_comment_status()
         {
+            Pb_loading.Show();
             List<Model.kitlist.kitted_quantity> list_kitted_quantity = new List<Model.kitlist.kitted_quantity>();
             foreach (DataGridViewRow item in dataGridView1.Rows)
             {
@@ -111,12 +131,18 @@ namespace BTC_EnterpriseV2.Forms
                 responseData = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode.ToString() == "422")
                 {
+                    Pb_loading.Hide();
+                    headerchk.Checked = false;
+                    dataGridView1.DataSource = null;
+                    initialize_datagridview_columns();
                 }
                 else
-                {
+                { 
+                    Pb_loading.Hide();
                     MessageBox.Show("Saved");
                     txtmo_number.Clear();
-                    txtmo_number.Clear();
+                    headerchk.Checked = false;
+                    btncomplete.Enabled = false;
                     dataGridView1.DataSource = null;
                     initialize_datagridview_columns();
                 }
@@ -125,11 +151,11 @@ namespace BTC_EnterpriseV2.Forms
         void initialize_datagridview_columns()
         {
             DataGridViewColumn column = new DataGridViewTextBoxColumn();
-            column.HeaderText = "Serial Number";
-            column.DataPropertyName = "part_serial";
-            column.Name = "colpart_serial";
-            column.Width = 180;
-            dataGridView1.Columns.Add(column);
+            //column.HeaderText = "Serial Number";
+            //column.DataPropertyName = "part_serial";
+            //column.Name = "colpart_serial";
+            //column.Width = 180;
+            //dataGridView1.Columns.Add(column);
 
             column = new DataGridViewTextBoxColumn();
             column.HeaderText = "Internal PN";
@@ -401,14 +427,104 @@ namespace BTC_EnterpriseV2.Forms
                     dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value = false;
                 }
             }
-            else if (editedColumnName == colstatus_item.Name)
+            //else if (editedColumnName == colstatus_item.Name)
+            //{
+            //    var isChecked = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value);
+            //    dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value = isChecked ? "OKAY" : "";
+            //}
+        }
+
+        private void KitlistRecieving_Load(object sender, EventArgs e)
+        {
+            headerCheckbox();
+        }
+        private void headerCheckbox()
+        {
+            //Point headerlocation = dataGridView1.GetCellDisplayRectangle(0, -1, true).Location;
+            //headerchk.Location = headerlocation;
+            //new Point(headerlocation.X + 18, headerlocation.Y + 15);
+            headerchk.Size = new Size(13, 13);
+            headerchk.BackColor = Color.White;
+            headerchk.Click += headerchk_Clicked;
+            dataGridView1.Controls.Add(headerchk);
+            dataGridView1.CellContentClick += datagridview_cellclick;
+           
+        }
+        private void headerchk_Clicked(object sender, EventArgs e)
+        {
+            dataGridView1.EndEdit();
+            foreach (DataGridViewRow item in dataGridView1.Rows)
             {
-                var isChecked = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[colstatus_item.Name].Value);
-                dataGridView1.Rows[e.RowIndex].Cells[colcomment.Name].Value = isChecked ? "OKAY" : "";
+                DataGridViewCheckBoxCell chkbox = (item.Cells["colstatus_item"] as DataGridViewCheckBoxCell);
+                chkbox.Value = headerchk.Checked;
+                item.Cells[colcomment.Name].Value = headerchk.Checked ? "OKAY" : "";
+
+            }
+        }
+        private void datagridview_cellclick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                var row_index = e.RowIndex;
+                if (row_index >= 0)
+                {
+                    Boolean ischeckedbox = true;
+                    var res = Convert.ToBoolean(dataGridView1.Rows[row_index].Cells["colstatus_item"].EditedFormattedValue) == true ? "OKAY" : "";
+                    //dataGridView1.Rows[row_index].Cells["colstatus_item"].Value = res;
+                    dataGridView1.Rows[row_index].Cells[colcomment.Name].Value = res;
+                    foreach (DataGridViewRow item in dataGridView1.Rows)
+                    {
+                        if (Convert.ToBoolean(item.Cells["colstatus_item"].EditedFormattedValue) == false)
+                        {
+                            ischeckedbox = false;
+                        }
+                    }
+                        headerchk.Checked = ischeckedbox;
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
+        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        {
+            if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+            {
+                headerchk.Location = new Point(headerchk.Location.X - (e.NewValue - e.OldValue), headerchk.Location.Y);
+            }
+            if (headerchk.Location.X < dataGridView1.Location.X)
+            {
+                headerchk.Visible = false;
+            }
+            else
+            {
+                headerchk.Visible = true;
+            }
+        }
 
+        private void dataGridView1_Paint(object sender, PaintEventArgs e)
+        {
+            var cell = this.dataGridView1.Columns[0].HeaderCell;
 
+            //// Get the Location
+            var headerCellLocation = dataGridView1.GetCellDisplayRectangle(0, -1, true).Location;
+
+            //// Get the Horizontal Scrolling Offset (if the User has scrolled)
+            var scrollOffset = this.dataGridView1.HorizontalScrollingOffset;
+
+            // Get the Cell width (minus) the checkbox width (minus) any scrolling there is
+            var widthVal = cell.Size.Width - 19 - this.headerchk.Size.Width - scrollOffset;
+
+            //// Get 1/4 of the Cells height (so the checkbox sits in the center)
+            var quarterCellHeight = (cell.Size.Height + 9) / 3;
+
+            //Calculate the new Location for the Checkbox
+            var newLocation = new Point(headerCellLocation.X + widthVal, headerCellLocation.Y + quarterCellHeight);
+
+            // Update the Location
+            this.headerchk.Location = newLocation;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
@@ -22,7 +23,9 @@ namespace BTC_EnterpriseV2.Modal
         public int tempcount = 0;
         public event Action<string?> SerialScanned = delegate { };
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-        public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count)
+        DataTable dtserials;
+        int is_Kitlist;
+        public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count,DataTable dtSerials,int is_kit_list)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -38,6 +41,8 @@ namespace BTC_EnterpriseV2.Modal
             this.count = count;
             this.serialnumber = generatedseril;
             lbl_msg.Text = "Please scan the serial number of the item to be processed.";
+            dtserials = dtSerials;
+            is_Kitlist = is_kit_list;
         }
 
         private async void ProcessScanner_Load(object sender, EventArgs e)
@@ -47,7 +52,8 @@ namespace BTC_EnterpriseV2.Modal
             lbl_scancount.Text = count + " out of " + qty;
             lbl_generatedserial.Text = serialnumber;
             int myprocessid = int.Parse(processId);
-            await Get_ScannedItems(serialnumber, myprocessid);
+            //await Get_ScannedItems(serialnumber, myprocessid);
+            LoadProcessData(dtserials);
         }
 
         private async void txt_serialnumber_KeyDown(object sender, KeyEventArgs e)
@@ -65,7 +71,8 @@ namespace BTC_EnterpriseV2.Modal
                     await Get_Process_response(
                         lbl_generatedserial.Text,
                         processId,
-                        txt_serialnumber.Text.Trim()
+                        txt_serialnumber.Text.Trim(),
+                        is_Kitlist
                     );
 
                     txt_serialnumber.Clear();
@@ -75,14 +82,15 @@ namespace BTC_EnterpriseV2.Modal
 
                     if (tempcount == tempqty)
                     {
-                        DialogResult = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                        if (DialogResult == DialogResult.Yes)
+                        var res = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        if (res == DialogResult.Yes)
                         {
+                            
                             this.Close();
                         }
                         else
                         {
-                            return;
+                           return;
                         }
 
                     }
@@ -144,7 +152,7 @@ namespace BTC_EnterpriseV2.Modal
 
                         if (matchingProcess != null && matchingProcess.serial != null)
                         {
-                            LoadProcessData(matchingProcess.serial);
+                           // LoadProcessData(matchingProcess.serial);
                         }
                         else
                         {
@@ -170,9 +178,7 @@ namespace BTC_EnterpriseV2.Modal
                 Debug.WriteLine($"API Error: {ex.Message}");
             }
         }
-
-
-        private void LoadProcessData(List<Sub_Asy_Process_Model.Serial> serials)
+        private void LoadProcessData(DataTable serials)
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -183,13 +189,31 @@ namespace BTC_EnterpriseV2.Modal
             dataGridView1.Columns["NoProcess"].Width = 50;
 
             int index = 1;
-            foreach (var serial in serials)
+            foreach (DataRow serial in serials.Rows)
             {
-                dataGridView1.Rows.Add(index++, serial.serial_number);
+                if (processId == serial[1].ToString())
+                    dataGridView1.Rows.Add(index++, serial[2]);
             }
         }
 
-        public async Task Get_Process_response(string serial, string processid, string kitserial)
+        //private void LoadProcessData(List<Sub_Asy_Process_Model.Serial> serials)
+        //{
+        //    //dataGridView1.Rows.Clear();
+        //    //dataGridView1.Columns.Clear();
+
+        //    //dataGridView1.Columns.Add("NoProcess", "No.");
+        //    //dataGridView1.Columns.Add("serial_number", "Item Serial Number");
+
+        //    //dataGridView1.Columns["NoProcess"].Width = 50;
+
+        //    //int index = 1;
+        //    //foreach (var serial in serials)
+        //    //{
+        //    //    dataGridView1.Rows.Add(index++, serial.serial_number);
+        //    //}
+        //}
+
+        public async Task Get_Process_response(string serial, string processid, string kitserial,int is_kit_list)
         {
             try
             {
@@ -198,7 +222,8 @@ namespace BTC_EnterpriseV2.Modal
                 {
                     process_id = processid.Trim(),
                     kit_serial = kitserial.Trim(),
-                    serial_number = serial.Trim()
+                    serial_number = serial.Trim(),
+                    is_kit_list = is_kit_list
                 };
                 string json = JsonConvert.SerializeObject(postData);
 
@@ -255,7 +280,11 @@ namespace BTC_EnterpriseV2.Modal
                         ShowMessage("No valid process data returned.", Color.Red);
                         return;
                     }
+                    
                     lbl_generatedserial.Text = data.serial_number;
+                    int index = dataGridView1.Rows.Count == 0? 1 : dataGridView1.Rows.Count;
+                    dataGridView1.Rows.Add(index++, lbl_generatedserial.Text);
+
                     // LoadProcessData(data.process);
                     tempcount++;
                     ShowMessage("Process data retrieved successfully.", Color.Green);

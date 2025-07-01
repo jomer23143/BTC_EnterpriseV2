@@ -37,7 +37,6 @@
             panel2 = new Panel();
             btncomplete = new Button();
             dataGridView1 = new DataGridView();
-            Pb_loading = new PictureBox();
             colstatus_item = new DataGridViewCheckBoxColumn();
             colpart_serial = new DataGridViewTextBoxColumn();
             colipn = new DataGridViewTextBoxColumn();
@@ -71,6 +70,7 @@
             colitem_number = new DataGridViewTextBoxColumn();
             colgroup = new DataGridViewTextBoxColumn();
             colkit_list_id = new DataGridViewTextBoxColumn();
+            Pb_loading = new PictureBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -172,27 +172,17 @@
             dataGridView1.Size = new Size(1068, 380);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
-            // 
-            // Pb_loading
-            // 
-            Pb_loading.Anchor = AnchorStyles.Top;
-            Pb_loading.Image = (Image)resources.GetObject("Pb_loading.Image");
-            Pb_loading.Location = new Point(478, 230);
-            Pb_loading.Margin = new Padding(3, 2, 3, 2);
-            Pb_loading.Name = "Pb_loading";
-            Pb_loading.Size = new Size(133, 114);
-            Pb_loading.SizeMode = PictureBoxSizeMode.StretchImage;
-            Pb_loading.TabIndex = 5;
-            Pb_loading.TabStop = false;
+            dataGridView1.Scroll += dataGridView1_Scroll;
+            dataGridView1.Paint += dataGridView1_Paint;
             // 
             // colstatus_item
             // 
-            colstatus_item.HeaderText = " Check(if complete)";
+            colstatus_item.HeaderText = "";
             colstatus_item.MinimumWidth = 6;
             colstatus_item.Name = "colstatus_item";
             colstatus_item.Resizable = DataGridViewTriState.True;
             colstatus_item.SortMode = DataGridViewColumnSortMode.Automatic;
-            colstatus_item.Width = 125;
+            colstatus_item.Width = 50;
             // 
             // colpart_serial
             // 
@@ -470,6 +460,18 @@
             colkit_list_id.Visible = false;
             colkit_list_id.Width = 125;
             // 
+            // Pb_loading
+            // 
+            Pb_loading.Anchor = AnchorStyles.Top;
+            Pb_loading.Image = (Image)resources.GetObject("Pb_loading.Image");
+            Pb_loading.Location = new Point(478, 275);
+            Pb_loading.Margin = new Padding(3, 2, 3, 2);
+            Pb_loading.Name = "Pb_loading";
+            Pb_loading.Size = new Size(133, 114);
+            Pb_loading.SizeMode = PictureBoxSizeMode.StretchImage;
+            Pb_loading.TabIndex = 5;
+            Pb_loading.TabStop = false;
+            // 
             // KitlistRecieving
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -486,6 +488,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "KitlistRecieving";
             Text = "KitlistRecieving";
+            Load += KitlistRecieving_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

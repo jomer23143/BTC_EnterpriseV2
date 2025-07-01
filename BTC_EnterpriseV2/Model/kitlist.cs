@@ -42,14 +42,27 @@
             public object rack { get; set; }
             public object comment { get; set; }
         }
+        public class Link
+        {
+            public string url { get; set; }
+            public string label { get; set; }
+            public bool active { get; set; }
+        }
         public class GetData
         {
             public object current_page { get; set; }
             public List<manufacturing_order_items> data { get; set; }
-            public string next_page_url { get; set; }
-            public string prev_page_url { get; set; }
-            public int to { get; set; }
-            public string total { get; set; }
+            public string first_page_url { get; set; }
+            public object from { get; set; }
+            public int last_page { get; set; }
+            public string last_page_url { get; set; }
+            public List<Link> links { get; set; }
+            public object next_page_url { get; set; }
+            public string path { get; set; }
+            public int per_page { get; set; }
+            public object prev_page_url { get; set; }
+            public object to { get; set; }
+            public int total { get; set; }
         }
         public class manufacturing_order_getdata
         {

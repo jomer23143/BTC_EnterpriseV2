@@ -29,6 +29,7 @@
             public string ipn_number { get; set; }
             public int serial_quantity { get; set; }
             public int serial_count { get; set; }
+            public int is_kit_list { get; set; }
             public List<Serial> serial { get; set; }
         }
 

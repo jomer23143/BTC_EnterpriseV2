@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
 using BTC_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -8,7 +9,10 @@ namespace BTC_EnterpriseV2.Modal
     public partial class AddSerialNumber : Form
     {
         bool is_error = false;
-        public AddSerialNumber()
+        private DataTable _dtSerials;
+        private int _item_id;
+        DialogResult dr = DialogResult.Cancel;
+        public AddSerialNumber(int item_id,DataTable dtSerials)
         {
             InitializeComponent();
             YUI yui = new YUI();
@@ -16,18 +20,21 @@ namespace BTC_EnterpriseV2.Modal
             yui.RoundedButton(btnsave_serial, 6, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btn_close, 6, Color.Salmon);
             yui.RoundedFormsDocker(this, 12);
+            _dtSerials = dtSerials;
+            _item_id = item_id;
         }
 
         private void AddSerialNumber_Load(object sender, EventArgs e)
         {
             bunifuloading.Hide();
-            dgSerialnumber.DataSource = Warehousekitting.list_serial;
+            dgSerialnumber.DataSource = _dtSerials;
+            //dgSerialnumber.DataSource = Warehousekitting.list_serial;
             //if (dgSerialnumber.Rows.Count > 1 )
             //    dgSerialnumber.Rows[0].Cells[0].Selected = false;
             //dgSerialnumber.Rows[dgSerialnumber.RowCount - 1].Selected = true;
             label1.Text = String.Format("IPN : {0}", Warehousekitting.kit_list_item_ipn);
         }
-
+        
         private async void btnsave_serial_Click(object sender, EventArgs e)
         {
             for (int currentRow = 0; currentRow < dgSerialnumber.Rows.Count - 1; currentRow++)
@@ -95,6 +102,7 @@ namespace BTC_EnterpriseV2.Modal
                     MessageBox.Show("Saved Serial Number");
                 }
             }
+            dr = DialogResult.OK;
         }
 
         private void dgSerialnumber_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)

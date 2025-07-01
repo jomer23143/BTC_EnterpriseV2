@@ -2,12 +2,14 @@
 {
     public partial class EndProcessScanner : Form
     {
+        public static EndProcessScanner instance;
         public event Action<string?> SerialScanned = delegate { };
         string apiUrl = "https://app.btcp-enterprise.com/api/login-production";
         public EndProcessScanner()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            instance = this;
         }
 
         private void txt_serialnumber_KeyDown(object sender, KeyEventArgs e)

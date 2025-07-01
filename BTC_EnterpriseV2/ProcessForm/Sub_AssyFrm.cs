@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using BTC_EnterpriseV2.ABI;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
@@ -7,6 +8,7 @@ using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QRCoder;
+using static BTC_EnterpriseV2.Model.kitlist;
 
 namespace BTC_EnterpriseV2.ProcessForm
 {
@@ -22,6 +24,8 @@ namespace BTC_EnterpriseV2.ProcessForm
         public string generatedSerial;
         private string processname;
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
+        DataTable dtserials = new DataTable("serials");
+        int is_kit_list;
         public Sub_AssyFrm(string scangeneratedSerial)
         {
             InitializeComponent();
@@ -148,6 +152,20 @@ namespace BTC_EnterpriseV2.ProcessForm
                     var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
                     var data = result?.FirstOrDefault();
 
+                    dtserials.Rows.Clear();
+                    dtserials.Columns.Clear();
+                    dtserials.Columns.Add("id");
+                    dtserials.Columns.Add("process_id");
+                    dtserials.Columns.Add("serial_number");
+                    foreach (var data_process in data.process)
+                    {
+                        foreach (var data_serial in data_process.serial)
+                        {
+                            dtserials.Rows.Add(data_serial.id, data_serial.manufacturing_order_process_id, data_serial.serial_number);
+                        }
+                        is_kit_list = data_process.is_kit_list;
+                    }
+                   
                     if (data == null)
                     {
                         MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -260,15 +278,19 @@ namespace BTC_EnterpriseV2.ProcessForm
                 }
                 else
                 {
+                    pb_loader.Visible = false;
                     MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (JsonReaderException ex)
             {
+                pb_loader.Visible = false;
                 MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
+                pb_loader.Visible = false;
+                MessageBox.Show("Serial number not fount.");
                 Debug.WriteLine($"API Error: {ex.Message}");
             }
         }
@@ -456,12 +478,10 @@ namespace BTC_EnterpriseV2.ProcessForm
                 if (!string.IsNullOrEmpty(serial))
                 {
                     var status = 3;
-
                     await End_Process(serial, status);
 
                 }
             };
-
             endProcess.ShowDialog();
         }
 
@@ -501,14 +521,14 @@ namespace BTC_EnterpriseV2.ProcessForm
                     else
                     {
 
-                        ViewScanedDetails view = new ViewScanedDetails(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
+                        ViewScanedDetails view = new ViewScanedDetails(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr,dtserials);
                         view.ShowDialog();
                         return;
                     }
 
                 }
 
-                ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
+                ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr,dtserials,is_kit_list);
                 scan.ShowDialog();
                 await Get_SubAsy_Process(lbl_generatedserial.Text);
 

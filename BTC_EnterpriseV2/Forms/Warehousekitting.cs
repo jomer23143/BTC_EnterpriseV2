@@ -5,13 +5,14 @@ using BTC_EnterpriseV2.Modal;
 using BTCP_EnterpriseV2;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BTC_EnterpriseV2.Forms
 {
     public partial class Warehousekitting : Form
     {
         private Dictionary<String, Dictionary<String, String>> dbConnectionSettings = new Dictionary<String, Dictionary<String, String>>();
-        string next_page = "";
+        string? next_page = "";
         string prev_page = "";
         public Point downPoint = Point.Empty;
         int kit_list_id1 = 0;
@@ -20,7 +21,9 @@ namespace BTC_EnterpriseV2.Forms
         public static int total_pick_quantity = 0;
         public static DataTable list_serial = null;
         public static string mo_number = "";
+        public static string track = "";
         int rowid;
+        DataTable dtSerial = new DataTable("Serials");
         DataSet GetMoheaderDetails = new DataSet();
 
         public Warehousekitting()
@@ -28,7 +31,7 @@ namespace BTC_EnterpriseV2.Forms
             InitializeComponent();
             YUI yui = new YUI();
             yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
-            yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
+            yui.RoundedButton(btnincomplete, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnserial, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnnext, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnprevious_page, 8, Color.FromArgb(109, 180, 62));
@@ -79,6 +82,7 @@ namespace BTC_EnterpriseV2.Forms
                 GetMoheaderDetails = KitList.GetMohDetails_DS(txtmo_number.Text);
                 if (GetMoheaderDetails == null || GetMoheaderDetails.Tables.Count < 2 || GetMoheaderDetails.Tables[1].Rows.Count == 0)
                 {
+                    bunifuloading.Hide();
                     MessageBox.Show("No data found for the given MO number.");
                     return;
                 }
@@ -134,6 +138,7 @@ namespace BTC_EnterpriseV2.Forms
                             {
                                 // Special case: allow to continue
                                 //  MessageBox.Show("Manufacturing Order already exists. Continuing the process...");
+                                bunifuloading.Hide();
                                 CustomeAlert alert = new CustomeAlert("Template", "Manufacturing Order already exists. Continuing the process...", CustomeAlert.Alertype.Warning);
                                 alert.ShowDialog();
                                 continueProcessing = true;
@@ -169,55 +174,9 @@ namespace BTC_EnterpriseV2.Forms
 
 
 
-                    dynamic tmp = JsonConvert.DeserializeObject(responseData);
+                    dynamic? tmp = JsonConvert.DeserializeObject(responseData);
                     kit_list_id1 = tmp?.id ?? 0;
-
-                    string url = $"https://app.btcp-enterprise.com/api/kit-list-item?mo_id={txtmo_number.Text}&per_row=9999";
-                    string modetails = await GetMohDetails(url);
-                    var model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
-
-                    if (model_modetails == null)
-                    {
-                        MessageBox.Show("Failed to load kit list item details.");
-                        return;
-                    }
-
-                    next_page = model_modetails.next_page_url;
-                    btnprevious_page.Enabled = model_modetails.prev_page_url != null;
-                    btnnext.Enabled = model_modetails.next_page_url != null;
-
-                    lbl_rowcount.Text = $"{model_modetails.to} out of {model_modetails.total}";
-
-                    var model = model_modetails.data ?? new List<Model.kitlist.manufacturing_order_items>();
-
-                    foreach (var row in model)
-                    {
-                        if (row?.status?.name?.ToUpper() == "COMPLETE")
-                        {
-                            bunifuloading.Hide();
-                            MessageBox.Show("This MO number is already Complete");
-                            return;
-                        }
-                    }
-
-                    dataGridView1.DataSource = model;
-                    bunifuloading.Hide();
-
-                    // Set values from DataGridView
-                    if (dataGridView1.Rows.Count > 0)
-                    {
-                        var firstRow = dataGridView1.Rows[0];
-                        kit_list_item_id = Convert.ToInt32(firstRow.Cells[colid.Name]?.Value ?? 0);
-                        kit_list_item_ipn = firstRow.Cells[colipn.Name]?.Value?.ToString() ?? "";
-                        total_pick_quantity = Convert.ToInt32(firstRow.Cells[colpickqty.Name]?.Value ?? 0);
-                    }
-
-                    btnAddSerial.Enabled = true;
-                    btnscan.Enabled = true;
-                    btncomplete.Visible = true;
-                    btnincomplete.Visible = true;
-
-                    mo_number = txtmo_number.Text;
+                    load_kitlist_item(txtmo_number.Text);
                 }
             }
             catch (Exception ex)
@@ -225,14 +184,69 @@ namespace BTC_EnterpriseV2.Forms
                 MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private async void load_kitlist_item(string mo_num)
+        {
+            bunifuloading.Show();
+            dtSerial.Rows.Clear();
+            dtSerial.Columns.Clear();
+            dtSerial.Columns.Add("id");
+            dtSerial.Columns.Add("kit_list_item_id");
+            dtSerial.Columns.Add("kit_list_part_serial_number");
+            dtSerial.Columns.Add("is_scan");
+            string url = $"https://app.btcp-enterprise.com/api/kit-list-item?mo_id={mo_num}&per_row=9999";
+            string modetails = await GetMohDetails(url);
+            var model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
 
+            if (model_modetails == null)
+            {
+                MessageBox.Show("Failed to load kit list item details.");
+                return;
+            }
+
+            next_page = model_modetails?.next_page_url?.ToString() == null ? "1" : model_modetails?.next_page_url?.ToString();
+            btnprevious_page.Enabled = model_modetails?.prev_page_url != null;
+            btnnext.Enabled = model_modetails?.next_page_url != null;
+
+            lbl_rowcount.Text = $"{model_modetails?.to} out of {model_modetails?.total}";
+
+            var model = model_modetails?.data ?? new List<Model.kitlist.manufacturing_order_items>();
+
+            foreach (var row in model)
+            {
+                foreach (var row_serials in row.serial)
+                {
+                    dtSerial.Rows.Add(row_serials.id, row_serials.kit_list_item_id,row_serials.kit_list_part_serial_number,row_serials.is_scan);
+                }
+            }
+
+            dataGridView1.DataSource = model;
+            bunifuloading.Hide();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells[colkitted.Name].Value = row.Cells[colpickqty.Name].Value;
+            }
+            // Set values from DataGridView
+            //if (dataGridView1.Rows.Count > 0)
+            //{
+            //    var firstRow = dataGridView1.Rows[0];
+            //    kit_list_item_id = Convert.ToInt32(firstRow.Cells[colid.Name]?.Value ?? 0);
+            //    kit_list_item_ipn = firstRow.Cells[colipn.Name]?.Value?.ToString() ?? "";
+            //    total_pick_quantity = Convert.ToInt32(firstRow.Cells[colpickqty.Name]?.Value ?? 0);
+            //}
+
+            btnAddSerial.Enabled = true;
+            btnscan.Enabled = true;
+            btncomplete.Visible = true;
+            btnincomplete.Visible = true;
+
+            mo_number = txtmo_number.Text;
+        }
         private async Task<string> GetMohDetails(string url)
         {
             DataTable dt = new DataTable();
             string responseData = "";
             await Task.Run(async () =>
             {
-
                 using (HttpClient client = new HttpClient())
                 {
                     var request = new HttpRequestMessage
@@ -254,8 +268,8 @@ namespace BTC_EnterpriseV2.Forms
             string modetails = await GetMohDetails(next_page + "&per_row=9999");
             Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
             string res3 = JsonConvert.SerializeObject(model_modetails.data);
-            next_page = model_modetails.next_page_url;
-            prev_page = model_modetails.prev_page_url;
+            next_page = model_modetails.next_page_url.ToString();
+            prev_page = model_modetails.prev_page_url.ToString();
             if (next_page == null)
                 btnnext.Enabled = false;
             if (prev_page != null)
@@ -273,8 +287,8 @@ namespace BTC_EnterpriseV2.Forms
             string modetails = await GetMohDetails(prev_page + "&per_row=9999");
             Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
             string res3 = JsonConvert.SerializeObject(model_modetails.data);
-            next_page = model_modetails.next_page_url;
-            prev_page = model_modetails.prev_page_url;
+            next_page = model_modetails.next_page_url.ToString();
+            prev_page = model_modetails.prev_page_url.ToString();
             if (prev_page == null)
                 btnprevious_page.Enabled = false;
             if (next_page != null)
@@ -594,54 +608,92 @@ namespace BTC_EnterpriseV2.Forms
 
         private async void btnAddSerial_Click(object sender, EventArgs e)
         {
-            list_serial.Clear();
-            string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
-            string responseData = await GetMohDetails(url);
-            List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
-            foreach (var item in serials)
+            if (track != "Serialized")
             {
-                string[] data1 = new string[]
-                 {
-                    Convert.ToInt32(item.id).ToString(),
-                    item.kit_list_part_serial_number,
-                    Convert.ToInt32(item.is_scan).ToString()
-                 };
-                list_serial.Rows.Add(data1);
+                MessageBox.Show("Only Serialized IPN");
+                return;
             }
-            AddSerialNumber addSerialnumber = new AddSerialNumber();
-            addSerialnumber.Show();
+            //list_serial.Clear();
+            //string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
+            //string responseData = await GetMohDetails(url);
+            //List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
+            //foreach (var item in serials)
+            //{
+            //    string[] data1 = new string[]
+            //     {
+            //        Convert.ToInt32(item.id).ToString(),
+            //        item.kit_list_part_serial_number,
+            //        Convert.ToInt32(item.is_scan).ToString()
+            //     };
+            //    list_serial.Rows.Add(data1);
+            //}
+            DataTable selectedTable = new DataTable();
+            var rows = dtSerial.AsEnumerable().Where
+                         (row => row.Field<string>("kit_list_item_id") == kit_list_item_id.ToString());
+            if (rows.Any())
+            {
+                selectedTable = rows.CopyToDataTable<DataRow>();//Copying the rows into the DataTable as DataRow
+            }
+            AddSerialNumber addSerialnumber = new AddSerialNumber(kit_list_item_id, selectedTable);
+            if (addSerialnumber.ShowDialog() == DialogResult.OK)
+            {
+                load_kitlist_item(mo_number);
+            }
+           
         }
 
         private async void btnscan_Click(object sender, EventArgs e)
         {
-            list_serial.Clear();
-            string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
-            string responseData = await GetMohDetails(url);
-            List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
-
-            foreach (var item in serials)
+            if (track != "Serialized")
             {
-                string[] data1 = new string[]
-                 {
-                    Convert.ToInt32(item.id).ToString(),
-                    item.kit_list_part_serial_number,
-                    Convert.ToInt32(item.is_scan).ToString()
-                 };
-                list_serial.Rows.Add(data1);
+                MessageBox.Show("Only Serialized IPN");
+                return;
             }
+            //list_serial.Clear();
+            //string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
+            //string responseData = await GetMohDetails(url);
+            //List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
 
-            ScanSerialNumber ScanSerialnumber = new ScanSerialNumber(this, kit_list_item_id);
-            ScanSerialnumber.Show();
+            //foreach (var item in serials)
+            //{
+            //    string[] data1 = new string[]
+            //     {
+            //        Convert.ToInt32(item.id).ToString(),
+            //        item.kit_list_part_serial_number,
+            //        Convert.ToInt32(item.is_scan).ToString()
+            //     };
+            //    list_serial.Rows.Add(data1);
+            //}
+            DataTable selectedTable = new DataTable();
+            var rows = dtSerial.AsEnumerable().Where
+                         (row => row.Field<string>("kit_list_item_id") == kit_list_item_id.ToString());
+            if (rows.Any())
+            {
+                selectedTable = rows.CopyToDataTable<DataRow>();//Copying the rows into the DataTable as DataRow
+            }
+            ScanSerialNumber ScanSerialnumber = new ScanSerialNumber(this, kit_list_item_id, selectedTable);
+            if (ScanSerialnumber.ShowDialog() == DialogResult.OK)
+            {
+                load_kitlist_item(mo_number);
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int rowindex = dataGridView1.CurrentCell.RowIndex;
-            //int columnindex = dataGridView1.CurrentCell.ColumnIndex;
-            kit_list_item_ipn = dataGridView1.Rows[rowindex].Cells[colipn.Name].Value.ToString();
-            kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
-            total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colpickqty.Name].Value);
-            rowid = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+            try
+            {
+                int rowindex = e.RowIndex;
+                //int columnindex = dataGridView1.CurrentCell.ColumnIndex;
+                kit_list_item_ipn = dataGridView1.Rows[rowindex].Cells[colipn.Name].Value.ToString();
+                kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+                total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colpickqty.Name].Value);
+                track = dataGridView1.Rows[rowindex].Cells[coltrack.Name].Value.ToString();
+                rowid = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+            }
+            catch (Exception)
+            {
+            }
+           
         }
     }
 }
