@@ -32,12 +32,36 @@ namespace BTC_EnterpriseV2.SideBar
 
         private async void PerantFrm_Load(object sender, EventArgs e)
         {
+            if (isSidebarExpanded)
+            {
+                string arrowRight = Path.Combine(Application.StartupPath, "Assets", "next.png");
+                btn_toggle_right.Image = Image.FromFile(arrowRight);
+            }
+            else
+            {
+                string arrowLeft = Path.Combine(Application.StartupPath, "Assets", "previous.png");
+                btn_toggle_right.Image = Image.FromFile(arrowLeft);
+
+            }
+
             await ViewChar();
         }
-
+        Image ResizeImage(Image img, int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.DrawImage(img, 0, 0, width, height);
+            }
+            return bmp;
+        }
 
         private void btn_toggle_right_Click(object sender, EventArgs e)
         {
+            string arrowLeft = Path.Combine(Application.StartupPath, "Assets", "previous.png");
+            string arrowRight = Path.Combine(Application.StartupPath, "Assets", "next.png");
+
             if (isSidebarExpanded)
             {
                 panel_sidebarHolder.Width = 295;
@@ -50,6 +74,8 @@ namespace BTC_EnterpriseV2.SideBar
 
             }
             isSidebarExpanded = !isSidebarExpanded;
+            // Set button image based on new state
+            btn_toggle_right.Image = Image.FromFile(isSidebarExpanded ? arrowRight : arrowLeft);
             this.PerformLayout();
             yUI.RoundedPanelDocker(panel_display_holder, 10);
             yUI.RoundedPanelDocker(panel_sidebarHolder, 10);
@@ -161,7 +187,11 @@ namespace BTC_EnterpriseV2.SideBar
 
         private void btn_logout_Click(object sender, EventArgs e)
         {
-
+            DialogResult = MessageBox.Show("Are you sure you want to logout?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (DialogResult == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
     }
 }

@@ -191,7 +191,6 @@
             // btn_toggle_right
             // 
             btn_toggle_right.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_toggle_right.BackgroundImage = (Image)resources.GetObject("btn_toggle_right.BackgroundImage");
             btn_toggle_right.BackgroundImageLayout = ImageLayout.Center;
             btn_toggle_right.Cursor = Cursors.Hand;
             btn_toggle_right.FlatAppearance.BorderSize = 0;

@@ -39,10 +39,12 @@ namespace BTC_EnterpriseV2.ProcessForm
             yUI.RoundedPanelDocker(panel_duration, 12);
             yUI.RoundedPanelDocker(panel_date, 12);
             yUI.RoundedPanelDocker(panel_statusprocess, 12);
-            yUI.RoundedPanelDocker(panel_processname, 10);
-            yUI.RoundedPanelDocker(panel_segment, 10);
-            yUI.RoundedPanelDocker(panel_moid, 10);
-            yUI.RoundedButton(btn_scan, 10, Color.FromArgb(17, 40, 86));
+            yUI.RoundedPanelDocker(panel_processname, 8);
+            yUI.RoundedPanelDocker(panel_segment, 8);
+            yUI.RoundedPanelDocker(panel_moid, 8);
+            yUI.RoundedPanelDocker(panel_generatedserial, 8);
+            yUI.RoundedButton(btn_scan, 10, Color.FromArgb(7, 222, 151));
+            // yUI.RoundedButton(btn_scan, 10, Color.Lime);
             QrController();
             this.generatedSerial = scangeneratedSerial;
             pb_loader.Visible = false;
@@ -411,7 +413,8 @@ namespace BTC_EnterpriseV2.ProcessForm
             yUI.RoundedPanelDocker(panel_end, 12);
             yUI.RoundedPanelDocker(panel_duration, 12);
             yUI.RoundedPanelDocker(panel_date, 12);
-            yUI.RoundedButton(btn_scan, 10, Color.FromArgb(17, 40, 86));
+            yUI.RoundedButton(btn_scan, 10, Color.FromArgb(7, 222, 151));
+            //yUI.RoundedButton(btn_scan, 10, Color.Lime);
         }
 
 

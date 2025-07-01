@@ -64,6 +64,7 @@
             btn_printallin1.TabIndex = 2;
             btn_printallin1.Text = "PrintQR_All";
             btn_printallin1.UseVisualStyleBackColor = true;
+            btn_printallin1.Visible = false;
             btn_printallin1.Click += btn_printallin1_Click;
             // 
             // txt_moid
@@ -102,6 +103,7 @@
             // pb_loader
             // 
             pb_loader.Anchor = AnchorStyles.Top;
+            pb_loader.BackColor = Color.White;
             pb_loader.Image = (Image)resources.GetObject("pb_loader.Image");
             pb_loader.Location = new Point(453, 28);
             pb_loader.Name = "pb_loader";
@@ -116,7 +118,7 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dataGridView1.BackgroundColor = Color.FromArgb(22, 27, 45);
+            dataGridView1.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.White;
             dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);

@@ -37,18 +37,19 @@
             btn_scan = new Button();
             PB_qrcode = new PictureBox();
             lbl_qrinfo = new Label();
-            lbl_generatedserial = new Label();
-            label7 = new Label();
             panel_info1 = new Panel();
             panel_segment = new Panel();
             lbl_segment = new Label();
+            label12 = new Label();
+            label9 = new Label();
             panel_moid = new Panel();
             lbl_toplvlipn = new Label();
+            panel_generatedserial = new Panel();
+            lbl_generatedserial = new Label();
             panel_processname = new Panel();
             lbl_station = new Label();
             panel_statusprocess = new Panel();
             lbl_processStatus = new Label();
-            label9 = new Label();
             label3 = new Label();
             label5 = new Label();
             label1 = new Label();
@@ -87,6 +88,7 @@
             panel_info1.SuspendLayout();
             panel_segment.SuspendLayout();
             panel_moid.SuspendLayout();
+            panel_generatedserial.SuspendLayout();
             panel_processname.SuspendLayout();
             panel_statusprocess.SuspendLayout();
             panel2.SuspendLayout();
@@ -118,8 +120,6 @@
             panel_info2.Controls.Add(btn_scan);
             panel_info2.Controls.Add(PB_qrcode);
             panel_info2.Controls.Add(lbl_qrinfo);
-            panel_info2.Controls.Add(lbl_generatedserial);
-            panel_info2.Controls.Add(label7);
             panel_info2.Location = new Point(1252, 0);
             panel_info2.Name = "panel_info2";
             panel_info2.Size = new Size(363, 108);
@@ -127,16 +127,16 @@
             // 
             // btn_scan
             // 
-            btn_scan.BackColor = Color.FromArgb(17, 40, 86);
+            btn_scan.BackColor = Color.FromArgb(7, 222, 151);
             btn_scan.Cursor = Cursors.Hand;
             btn_scan.FlatAppearance.BorderSize = 0;
-            btn_scan.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            btn_scan.FlatAppearance.MouseOverBackColor = Color.DodgerBlue;
             btn_scan.FlatStyle = FlatStyle.Flat;
             btn_scan.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_scan.ForeColor = Color.White;
-            btn_scan.Location = new Point(11, 25);
+            btn_scan.Location = new Point(11, 12);
             btn_scan.Name = "btn_scan";
-            btn_scan.Size = new Size(317, 71);
+            btn_scan.Size = new Size(317, 84);
             btn_scan.TabIndex = 2;
             btn_scan.Text = "Tap to End the Process";
             btn_scan.UseVisualStyleBackColor = false;
@@ -162,33 +162,15 @@
             lbl_qrinfo.TabIndex = 0;
             lbl_qrinfo.Text = "Please scan the qr \r\ncode to end to process.\r\n";
             // 
-            // lbl_generatedserial
-            // 
-            lbl_generatedserial.Font = new Font("Segoe UI", 7.8F);
-            lbl_generatedserial.ForeColor = Color.White;
-            lbl_generatedserial.Location = new Point(132, 6);
-            lbl_generatedserial.Name = "lbl_generatedserial";
-            lbl_generatedserial.Size = new Size(224, 16);
-            lbl_generatedserial.TabIndex = 0;
-            lbl_generatedserial.Text = "Top Level IPN :";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 7.8F);
-            label7.ForeColor = Color.Lime;
-            label7.Location = new Point(11, 6);
-            label7.Name = "label7";
-            label7.Size = new Size(112, 17);
-            label7.TabIndex = 0;
-            label7.Text = "Generated Serial :";
-            // 
             // panel_info1
             // 
             panel_info1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel_info1.BackColor = Color.FromArgb(22, 27, 45);
             panel_info1.Controls.Add(panel_segment);
+            panel_info1.Controls.Add(label12);
+            panel_info1.Controls.Add(label9);
             panel_info1.Controls.Add(panel_moid);
+            panel_info1.Controls.Add(panel_generatedserial);
             panel_info1.Controls.Add(panel_processname);
             panel_info1.Controls.Add(panel_statusprocess);
             panel_info1.Controls.Add(label3);
@@ -203,47 +185,93 @@
             // 
             panel_segment.BackColor = Color.FromArgb(37, 45, 55);
             panel_segment.Controls.Add(lbl_segment);
-            panel_segment.Location = new Point(196, 47);
+            panel_segment.Location = new Point(196, 58);
             panel_segment.Name = "panel_segment";
-            panel_segment.Size = new Size(250, 33);
+            panel_segment.Size = new Size(259, 43);
             panel_segment.TabIndex = 2;
             // 
             // lbl_segment
             // 
-            lbl_segment.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbl_segment.Font = new Font("Calibri", 13.8F);
             lbl_segment.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_segment.Location = new Point(12, 3);
+            lbl_segment.Location = new Point(12, 10);
             lbl_segment.Name = "lbl_segment";
             lbl_segment.Size = new Size(222, 23);
             lbl_segment.TabIndex = 0;
             lbl_segment.Text = "Sub Assembly";
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(461, 62);
+            label12.Name = "label12";
+            label12.Size = new Size(165, 28);
+            label12.TabIndex = 0;
+            label12.Text = "Generated Serial :";
+            label12.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label9
+            // 
+            label9.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(1007, 65);
+            label9.Name = "label9";
+            label9.Size = new Size(74, 28);
+            label9.TabIndex = 0;
+            label9.Text = "Status :";
+            label9.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // panel_moid
             // 
             panel_moid.BackColor = Color.FromArgb(37, 45, 55);
             panel_moid.Controls.Add(lbl_toplvlipn);
-            panel_moid.Location = new Point(196, 11);
+            panel_moid.Location = new Point(196, 6);
             panel_moid.Name = "panel_moid";
-            panel_moid.Size = new Size(250, 33);
+            panel_moid.Size = new Size(259, 43);
             panel_moid.TabIndex = 2;
             // 
             // lbl_toplvlipn
             // 
-            lbl_toplvlipn.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbl_toplvlipn.Font = new Font("Calibri", 13.8F);
             lbl_toplvlipn.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_toplvlipn.Location = new Point(12, 5);
+            lbl_toplvlipn.Location = new Point(12, 12);
             lbl_toplvlipn.Name = "lbl_toplvlipn";
             lbl_toplvlipn.Size = new Size(222, 23);
             lbl_toplvlipn.TabIndex = 0;
             lbl_toplvlipn.Text = "Top Level IPN :";
             // 
+            // panel_generatedserial
+            // 
+            panel_generatedserial.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panel_generatedserial.BackColor = Color.FromArgb(37, 45, 55);
+            panel_generatedserial.Controls.Add(lbl_generatedserial);
+            panel_generatedserial.Location = new Point(632, 55);
+            panel_generatedserial.Name = "panel_generatedserial";
+            panel_generatedserial.Size = new Size(355, 43);
+            panel_generatedserial.TabIndex = 0;
+            // 
+            // lbl_generatedserial
+            // 
+            lbl_generatedserial.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_generatedserial.ForeColor = Color.White;
+            lbl_generatedserial.Location = new Point(8, 7);
+            lbl_generatedserial.Name = "lbl_generatedserial";
+            lbl_generatedserial.Size = new Size(324, 28);
+            lbl_generatedserial.TabIndex = 0;
+            lbl_generatedserial.Text = "Top Level IPN :";
+            lbl_generatedserial.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // panel_processname
             // 
             panel_processname.BackColor = Color.FromArgb(37, 45, 55);
             panel_processname.Controls.Add(lbl_station);
-            panel_processname.Location = new Point(594, 11);
+            panel_processname.Location = new Point(594, 6);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(290, 62);
+            panel_processname.Size = new Size(636, 43);
             panel_processname.TabIndex = 1;
             // 
             // lbl_station
@@ -252,7 +280,7 @@
             lbl_station.ForeColor = Color.FromArgb(7, 222, 151);
             lbl_station.Location = new Point(8, 0);
             lbl_station.Name = "lbl_station";
-            lbl_station.Size = new Size(273, 62);
+            lbl_station.Size = new Size(625, 38);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
             lbl_station.TextAlign = ContentAlignment.MiddleCenter;
@@ -262,10 +290,9 @@
             panel_statusprocess.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             panel_statusprocess.BackColor = Color.FromArgb(12, 54, 18);
             panel_statusprocess.Controls.Add(lbl_processStatus);
-            panel_statusprocess.Controls.Add(label9);
-            panel_statusprocess.Location = new Point(995, 11);
+            panel_statusprocess.Location = new Point(1099, 55);
             panel_statusprocess.Name = "panel_statusprocess";
-            panel_statusprocess.Size = new Size(218, 62);
+            panel_statusprocess.Size = new Size(127, 43);
             panel_statusprocess.TabIndex = 0;
             // 
             // lbl_processStatus
@@ -273,31 +300,19 @@
             lbl_processStatus.AutoSize = true;
             lbl_processStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_processStatus.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_processStatus.Location = new Point(93, 15);
+            lbl_processStatus.Location = new Point(7, 7);
             lbl_processStatus.Name = "lbl_processStatus";
             lbl_processStatus.Size = new Size(113, 28);
             lbl_processStatus.TabIndex = 0;
             lbl_processStatus.Text = "Processing";
             lbl_processStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.White;
-            label9.Location = new Point(13, 15);
-            label9.Name = "label9";
-            label9.Size = new Size(74, 28);
-            label9.TabIndex = 0;
-            label9.Text = "Status :";
-            label9.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(16, 50);
+            label3.Location = new Point(16, 66);
             label3.Name = "label3";
             label3.Size = new Size(176, 23);
             label3.TabIndex = 0;
@@ -308,11 +323,11 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(466, 16);
+            label5.Location = new Point(461, 16);
             label5.Name = "label5";
-            label5.Size = new Size(122, 23);
+            label5.Size = new Size(127, 23);
             label5.TabIndex = 0;
-            label5.Text = "Process Name:";
+            label5.Text = "Process Name :";
             // 
             // label1
             // 
@@ -679,12 +694,12 @@
             SizeChanged += Sub_AssyFrm_SizeChanged;
             panel1.ResumeLayout(false);
             panel_info2.ResumeLayout(false);
-            panel_info2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PB_qrcode).EndInit();
             panel_info1.ResumeLayout(false);
             panel_info1.PerformLayout();
             panel_segment.ResumeLayout(false);
             panel_moid.ResumeLayout(false);
+            panel_generatedserial.ResumeLayout(false);
             panel_processname.ResumeLayout(false);
             panel_statusprocess.ResumeLayout(false);
             panel_statusprocess.PerformLayout();
@@ -716,7 +731,6 @@
         private Panel panel_info2;
         private Panel panel_info1;
         private Label lbl_generatedserial;
-        private Label label7;
         private Label lbl_segment;
         private Label lbl_station;
         private Label label3;
@@ -757,5 +771,7 @@
         private Label lbl_operator;
         private Label label13;
         private PictureBox pb_loader;
+        private Label label12;
+        private Panel panel_generatedserial;
     }
 }
