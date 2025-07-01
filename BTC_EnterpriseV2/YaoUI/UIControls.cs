@@ -54,9 +54,9 @@ namespace BTCP_EnterpriseV2.YaoUI
 
             // 5. Apply rounded corners to panel1 using the YaoUI utility.
             var yui = new YaoUI.YUI();
-            yui.RoundedPanelDocker(form.panel_sidebar, 10);
-            yui.RoundedPanelDocker(form.panel_main_display, 10);
-            yui.RoundedPanelDocker(form.panel_chart, 10);
+            //yui.RoundedPanelDocker(form.panel_sidebar, 10);
+            //yui.RoundedPanelDocker(form.panel_main_display, 10);
+            //yui.RoundedPanelDocker(form.panel_chart, 10);
         }
 
 

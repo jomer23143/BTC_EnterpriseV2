@@ -30,10 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Printqrcodeform));
             panel1 = new Panel();
+            lbl_moid = new Label();
             label1 = new Label();
             btn_close = new Button();
             panel2 = new Panel();
-            lbl_moid = new Label();
+            label_printcount = new Label();
             btn_print = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             pb_loader = new PictureBox();
@@ -45,6 +46,8 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(37, 45, 55);
+            panel1.Controls.Add(lbl_moid);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btn_close);
             panel1.Dock = DockStyle.Top;
@@ -53,16 +56,27 @@
             panel1.Size = new Size(884, 42);
             panel1.TabIndex = 0;
             // 
+            // lbl_moid
+            // 
+            lbl_moid.AutoSize = true;
+            lbl_moid.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_moid.ForeColor = Color.White;
+            lbl_moid.Location = new Point(12, 7);
+            lbl_moid.Name = "lbl_moid";
+            lbl_moid.Size = new Size(177, 28);
+            lbl_moid.TabIndex = 1;
+            lbl_moid.Text = "MOID : CE0340343";
+            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(287, 9);
+            label1.Location = new Point(308, 7);
             label1.Name = "label1";
-            label1.Size = new Size(378, 28);
+            label1.Size = new Size(248, 28);
             label1.TabIndex = 1;
-            label1.Text = "Sub Assembly Generated Serial QR Print";
+            label1.Text = "Generated Serial QR Code";
             // 
             // btn_close
             // 
@@ -79,7 +93,8 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(lbl_moid);
+            panel2.BackColor = Color.FromArgb(37, 45, 55);
+            panel2.Controls.Add(label_printcount);
             panel2.Controls.Add(btn_print);
             panel2.Dock = DockStyle.Bottom;
             panel2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
@@ -88,31 +103,32 @@
             panel2.Size = new Size(884, 66);
             panel2.TabIndex = 1;
             // 
-            // lbl_moid
+            // label_printcount
             // 
-            lbl_moid.AutoSize = true;
-            lbl_moid.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_moid.ForeColor = Color.White;
-            lbl_moid.Location = new Point(34, 18);
-            lbl_moid.Name = "lbl_moid";
-            lbl_moid.Size = new Size(177, 28);
-            lbl_moid.TabIndex = 1;
-            lbl_moid.Text = "MOID : CE0340343";
+            label_printcount.AutoSize = true;
+            label_printcount.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_printcount.ForeColor = Color.Gainsboro;
+            label_printcount.Location = new Point(368, 18);
+            label_printcount.Name = "label_printcount";
+            label_printcount.Size = new Size(125, 28);
+            label_printcount.TabIndex = 1;
+            label_printcount.Text = "Printed : 0/0";
             // 
             // btn_print
             // 
-            btn_print.FlatAppearance.BorderColor = Color.DarkSlateBlue;
+            btn_print.BackColor = Color.FromArgb(22, 27, 45);
+            btn_print.FlatAppearance.BorderColor = Color.Lime;
             btn_print.FlatStyle = FlatStyle.Flat;
             btn_print.Font = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
             btn_print.ForeColor = Color.White;
             btn_print.Image = (Image)resources.GetObject("btn_print.Image");
             btn_print.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_print.Location = new Point(693, 11);
+            btn_print.Location = new Point(656, 11);
             btn_print.Name = "btn_print";
-            btn_print.Size = new Size(167, 43);
+            btn_print.Size = new Size(204, 43);
             btn_print.TabIndex = 0;
             btn_print.Text = "Print";
-            btn_print.UseVisualStyleBackColor = true;
+            btn_print.UseVisualStyleBackColor = false;
             btn_print.Click += btn_print_Click;
             // 
             // flowLayoutPanel1
@@ -165,5 +181,6 @@
         private Label label1;
         private Label lbl_moid;
         private PictureBox pb_loader;
+        private Label label_printcount;
     }
 }

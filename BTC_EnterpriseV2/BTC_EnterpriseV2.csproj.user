@@ -16,9 +16,6 @@
     <Compile Update="Forms\PrintQRFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\SegmentFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Forms\UserIdentificationfrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +70,9 @@
     <Compile Update="Modal\ViewStationGeneratedSerials.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\ViewStationGeneratedSerials_1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProcessForm\Pre_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,16 +85,10 @@
     <Compile Update="ReportChart\ReportVeiwerQRCode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SideBar\Kitlist_Sidebar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="SideBar\MainSidebar.cs">
+    <Compile Update="SideBar\PerantFrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\ProcessSidebar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="SideBar\WarehouseKitingSidebar.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

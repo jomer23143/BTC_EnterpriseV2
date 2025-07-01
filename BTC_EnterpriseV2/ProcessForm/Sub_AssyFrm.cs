@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using BTC_EnterpriseV2.ABI;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
@@ -21,8 +22,11 @@ namespace BTC_EnterpriseV2.ProcessForm
         public string? generatedcode;
         public string generatedSerial;
         private string processname;
+        private int is_kit_list;
+        public DataTable dtserials = new DataTable("tbname");
+        public DataTable response_list = new DataTable("response_list");
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-        public Sub_AssyFrm(string scangeneratedSerial)
+        public Sub_AssyFrm(string scangeneratedSerial, DataTable response_list)
         {
             InitializeComponent();
             YUI yUI = new YUI();
@@ -42,6 +46,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             QrController();
             this.generatedSerial = scangeneratedSerial;
             pb_loader.Visible = false;
+            this.response_list = response_list;
         }
 
         private void QrController()
@@ -64,6 +69,8 @@ namespace BTC_EnterpriseV2.ProcessForm
             lbl_qrinfo.Visible = false;
             PB_qrcode.Visible = false;
         }
+
+
 
         public void response()
         {
@@ -153,6 +160,22 @@ namespace BTC_EnterpriseV2.ProcessForm
                         MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+                    dtserials.Rows.Clear();
+                    dtserials.Columns.Clear();
+                    dtserials.Columns.Add("id");
+                    dtserials.Columns.Add("process_id");
+                    dtserials.Columns.Add("serial_number");
+                    ///From master jomer
+                    foreach (var data_process in data.process)
+                    {
+                        foreach (var data_serial in data_process.serial)
+                        {
+                            dtserials.Rows.Add(data_serial.id, data_serial.manufacturing_order_process_id, data_serial.serial_number);
+                        }
+                        is_kit_list = data_process.is_kit_list;
+                    }
+
+
                     // Populate labels
                     lbl_toplvlipn.Text = data.mo_id;
                     lbl_segment.Text = "Sub Assembly";
@@ -188,8 +211,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                             lbl_processStatus.ForeColor = Color.Red;
                             btn_scan.Text = "This Process is already Done";
                             btn_scan.Enabled = false;
-                            //ProcessDoneModal processDoneModal = new ProcessDoneModal(lbl_station.Text);
-                            //processDoneModal.ShowDialog();
+
                             using (var dialog = new ProcessDoneModal(lbl_station.Text))
                             {
                                 dialog.StartPosition = FormStartPosition.CenterScreen;
@@ -238,6 +260,38 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 timer1.Start();
                             }
                         }
+                        //var firstDuration = data.duration.FirstOrDefault();
+                        //var lastDuration = data.duration.Last();
+                        //var lastWithEndTime = data.duration.LastOrDefault(x =>
+                        //    !string.IsNullOrWhiteSpace(x.end_time) &&
+                        //    DateTime.TryParse(x.end_time, out _));
+
+                        //if (firstDuration != null &&
+                        //!string.IsNullOrWhiteSpace(firstDuration.start_time) &&
+                        //DateTime.TryParse(firstDuration.start_time, out var parsedStart))
+                        //{
+                        //    lbl_timestart.Text = parsedStart.ToString("HH:mm:ss");
+                        //    lbl_date.Text = parsedStart.ToString("dddd, MMMM dd, yyyy");
+                        //    _startTime = parsedStart;
+
+                        //    if (lastWithEndTime != null &&
+                        //        DateTime.TryParse(lastWithEndTime.end_time, out var parsedEnd))
+                        //    {
+                        //        lbl_timeEnd.Text = parsedEnd.ToString("HH:mm:ss");
+                        //        lbl_date_end.Text = parsedEnd.ToString("dddd, MMMM dd, yyyy");
+                        //        lbl_duration.Text = FormatDuration(parsedEnd - parsedStart);
+                        //    }
+                        //    else
+                        //    {
+                        //        lbl_timeEnd.Text = "-:-:-";
+                        //        lbl_date_end.Text = "-:-:-";
+                        //        lbl_duration.Text = FormatDuration(DateTime.Now - parsedStart);
+                        //        timer1.Start();
+                        //    }
+                        //}
+
+
+
                         else
                         {
                             lbl_timestart.Text = "-";
@@ -415,10 +469,6 @@ namespace BTC_EnterpriseV2.ProcessForm
                         }
                     }
 
-
-
-
-
                 }
 
                 Debug.WriteLine($"Serial Quantity: {serialQty}, Serial Count: {serialCount}");
@@ -448,21 +498,20 @@ namespace BTC_EnterpriseV2.ProcessForm
                     }
                 }
             }
-
-            // All quantities matched - proceed
-            EndProcessScanner endProcess = new EndProcessScanner();
-            endProcess.SerialScanned += async (serial) =>
+            using (var endProcess = new EndProcessScanner())
             {
-                if (!string.IsNullOrEmpty(serial))
+                endProcess.SerialScanned += async (serial) =>
                 {
-                    var status = 3;
+                    if (!string.IsNullOrEmpty(serial))
+                    {
+                        var status = 3;
+                        await End_Process(serial, status);
+                    }
+                };
 
-                    await End_Process(serial, status);
+                endProcess.ShowDialog();
+            }
 
-                }
-            };
-
-            endProcess.ShowDialog();
         }
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -501,14 +550,14 @@ namespace BTC_EnterpriseV2.ProcessForm
                     else
                     {
 
-                        ViewScanedDetails view = new ViewScanedDetails(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
+                        ViewScanedDetails view = new ViewScanedDetails(e.RowIndex, processId, processname, lbl_generatedserial.Text, dtserials);
                         view.ShowDialog();
                         return;
                     }
 
                 }
 
-                ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr);
+                ProcessScanner scan = new ProcessScanner(e.RowIndex, processId, processname, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
                 scan.ShowDialog();
                 await Get_SubAsy_Process(lbl_generatedserial.Text);
 

@@ -24,12 +24,13 @@ namespace BTC_EnterpriseV2.ReportChart
         }
         private async void Report1_Load(object sender, EventArgs e)
         {
-            await ViewChar();
+            await ViewChart();
         }
 
-        private async Task ViewChar()
+
+        private async Task ViewChart()
         {
-            var url = "https://app.btcp-enterprise.com/api/product?with_segment";
+            var url = "https://app.btcp-enterprise.com/api/kit-list";
             using var client = new HttpClient();
 
             try
@@ -40,44 +41,61 @@ namespace BTC_EnterpriseV2.ReportChart
                     PropertyNameCaseInsensitive = true
                 });
 
-                var descriptionsGrouped = apiResponse.data
-                    .GroupBy(p => p.description)
-                    .Select(g => new
+                var chartData = apiResponse.data
+                    .Select(p => new
                     {
-                        Description = g.Key,
-                        Count = g.Count()
+                        MoId = p.mo_id,
+                        OrderQuantity = float.Parse(p.order_quantity),
+                        Description = p.description,
+                        Pcn = p.pcn_number,
+                        BoomItem = p.bom_item
                     })
                     .ToList();
 
-                var descriptions = descriptionsGrouped.Select(x => x.Description).ToArray();
-                var counts = descriptionsGrouped.Select(x => x.Count).ToArray();
+                var moIds = chartData.Select(x => x.MoId).ToArray();
+                var orderQuantities = chartData.Select(x => x.OrderQuantity).ToArray();
+                var descriptions = chartData.Select(x => x.Description).ToArray();
+                var pcn = chartData.Select(x => x.Pcn).ToArray();
+                var boomItems = chartData.Select(x => x.BoomItem).ToArray();
 
                 panel_chart.Controls.Clear();
 
-                var columnSeries = new ColumnSeries<int>
+                var columnSeries = new ColumnSeries<float>
                 {
-                    Values = counts,
-                    Name = "Product Count",
+                    Values = orderQuantities,
+                    Name = "Total Order Quantity",
                     Fill = new SolidColorPaint(SKColors.CornflowerBlue),
-                    //TooltipLabelFormatter = point => $"{descriptions[point.Index]}: {point.PrimaryValue}"
+
+
+                    XToolTipLabelFormatter = point =>
+                                              $"{descriptions[point.Index]}"
+                    ////$"🔹 PCN Number    : {pcn[point.Index]}\n" +
+                    ////$"🔹 BOM Item      : {boomItems[point.Index]}\n" +
+                    ////$"🔹 Order Quantity: {orderQuantities[point.Index]}"
+
                 };
+
 
                 var chart = new CartesianChart
                 {
                     Series = new ISeries[] { columnSeries },
                     ZoomMode = LiveChartsCore.Measure.ZoomAndPanMode.X,
-                    XAxes = new[] {
-                new Axis {
-                    Labels = descriptions,
+                    XAxes = new[]
+                    {
+                new Axis
+                {
+                    Labels = moIds,
                     LabelsRotation = 15,
-                    Name = "Description",
+                    Name = "MO ID",
                     TextSize = 12
                 }
             },
-                    YAxes = new[] {
-                new Axis {
-                    Labeler = value => value.ToString(),
-                    Name = "Count",
+                    YAxes = new[]
+                    {
+                new Axis
+                {
+                    Labeler = value => ((int)value).ToString(),
+                    Name = "Order Quantity",
                     TextSize = 12
                 }
             },
@@ -89,27 +107,70 @@ namespace BTC_EnterpriseV2.ReportChart
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error", ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
                 MessageBox.Show($"Failed to load chart data: {ex.Message}");
             }
         }
 
-
-        public class Product
+        public class CustomChartData
         {
-            public int id { get; set; }
-            public string bom_item { get; set; }
-            public string description { get; set; }
-            public string bom_revision_number { get; set; }
-            public DateTime created_at { get; set; }
-            public DateTime updated_at { get; set; }
+            public string MoId { get; set; }
+            public float OrderQuantity { get; set; }
+            public string Description { get; set; }
+            public string Pcn { get; set; }
+            public string BoomItem { get; set; }
         }
 
         public class ApiResponse
         {
-            public List<Product> data { get; set; }
+            public int current_page { get; set; }
+            public List<KitListItem> data { get; set; }
+            public string first_page_url { get; set; }
+            public int from { get; set; }
+            public int last_page { get; set; }
+            public string last_page_url { get; set; }
+            public List<Link> links { get; set; }
+            public object next_page_url { get; set; }
+            public string path { get; set; }
+            public int per_page { get; set; }
+            public object prev_page_url { get; set; }
+            public int to { get; set; }
+            public int total { get; set; }
         }
 
+        public class KitListItem
+        {
+            public int id { get; set; }
+            public object kit_list_type_id { get; set; }
+            public int? kit_list_status_id { get; set; }
+            public string mo_id { get; set; }
+            public string pcn_number { get; set; }
+            public string description { get; set; }
+            public string location { get; set; }
+            public string bom_item { get; set; }
+            public string bom_revision_number { get; set; }
+            public string order_quantity { get; set; }
+            public string order_date { get; set; }
+            public DateTime created_at { get; set; }
+            public DateTime updated_at { get; set; }
+            public Status status { get; set; }
+        }
+
+        public class Status
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string description { get; set; }
+            public string color { get; set; }
+            public DateTime created_at { get; set; }
+            public DateTime updated_at { get; set; }
+        }
+        public class Link
+        {
+            public string url { get; set; }
+            public string label { get; set; }
+            public bool active { get; set; }
+        }
 
     }
 }

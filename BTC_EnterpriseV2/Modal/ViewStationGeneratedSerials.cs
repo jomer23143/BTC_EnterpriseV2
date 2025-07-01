@@ -1,21 +1,7 @@
-﻿using BTC_EnterpriseV2.Dataset;
-using Microsoft.Reporting.WinForms;
-using Microsoft.ReportingServices.Interfaces;
-using QRCoder;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Data;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Drawing.Printing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static BTC_EnterpriseV2.Model.Sub_Asy_Process_Model;
+using QRCoder;
 
 namespace BTC_EnterpriseV2.Modal
 {
@@ -27,6 +13,8 @@ namespace BTC_EnterpriseV2.Modal
         public ViewStationGeneratedSerials(string station, DataTable dt_station_serials)
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.station = station;
             this.dt_station_generated_serials = dt_station_serials;
             reportViewer1.Visible = false;
@@ -67,7 +55,7 @@ namespace BTC_EnterpriseV2.Modal
                 }
             }
             stationdt = dataTable;
-           // PreviewAllGeneratedSerial(dataTable);
+            // PreviewAllGeneratedSerial(dataTable);
             Image ResizeImage(Image img, int width, int height)
             {
                 Bitmap bmp = new Bitmap(width, height);
@@ -325,7 +313,7 @@ namespace BTC_EnterpriseV2.Modal
             printPageIndex++;
             e.HasMorePages = (printPageIndex < panelBitmaps.Count);
         }
-        
+
         private void PrintPicture(object sender, PrintPageEventArgs e)
         {
             Graphics g = e.Graphics;

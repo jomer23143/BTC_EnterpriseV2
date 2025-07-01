@@ -38,7 +38,7 @@ namespace BTC_EnterpriseV2.Modal
                     break;
                 case Alertype.Warning:
                     // this.BackColor = Color.FromArgb(241, 196, 15); // Yellow
-                    this.BackColor = Color.White;
+                    this.BackColor = Color.FromArgb(22, 27, 45);
                     string wariningIcon = Path.Combine(Application.StartupPath, "Assets", "warning_icon.png");
                     string IconPath = wariningIcon;  // No image found in response
                     picIcon.Image = File.Exists(IconPath) ? Image.FromFile(IconPath) : null;

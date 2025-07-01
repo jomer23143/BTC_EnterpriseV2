@@ -45,7 +45,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(293, 195);
+            button1.Location = new Point(293, 177);
             button1.Name = "button1";
             button1.Size = new Size(104, 31);
             button1.TabIndex = 11;
@@ -88,7 +88,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(425, 260);
+            ClientSize = new Size(425, 213);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(txt_serialnumber);

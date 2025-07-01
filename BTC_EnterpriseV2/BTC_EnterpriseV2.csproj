@@ -81,6 +81,12 @@
     <None Update="Assets\logout_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\next.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\previous.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\printer.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

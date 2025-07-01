@@ -108,7 +108,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1623, 93);
+            panel1.Size = new Size(1623, 114);
             panel1.TabIndex = 0;
             // 
             // panel_info2
@@ -122,7 +122,7 @@
             panel_info2.Controls.Add(label7);
             panel_info2.Location = new Point(1252, 0);
             panel_info2.Name = "panel_info2";
-            panel_info2.Size = new Size(363, 84);
+            panel_info2.Size = new Size(363, 108);
             panel_info2.TabIndex = 0;
             // 
             // btn_scan
@@ -136,7 +136,7 @@
             btn_scan.ForeColor = Color.White;
             btn_scan.Location = new Point(11, 25);
             btn_scan.Name = "btn_scan";
-            btn_scan.Size = new Size(317, 51);
+            btn_scan.Size = new Size(317, 71);
             btn_scan.TabIndex = 2;
             btn_scan.Text = "Tap to End the Process";
             btn_scan.UseVisualStyleBackColor = false;
@@ -196,7 +196,7 @@
             panel_info1.Controls.Add(label1);
             panel_info1.Location = new Point(10, 3);
             panel_info1.Name = "panel_info1";
-            panel_info1.Size = new Size(1236, 83);
+            panel_info1.Size = new Size(1236, 105);
             panel_info1.TabIndex = 0;
             // 
             // panel_segment
@@ -263,7 +263,7 @@
             panel_statusprocess.BackColor = Color.FromArgb(12, 54, 18);
             panel_statusprocess.Controls.Add(lbl_processStatus);
             panel_statusprocess.Controls.Add(label9);
-            panel_statusprocess.Location = new Point(1003, 8);
+            panel_statusprocess.Location = new Point(995, 11);
             panel_statusprocess.Name = "panel_statusprocess";
             panel_statusprocess.Size = new Size(218, 62);
             panel_statusprocess.TabIndex = 0;
@@ -554,17 +554,17 @@
             // panel3
             // 
             panel3.Dock = DockStyle.Left;
-            panel3.Location = new Point(0, 93);
+            panel3.Location = new Point(0, 114);
             panel3.Name = "panel3";
-            panel3.Size = new Size(10, 573);
+            panel3.Size = new Size(10, 552);
             panel3.TabIndex = 2;
             // 
             // panel4
             // 
             panel4.Dock = DockStyle.Right;
-            panel4.Location = new Point(1615, 93);
+            panel4.Location = new Point(1615, 114);
             panel4.Name = "panel4";
-            panel4.Size = new Size(8, 573);
+            panel4.Size = new Size(8, 552);
             panel4.TabIndex = 3;
             // 
             // dataGridView1
@@ -588,7 +588,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(10, 93);
+            dataGridView1.Location = new Point(10, 114);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
@@ -601,7 +601,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1605, 573);
+            dataGridView1.Size = new Size(1605, 552);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
