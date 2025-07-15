@@ -42,7 +42,7 @@
             // picIcon
             // 
             picIcon.Image = (Image)resources.GetObject("picIcon.Image");
-            picIcon.Location = new Point(12, 26);
+            picIcon.Location = new Point(12, 42);
             picIcon.Name = "picIcon";
             picIcon.Size = new Size(108, 108);
             picIcon.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -64,14 +64,14 @@
             lblMessage.ForeColor = Color.DimGray;
             lblMessage.Location = new Point(137, 59);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(315, 74);
+            lblMessage.Size = new Size(315, 107);
             lblMessage.TabIndex = 1;
             lblMessage.Text = "Confirm Part Not-Installed";
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Location = new Point(12, 147);
+            panel1.Location = new Point(12, 169);
             panel1.Name = "panel1";
             panel1.Size = new Size(440, 5);
             panel1.TabIndex = 2;
@@ -85,7 +85,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(312, 162);
+            button1.Location = new Point(312, 184);
             button1.Name = "button1";
             button1.Size = new Size(140, 36);
             button1.TabIndex = 3;
@@ -102,7 +102,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
-            ClientSize = new Size(464, 210);
+            ClientSize = new Size(464, 232);
             Controls.Add(button1);
             Controls.Add(panel1);
             Controls.Add(lblMessage);

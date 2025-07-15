@@ -57,6 +57,7 @@ namespace BTC_EnterpriseV2.Modal
             Image resizedImage = ResizeImage(originalImage, 60, 60);
             dataGridView1.Rows.Clear();
             int rownum = 1;
+
             foreach (DataRow drow in dt_station_generated_serials.Rows)
             {
 

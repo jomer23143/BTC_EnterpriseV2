@@ -458,14 +458,12 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.CustomDialog.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.CustomeAlert.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.EndProcessScanner.resources
-C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.GetModalFrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.PasswordForm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.printingqrviewForm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.Printqrcodeform.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.PrintViewFrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ProcessDoneModal.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ProcessScanner.resources
-C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ScannerModal.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ScanSerialNumber.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.SubAssy_Serial_Scanner.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ViewScanedDetails.resources
@@ -492,3 +490,6 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.SideBar.PerantFrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\net8.0-windows\Assets\next.png
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\net8.0-windows\Assets\previous.png
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Settings.setupfrm.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Settings.createConnection.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.PreAssy_ProcessScanner.resources

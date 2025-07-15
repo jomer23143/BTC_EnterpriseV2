@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
@@ -76,7 +77,7 @@ namespace BTC_EnterpriseV2.ABI
         }
 
 
-        public async Task Submit_ABI(string serial, int status)
+        public async Task Submit_ABI(string serial, int status, string remark, string rfid)
         {
             try
             {
@@ -86,7 +87,9 @@ namespace BTC_EnterpriseV2.ABI
                 var postData = new
                 {
                     serial_number = serialClean,
-                    status_id = statusClean
+                    status_id = statusClean,
+                    remarks = remark,
+                    employee_rfid = rfid,
                 };
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
@@ -127,8 +130,19 @@ namespace BTC_EnterpriseV2.ABI
         }
         private async Task InitializeSubmitABIAsync()
         {
-            //2 is for ABI status
-            await Submit_ABI(generatedSerial, 2);
+            using (var endProcess = new EndProcessScanner())
+            {
+                endProcess.rfidScaned += async (rfid) =>
+                {
+                    if (!string.IsNullOrEmpty(rfid))
+                    {
+                        //2 for ABI
+                        await Submit_ABI(generatedSerial, 2, label_details.Text, rfid);
+                    }
+                };
+
+                endProcess.ShowDialog();
+            }
             MessageBox.Show($"ABI with MOID: {moid}, Segment: {segment}, Process: {processname}, Generated Serial: {generatedSerial}, ABI Reason: {thereason} has been submitted successfully.", "ABI Submitted", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }

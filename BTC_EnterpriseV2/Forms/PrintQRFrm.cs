@@ -174,58 +174,7 @@ namespace BTC_EnterpriseV2.Forms
                 }
                 return bmp;
             }
-            //dataGridView1.Rows.Clear();
-            //dataGridView1.Columns.Clear();
 
-            //dataGridView1.Columns.Add("No", "#");
-            //dataGridView1.Columns.Add("serial_number", "Serial Number");
-            //dataGridView1.Columns.Add("mo_id", "Manufacturer Order ID");
-            //dataGridView1.Columns.Add("bom_item", "Boom Item");
-            //dataGridView1.Columns.Add("bom_revision_number", "Boom Rev.no");
-
-            //var idColumn = dataGridView1.Columns.Add("id", "ID");
-            //dataGridView1.Columns["id"].Visible = false;
-
-            //DataGridViewImageColumn imgColumn = new DataGridViewImageColumn
-            //{
-            //    Name = "Printing",
-            //    HeaderText = "Print QR",
-            //    ImageLayout = DataGridViewImageCellLayout.Zoom
-            //};
-            //dataGridView1.Columns.Add(imgColumn);
-            //DataGridViewImageColumn imgColumn1 = new DataGridViewImageColumn
-            //{
-            //    Name = "viewtree",
-            //    HeaderText = "TreeView",
-            //    ImageLayout = DataGridViewImageCellLayout.Zoom
-            //};
-            //dataGridView1.Columns.Add(imgColumn1);
-
-            //string defaultImagePath = Path.Combine(Application.StartupPath, "Assets", "printer.png");
-            //Image originalImage = Image.FromFile(defaultImagePath);
-            //Image resizedImage = ResizeImage(originalImage, 60, 60);
-
-            //string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "search.png");
-            //Image viewImage = Image.FromFile(viewImagePath);
-            //Image resizedImage2 = ResizeImage(viewImage, 60, 60);
-
-
-            //int index = 1;
-            //foreach (var process in processes)
-            //{
-            //    dataGridView1.Rows.Add(index++, process.serial_number, process.mo_id, process.bom_item, process.bom_revision_number, process.id, resizedImage, resizedImage2);
-            //}
-
-            //Image ResizeImage(Image img, int width, int height)
-            //{
-            //    Bitmap bmp = new Bitmap(width, height);
-            //    using (Graphics g = Graphics.FromImage(bmp))
-            //    {
-            //        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            //        g.DrawImage(img, 0, 0, width, height);
-            //    }
-            //    return bmp;
-            //}
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

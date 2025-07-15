@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDashboard));
             timer1 = new System.Windows.Forms.Timer(components);
             panel_menubar = new Panel();
+            Btn_maximixe = new Button();
             btn_home = new Button();
             btn_subasemble = new Button();
             panel3 = new Panel();
@@ -43,13 +44,10 @@
             panel5 = new Panel();
             panel2 = new Panel();
             panel6 = new Panel();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            warehouseRecievingToolStripMenuItem = new ToolStripMenuItem();
-            kitlistRecievingToolStripMenuItem = new ToolStripMenuItem();
+            lbl_departmemnt = new Label();
             panel_menubar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)settingimage).BeginInit();
             panel_Subassy_Display.SuspendLayout();
-            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // timer1
@@ -59,6 +57,8 @@
             // panel_menubar
             // 
             panel_menubar.BackColor = Color.FromArgb(22, 27, 45);
+            panel_menubar.Controls.Add(lbl_departmemnt);
+            panel_menubar.Controls.Add(Btn_maximixe);
             panel_menubar.Controls.Add(btn_home);
             panel_menubar.Controls.Add(btn_subasemble);
             panel_menubar.Controls.Add(panel3);
@@ -72,6 +72,17 @@
             panel_menubar.TabIndex = 0;
             panel_menubar.MouseDown += panel_menubar_MouseDown;
             // 
+            // Btn_maximixe
+            // 
+            Btn_maximixe.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            Btn_maximixe.Location = new Point(1256, 16);
+            Btn_maximixe.Name = "Btn_maximixe";
+            Btn_maximixe.Size = new Size(94, 39);
+            Btn_maximixe.TabIndex = 7;
+            Btn_maximixe.Text = "button2";
+            Btn_maximixe.UseVisualStyleBackColor = true;
+            Btn_maximixe.Click += Btn_maximixe_Click;
+            // 
             // btn_home
             // 
             btn_home.BackgroundImage = (Image)resources.GetObject("btn_home.BackgroundImage");
@@ -80,9 +91,9 @@
             btn_home.FlatAppearance.BorderSize = 0;
             btn_home.FlatAppearance.MouseOverBackColor = Color.Transparent;
             btn_home.FlatStyle = FlatStyle.Flat;
-            btn_home.Location = new Point(12, 15);
+            btn_home.Location = new Point(12, 9);
             btn_home.Name = "btn_home";
-            btn_home.Size = new Size(301, 50);
+            btn_home.Size = new Size(301, 40);
             btn_home.TabIndex = 6;
             btn_home.UseVisualStyleBackColor = true;
             btn_home.Click += btn_home_Click;
@@ -139,12 +150,13 @@
             // 
             settingimage.BackgroundImage = (Image)resources.GetObject("settingimage.BackgroundImage");
             settingimage.BackgroundImageLayout = ImageLayout.Center;
-            settingimage.Location = new Point(319, 13);
+            settingimage.Location = new Point(319, 7);
             settingimage.Name = "settingimage";
             settingimage.Size = new Size(55, 51);
             settingimage.SizeMode = PictureBoxSizeMode.StretchImage;
             settingimage.TabIndex = 1;
             settingimage.TabStop = false;
+            settingimage.Click += settingimage_Click;
             // 
             // panel_last
             // 
@@ -193,36 +205,16 @@
             panel6.Size = new Size(10, 863);
             panel6.TabIndex = 8;
             // 
-            // contextMenuStrip1
+            // lbl_departmemnt
             // 
-            contextMenuStrip1.BackColor = Color.SeaGreen;
-            contextMenuStrip1.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { warehouseRecievingToolStripMenuItem, kitlistRecievingToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(284, 76);
-            // 
-            // warehouseRecievingToolStripMenuItem
-            // 
-            warehouseRecievingToolStripMenuItem.BackColor = Color.White;
-            warehouseRecievingToolStripMenuItem.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            warehouseRecievingToolStripMenuItem.ForeColor = SystemColors.ControlDarkDark;
-            warehouseRecievingToolStripMenuItem.Image = (Image)resources.GetObject("warehouseRecievingToolStripMenuItem.Image");
-            warehouseRecievingToolStripMenuItem.Name = "warehouseRecievingToolStripMenuItem";
-            warehouseRecievingToolStripMenuItem.Size = new Size(283, 36);
-            warehouseRecievingToolStripMenuItem.Text = "Warehouse Kitting";
-            warehouseRecievingToolStripMenuItem.Click += warehouseRecievingToolStripMenuItem_Click;
-            // 
-            // kitlistRecievingToolStripMenuItem
-            // 
-            kitlistRecievingToolStripMenuItem.BackColor = Color.White;
-            kitlistRecievingToolStripMenuItem.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            kitlistRecievingToolStripMenuItem.ForeColor = SystemColors.ControlDarkDark;
-            kitlistRecievingToolStripMenuItem.Image = (Image)resources.GetObject("kitlistRecievingToolStripMenuItem.Image");
-            kitlistRecievingToolStripMenuItem.Name = "kitlistRecievingToolStripMenuItem";
-            kitlistRecievingToolStripMenuItem.Size = new Size(283, 36);
-            kitlistRecievingToolStripMenuItem.Text = "Kitlist Recieving";
-            kitlistRecievingToolStripMenuItem.Click += kitlistRecievingToolStripMenuItem_Click;
+            lbl_departmemnt.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_departmemnt.ForeColor = Color.White;
+            lbl_departmemnt.Location = new Point(16, 52);
+            lbl_departmemnt.Name = "lbl_departmemnt";
+            lbl_departmemnt.Size = new Size(297, 27);
+            lbl_departmemnt.TabIndex = 8;
+            lbl_departmemnt.Text = "label1";
+            lbl_departmemnt.TextAlign = ContentAlignment.TopCenter;
             // 
             // MainDashboard
             // 
@@ -240,7 +232,6 @@
             panel_menubar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)settingimage).EndInit();
             panel_Subassy_Display.ResumeLayout(false);
-            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -255,11 +246,10 @@
         public Panel panel_last;
         private Button btn_home;
         private Panel panel_Subassy_Display;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem warehouseRecievingToolStripMenuItem;
-        private ToolStripMenuItem kitlistRecievingToolStripMenuItem;
         private Panel panel2;
         private Panel panel5;
         private Panel panel6;
+        private Button Btn_maximixe;
+        private Label lbl_departmemnt;
     }
 }

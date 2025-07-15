@@ -34,10 +34,10 @@
     <Compile Update="Modal\EndProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Modal\GetModalFrm.cs">
+    <Compile Update="Modal\PasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Modal\PasswordForm.cs">
+    <Compile Update="Modal\PreAssy_ProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\printingqrviewForm.cs">
@@ -53,9 +53,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\ProcessScanner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Modal\ScannerModal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\ScanSerialNumber.cs">
@@ -83,6 +80,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ReportChart\ReportVeiwerQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\createConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\setupfrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\PerantFrm.cs">

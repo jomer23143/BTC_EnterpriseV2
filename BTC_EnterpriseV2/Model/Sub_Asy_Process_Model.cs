@@ -5,7 +5,9 @@
         public class Root
         {
             public int id { get; set; }
+            public int sequence_number { get; set; }
             public int manufacturing_order_segment_id { get; set; }
+            public int manufacturing_order_sequence_number { get; set; }
             public int manufacturing_order_station_status_id { get; set; }
             public string name { get; set; }
             public string product_ref_code { get; set; }
@@ -29,6 +31,8 @@
             public string ipn_number { get; set; }
             public int serial_quantity { get; set; }
             public int serial_count { get; set; }
+
+            public int process_count { get; set; }
 
             public int is_kit_list { get; set; }
             public List<Serial> serial { get; set; }
