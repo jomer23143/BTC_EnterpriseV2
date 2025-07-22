@@ -1,5 +1,4 @@
-﻿using BTC_EnterpriseV2.ProcessForm;
-using BTC_EnterpriseV2.YaoUI;
+﻿using BTC_EnterpriseV2.YaoUI;
 using BTCP_EnterpriseV2.Forms;
 
 namespace BTC_EnterpriseV2.Modal
@@ -43,17 +42,17 @@ namespace BTC_EnterpriseV2.Modal
         {
             MainDashboard? mainDashboard = Application.OpenForms.OfType<MainDashboard>().FirstOrDefault();
 
-            Pre_AssyFrm preasy = new Pre_AssyFrm();
+            //Pre_AssyFrm preasy = new Pre_AssyFrm();
 
-            if (mainDashboard != null)
-            {
-                mainDashboard.Load_MainPanel(preasy);
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Main Dashboard not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //if (mainDashboard != null)
+            //{
+            //    mainDashboard.Load_MainPanel(preasy);
+            //    this.Close();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Main Dashboard not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
     }
 }

@@ -17,30 +17,63 @@
             public string end_date { get; set; }
             public List<item> kit_list_items { get; set; }
         }
+        //public class item
+        //{
+        //    public object mo_id { get; set; }
+        //    public object item_number { get; set; }
+        //    public object group { get; set; }
+        //    public object ipn { get; set; }
+        //    public object description { get; set; }
+        //    public object type { get; set; }
+        //    public object manufacturing { get; set; }
+        //    public object manufacturing_product_code { get; set; }
+        //    public object source_location { get; set; }
+        //    public object stock { get; set; }
+        //    public object unit_quantity { get; set; }
+        //    public object mo_quantity { get; set; }
+        //    public object wip_quantity { get; set; }
+        //    public object pick_quantity { get; set; }
+        //    public object short_quantity { get; set; }
+        //    public object unit { get; set; }
+        //    public object invoice_number { get; set; }
+        //    public object kitted { get; set; }
+        //    public object individual_kitting { get; set; }
+        //    public object track { get; set; }
+        //    public object rack { get; set; }
+        //    public object comment { get; set; }
+        //}
         public class item
         {
-            public object mo_id { get; set; }
-            public object item_number { get; set; }
-            public object group { get; set; }
-            public object ipn { get; set; }
-            public object description { get; set; }
-            public object type { get; set; }
-            public object manufacturing { get; set; }
-            public object manufacturing_product_code { get; set; }
-            public object source_location { get; set; }
-            public object stock { get; set; }
-            public object unit_quantity { get; set; }
-            public object mo_quantity { get; set; }
-            public object wip_quantity { get; set; }
-            public object pick_quantity { get; set; }
-            public object short_quantity { get; set; }
-            public object unit { get; set; }
-            public object invoice_number { get; set; }
-            public object kitted { get; set; }
-            public object individual_kitting { get; set; }
-            public object track { get; set; }
-            public object rack { get; set; }
-            public object comment { get; set; }
+            public string mo_id { get; set; }
+            public string item_number { get; set; }
+            public string group { get; set; }
+            public string ipn { get; set; }
+            public string description { get; set; }
+            public string type { get; set; }
+            public string manufacturing { get; set; }
+            public string manufacturing_product_code { get; set; }
+            public string source_location { get; set; }
+
+            public decimal? stock { get; set; }
+            public decimal? unit_quantity { get; set; }
+            public decimal? mo_quantity { get; set; }
+            public decimal? wip_quantity { get; set; }
+            public decimal? pick_quantity { get; set; }
+            public decimal? short_quantity { get; set; }
+
+            public string unit { get; set; }
+            public string invoice_number { get; set; }
+            public string kitted { get; set; }
+            public string individual_kitting { get; set; }
+            public string track { get; set; }
+            public string rack { get; set; }
+            public string comment { get; set; }
+        }
+        public class Link
+        {
+            public string url { get; set; }
+            public string label { get; set; }
+            public bool active { get; set; }
         }
         public class Link
         {

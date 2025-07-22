@@ -12,10 +12,15 @@ namespace BTC_EnterpriseV2.Modal
         Forms.Warehousekitting Kitlistfrm;
         string id = "";
         public int _rowid;
+<<<<<<< HEAD
         int total_count = 1;
         DataTable dt_serials;
         DialogResult dr = DialogResult.Cancel;
         public ScanSerialNumber(Warehousekitting kitlist, int rowid,DataTable dtSerials)
+=======
+        private DataTable list_data;
+        public ScanSerialNumber(DataTable data_list, int rowid)
+>>>>>>> origin/newUpdate
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -24,13 +29,15 @@ namespace BTC_EnterpriseV2.Modal
             yui.RoundedButton(btnsave_serial, 6, Color.FromArgb(109, 180, 62));
             yui.RoundedTextBox(txtserial_number, 6, Color.White);
             txtserial_number.Focus();
-            this.Kitlistfrm = kitlist;
+            //this.Kitlistfrm = kitlist;
+            this.list_data = data_list;
             this._rowid = rowid;
             dt_serials = dtSerials;
         }
 
         private void ScanSerialNumber_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             //id = Forms.Warehousekitting.kit_list_item_id.ToString();
             //label1.Text = string.Format("IPN : {0}", Forms.Warehousekitting.kit_list_item_ipn);
             //foreach (DataRow item in Forms.Warehousekitting.list_serial.Rows)
@@ -43,6 +50,13 @@ namespace BTC_EnterpriseV2.Modal
            
             //dgSerialnumber.DataSource = Forms.Warehousekitting.list_serial;
             load_serials();
+=======
+            id = Forms.Warehousekitting.kit_list_item_id.ToString();
+            label1.Text = string.Format("IPN : {0}", Forms.Warehousekitting.kit_list_item_ipn);
+            lbl_rowcount.Text = string.Format("0 out of {0}", Forms.Warehousekitting.total_pick_quantity);
+            //dgSerialnumber.DataSource = Forms.Warehousekitting.list_serial;
+            dgSerialnumber.DataSource = list_data;
+>>>>>>> origin/newUpdate
             is_scan_initialize_datagridviewrows();
             txtserial_number.Focus();
         }
@@ -53,21 +67,31 @@ namespace BTC_EnterpriseV2.Modal
         }
         private void is_scan_initialize_datagridviewrows()
         {
-            for (int currenrow = 0; currenrow < dgSerialnumber.Rows.Count; currenrow++)
+            int scancount = 0;
+
+            for (int currentRow = 0; currentRow < dgSerialnumber.Rows.Count; currentRow++)
             {
-                var value = dgSerialnumber.Rows[currenrow].Cells[coliscan.Name].Value;
+                var value = dgSerialnumber.Rows[currentRow].Cells[coliscan.Name].Value;
 
                 if (value != null && value.ToString() == "1")
                 {
+<<<<<<< HEAD
                     lbl_rowcount.Text = string.Format("{0} out of {1}", total_count++, Forms.Warehousekitting.total_pick_quantity);
                     dgSerialnumber.Rows[currenrow].Cells[colscan.Name].Value = 1;
+=======
+                    dgSerialnumber.Rows[currentRow].Cells[colscan.Name].Value = 1;
+                    scancount++;
+>>>>>>> origin/newUpdate
                 }
                 else
                 {
-                    dgSerialnumber.Rows[currenrow].Cells[colscan.Name].Value = 0;
+                    dgSerialnumber.Rows[currentRow].Cells[colscan.Name].Value = 0;
                 }
             }
+
+            lbl_rowcount.Text = $"{scancount} out of {Forms.Warehousekitting.total_pick_quantity}";
         }
+
 
         int scan_qty = 0;
 

@@ -31,13 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(printingqrviewForm));
             panel1 = new Panel();
             btn_close = new Button();
-            lbl_moid = new Label();
-            lbl_serial = new Label();
-            label3 = new Label();
-            label1 = new Label();
+            label_printcount = new Label();
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
             pb_loader = new PictureBox();
+            btn_print = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pb_loader).BeginInit();
@@ -45,11 +43,9 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btn_print);
             panel1.Controls.Add(btn_close);
-            panel1.Controls.Add(lbl_moid);
-            panel1.Controls.Add(lbl_serial);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label_printcount);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -68,49 +64,16 @@
             btn_close.UseVisualStyleBackColor = true;
             btn_close.Click += btn_close_Click;
             // 
-            // lbl_moid
+            // label_printcount
             // 
-            lbl_moid.AutoSize = true;
-            lbl_moid.Font = new Font("Calibri", 12F);
-            lbl_moid.ForeColor = Color.White;
-            lbl_moid.Location = new Point(455, 16);
-            lbl_moid.Name = "lbl_moid";
-            lbl_moid.Size = new Size(140, 24);
-            lbl_moid.TabIndex = 1;
-            lbl_moid.Text = "0000566565225";
-            // 
-            // lbl_serial
-            // 
-            lbl_serial.AutoSize = true;
-            lbl_serial.Font = new Font("Calibri", 12F);
-            lbl_serial.ForeColor = Color.White;
-            lbl_serial.Location = new Point(162, 16);
-            lbl_serial.Name = "lbl_serial";
-            lbl_serial.Size = new Size(140, 24);
-            lbl_serial.TabIndex = 1;
-            lbl_serial.Text = "TestserialNuber";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(382, 12);
-            label3.Name = "label3";
-            label3.Size = new Size(76, 28);
-            label3.TabIndex = 1;
-            label3.Text = "MOID :";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 12);
-            label1.Name = "label1";
-            label1.Size = new Size(153, 28);
-            label1.TabIndex = 1;
-            label1.Text = "Serial Number :";
+            label_printcount.AutoSize = true;
+            label_printcount.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label_printcount.ForeColor = Color.White;
+            label_printcount.Location = new Point(114, 9);
+            label_printcount.Name = "label_printcount";
+            label_printcount.Size = new Size(76, 28);
+            label_printcount.TabIndex = 1;
+            label_printcount.Text = "MOID :";
             // 
             // panel2
             // 
@@ -143,6 +106,16 @@
             pb_loader.TabIndex = 3;
             pb_loader.TabStop = false;
             // 
+            // btn_print
+            // 
+            btn_print.Location = new Point(465, 3);
+            btn_print.Name = "btn_print";
+            btn_print.Size = new Size(206, 41);
+            btn_print.TabIndex = 3;
+            btn_print.Text = "Print All";
+            btn_print.UseVisualStyleBackColor = true;
+            btn_print.Click += btn_print_Click;
+            // 
             // printingqrviewForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -170,9 +143,10 @@
         private DataGridView dataGridView1;
         private Label lbl_moid;
         private Label lbl_serial;
-        private Label label3;
+        private Label label_printcount;
         private Label label1;
         private Button btn_close;
         private PictureBox pb_loader;
+        private Button btn_print;
     }
 }

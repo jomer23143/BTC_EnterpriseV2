@@ -56,14 +56,16 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(-3, 12);
+            dataGridView1.Location = new Point(-3, 2);
+            dataGridView1.Margin = new Padding(3, 4, 3, 4);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 51;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.Padding = new Padding(4);
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.Size = new Size(735, 453);
+            dataGridView1.Size = new Size(840, 618);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -74,11 +76,10 @@
             btn_print.Font = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
             btn_print.ForeColor = Color.White;
             btn_print.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_print.Location = new Point(516, 480);
-            btn_print.Margin = new Padding(3, 2, 3, 2);
+            btn_print.Location = new Point(590, 640);
             btn_print.Name = "btn_print";
             btn_print.RightToLeft = RightToLeft.No;
-            btn_print.Size = new Size(184, 45);
+            btn_print.Size = new Size(210, 60);
             btn_print.TabIndex = 1;
             btn_print.Text = "Print View All";
             btn_print.UseVisualStyleBackColor = true;
@@ -88,9 +89,10 @@
             // 
             reportViewer1.LocalReport.EnableExternalImages = true;
             reportViewer1.Location = new Point(0, 0);
+            reportViewer1.Margin = new Padding(3, 4, 3, 4);
             reportViewer1.Name = "ReportViewer";
             reportViewer1.ServerReport.BearerToken = null;
-            reportViewer1.Size = new Size(396, 246);
+            reportViewer1.Size = new Size(452, 327);
             reportViewer1.TabIndex = 0;
             // 
             // btn_print_all
@@ -101,11 +103,10 @@
             btn_print_all.ForeColor = Color.White;
             btn_print_all.Image = (Image)resources.GetObject("btn_print_all.Image");
             btn_print_all.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_print_all.Location = new Point(311, 481);
-            btn_print_all.Margin = new Padding(3, 2, 3, 2);
+            btn_print_all.Location = new Point(355, 641);
             btn_print_all.Name = "btn_print_all";
             btn_print_all.RightToLeft = RightToLeft.No;
-            btn_print_all.Size = new Size(178, 45);
+            btn_print_all.Size = new Size(203, 60);
             btn_print_all.TabIndex = 2;
             btn_print_all.Text = "Print All";
             btn_print_all.UseVisualStyleBackColor = true;
@@ -113,14 +114,15 @@
             // 
             // ViewStationGeneratedSerials
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(22, 27, 45);
-            ClientSize = new Size(735, 540);
+            ClientSize = new Size(840, 720);
             Controls.Add(btn_print_all);
             Controls.Add(btn_print);
             Controls.Add(dataGridView1);
             Controls.Add(reportViewer1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ViewStationGeneratedSerials";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ViewStationGeneratedSerials";

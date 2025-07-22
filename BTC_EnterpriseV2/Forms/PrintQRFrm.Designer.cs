@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            btn_printallin1 = new Button();
             txt_moid = new TextBox();
             label1 = new Label();
             panel_dgvHolder = new Panel();
@@ -45,6 +46,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btn_printallin1);
             panel1.Controls.Add(txt_moid);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
@@ -52,6 +54,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1340, 60);
             panel1.TabIndex = 0;
+            // 
+            // btn_printallin1
+            // 
+            btn_printallin1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btn_printallin1.Location = new Point(1112, 5);
+            btn_printallin1.Name = "btn_printallin1";
+            btn_printallin1.Size = new Size(205, 45);
+            btn_printallin1.TabIndex = 2;
+            btn_printallin1.Text = "PrintQR_All";
+            btn_printallin1.UseVisualStyleBackColor = true;
+            btn_printallin1.Visible = false;
+            btn_printallin1.Click += btn_printallin1_Click;
             // 
             // txt_moid
             // 
@@ -89,6 +103,7 @@
             // pb_loader
             // 
             pb_loader.Anchor = AnchorStyles.Top;
+            pb_loader.BackColor = Color.White;
             pb_loader.Image = (Image)resources.GetObject("pb_loader.Image");
             pb_loader.Location = new Point(453, 28);
             pb_loader.Name = "pb_loader";
@@ -103,7 +118,7 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
-            dataGridView1.BackgroundColor = Color.FromArgb(22, 27, 45);
+            dataGridView1.BackgroundColor = Color.White;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.White;
             dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -116,6 +131,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(0, 0);
+            dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
@@ -158,5 +174,6 @@
         private Panel panel_dgvHolder;
         private DataGridView dataGridView1;
         private PictureBox pb_loader;
+        private Button btn_printallin1;
     }
 }

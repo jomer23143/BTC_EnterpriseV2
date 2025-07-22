@@ -33,8 +33,13 @@
             label1 = new Label();
             txt_serialnumber = new TextBox();
             pbimage = new PictureBox();
-            lbl_segmentname = new Label();
+            panel_UI = new Panel();
+            btn_close2 = new Button();
+            pictureBox1 = new PictureBox();
+            label_progress = new Label();
             ((System.ComponentModel.ISupportInitialize)pbimage).BeginInit();
+            panel_UI.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -49,7 +54,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(374, 12);
+            button1.Location = new Point(381, 12);
             button1.Name = "button1";
             button1.Size = new Size(39, 31);
             button1.TabIndex = 10;
@@ -61,7 +66,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(79, 180);
+            label1.Location = new Point(85, 185);
             label1.Name = "label1";
             label1.Size = new Size(266, 20);
             label1.TabIndex = 6;
@@ -71,7 +76,7 @@
             // 
             txt_serialnumber.BorderStyle = BorderStyle.None;
             txt_serialnumber.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_serialnumber.Location = new Point(28, 148);
+            txt_serialnumber.Location = new Point(34, 153);
             txt_serialnumber.Name = "txt_serialnumber";
             txt_serialnumber.Size = new Size(369, 27);
             txt_serialnumber.TabIndex = 5;
@@ -81,41 +86,77 @@
             // pbimage
             // 
             pbimage.Image = (Image)resources.GetObject("pbimage.Image");
-            pbimage.Location = new Point(148, 61);
+            pbimage.Location = new Point(154, 66);
             pbimage.Name = "pbimage";
             pbimage.Size = new Size(121, 80);
             pbimage.SizeMode = PictureBoxSizeMode.StretchImage;
             pbimage.TabIndex = 4;
             pbimage.TabStop = false;
             // 
-            // lbl_segmentname
+            // panel_UI
             // 
-            lbl_segmentname.AutoSize = true;
-            lbl_segmentname.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_segmentname.ForeColor = Color.SpringGreen;
-            lbl_segmentname.Location = new Point(28, 9);
-            lbl_segmentname.Name = "lbl_segmentname";
-            lbl_segmentname.Size = new Size(59, 23);
-            lbl_segmentname.TabIndex = 11;
-            lbl_segmentname.Text = "label2";
+            panel_UI.Controls.Add(btn_close2);
+            panel_UI.Controls.Add(pbimage);
+            panel_UI.Controls.Add(label1);
+            panel_UI.Controls.Add(txt_serialnumber);
+            panel_UI.Dock = DockStyle.Fill;
+            panel_UI.Location = new Point(0, 0);
+            panel_UI.Name = "panel_UI";
+            panel_UI.Size = new Size(432, 265);
+            panel_UI.TabIndex = 11;
+            // 
+            // btn_close2
+            // 
+            btn_close2.BackgroundImage = (Image)resources.GetObject("btn_close2.BackgroundImage");
+            btn_close2.BackgroundImageLayout = ImageLayout.Center;
+            btn_close2.FlatAppearance.BorderSize = 0;
+            btn_close2.FlatStyle = FlatStyle.Flat;
+            btn_close2.Location = new Point(381, 10);
+            btn_close2.Name = "btn_close2";
+            btn_close2.Size = new Size(39, 31);
+            btn_close2.TabIndex = 7;
+            btn_close2.UseVisualStyleBackColor = true;
+            btn_close2.Click += btn_close2_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(52, 30);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(297, 195);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 12;
+            pictureBox1.TabStop = false;
+            // 
+            // label_progress
+            // 
+            label_progress.ForeColor = Color.White;
+            label_progress.Location = new Point(52, 228);
+            label_progress.Name = "label_progress";
+            label_progress.Size = new Size(295, 25);
+            label_progress.TabIndex = 13;
+            label_progress.Text = "Prepairing data ....";
+            label_progress.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // SubAssy_Serial_Scanner
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(22, 27, 45);
-            ClientSize = new Size(425, 212);
-            Controls.Add(lbl_segmentname);
+            ClientSize = new Size(432, 265);
+            Controls.Add(panel_UI);
+            Controls.Add(pictureBox1);
+            Controls.Add(label_progress);
             Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(txt_serialnumber);
-            Controls.Add(pbimage);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SubAssy_Serial_Scanner";
             Text = "SubAssy_Serial_Scanner";
+            Load += SubAssy_Serial_Scanner_Load_1;
             ((System.ComponentModel.ISupportInitialize)pbimage).EndInit();
+            panel_UI.ResumeLayout(false);
+            panel_UI.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -124,6 +165,9 @@
         private Label label1;
         private TextBox txt_serialnumber;
         private PictureBox pbimage;
-        private Label lbl_segmentname;
+        private Panel panel_UI;
+        private PictureBox pictureBox1;
+        private Label label_progress;
+        private Button btn_close2;
     }
 }

@@ -153,7 +153,7 @@
             dgSerialnumber.Margin = new Padding(3, 2, 3, 2);
             dgSerialnumber.Name = "dgSerialnumber";
             dgSerialnumber.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.Padding = new Padding(3);
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;

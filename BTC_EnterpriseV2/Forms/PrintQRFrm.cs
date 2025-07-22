@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm;
 
@@ -12,8 +12,9 @@ namespace BTC_EnterpriseV2.Forms
 {
     public partial class PrintQRFrm : Form
     {
-        private const string ApiUrl = "https://app.btcp-enterprise.com/api/manufacuring-order?with_segment=1&with_station=1&with_process=0";
+        private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
         private DataTable dt_list_Station_Serial = new DataTable();
+        private string storedmoid = string.Empty;
         public PrintQRFrm()
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace BTC_EnterpriseV2.Forms
             YUI yUI = new YUI();
             yUI.RoundedTextBox(txt_moid, 5, Color.White);
             txt_moid.Select();
+            btn_printallin1.Visible = false;
         }
         private void PrintQRFrm_Load(object sender, EventArgs e)
         {
@@ -31,6 +33,7 @@ namespace BTC_EnterpriseV2.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 var moid = txt_moid.Text.Trim();
+                storedmoid = moid; // Store the MO ID for later use
                 pb_loader.Visible = true;
                 await Get_Data(moid);
             }
@@ -40,9 +43,9 @@ namespace BTC_EnterpriseV2.Forms
         {
             try
             {
-                var ApiUrlApiUrl = $"{ApiUrl}&mo_id={moid}";
+                var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}";
                 // API call
-                string jsonResponse = await WebRequestApi.GetData_httpclient(ApiUrlApiUrl);
+                string jsonResponse = await WebRequestApi.GetData_httpclient(api);
                 Debug.WriteLine("Response: " + jsonResponse);
 
                 // Basic validation
@@ -60,6 +63,7 @@ namespace BTC_EnterpriseV2.Forms
                 {
                     var error = token.ToObject<ApiErrorResponse>();
                     MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    pb_loader.Visible = false;
                     return;
                 }
 
@@ -76,7 +80,7 @@ namespace BTC_EnterpriseV2.Forms
                     }
 
                     LoadProcessData(dataList);
-                    pb_loader.Visible = false; // Hide loader after data is loaded
+                    pb_loader.Visible = false;
                 }
                 else
                 {
@@ -122,21 +126,12 @@ namespace BTC_EnterpriseV2.Forms
                 ImageLayout = DataGridViewImageCellLayout.Zoom
             };
             dataGridView1.Columns.Add(imgColumn);
-            //DataGridViewImageColumn imgColumn1 = new DataGridViewImageColumn
-            //{
-            //    Name = "viewtree",
-            //    HeaderText = "TreeView",
-            //    ImageLayout = DataGridViewImageCellLayout.Zoom
-            //};
-            //dataGridView1.Columns.Add(imgColumn1);
+
 
             string defaultImagePath = Path.Combine(Application.StartupPath, "Assets", "file.png");
             Image originalImage = Image.FromFile(defaultImagePath);
             Image resizedImage = ResizeImage(originalImage, 60, 60);
 
-            //string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "search.png");
-            //Image viewImage = Image.FromFile(viewImagePath);
-            //Image resizedImage2 = ResizeImage(viewImage, 60, 60);
             int index = 1;
             foreach (var process_list in processes)
             {
@@ -169,6 +164,7 @@ namespace BTC_EnterpriseV2.Forms
             {
                 dataGridView1.Rows.Add(row["no"].ToString(), row["Segment"].ToString(), row["Station"].ToString(), resizedImage);
             }
+            btn_printallin1.Visible = true;
             Image ResizeImage(Image img, int width, int height)
             {
                 Bitmap bmp = new Bitmap(width, height);
@@ -179,58 +175,7 @@ namespace BTC_EnterpriseV2.Forms
                 }
                 return bmp;
             }
-            //dataGridView1.Rows.Clear();
-            //dataGridView1.Columns.Clear();
 
-            //dataGridView1.Columns.Add("No", "#");
-            //dataGridView1.Columns.Add("serial_number", "Serial Number");
-            //dataGridView1.Columns.Add("mo_id", "Manufacturer Order ID");
-            //dataGridView1.Columns.Add("bom_item", "Boom Item");
-            //dataGridView1.Columns.Add("bom_revision_number", "Boom Rev.no");
-
-            //var idColumn = dataGridView1.Columns.Add("id", "ID");
-            //dataGridView1.Columns["id"].Visible = false;
-
-            //DataGridViewImageColumn imgColumn = new DataGridViewImageColumn
-            //{
-            //    Name = "Printing",
-            //    HeaderText = "Print QR",
-            //    ImageLayout = DataGridViewImageCellLayout.Zoom
-            //};
-            //dataGridView1.Columns.Add(imgColumn);
-            //DataGridViewImageColumn imgColumn1 = new DataGridViewImageColumn
-            //{
-            //    Name = "viewtree",
-            //    HeaderText = "TreeView",
-            //    ImageLayout = DataGridViewImageCellLayout.Zoom
-            //};
-            //dataGridView1.Columns.Add(imgColumn1);
-
-            //string defaultImagePath = Path.Combine(Application.StartupPath, "Assets", "printer.png");
-            //Image originalImage = Image.FromFile(defaultImagePath);
-            //Image resizedImage = ResizeImage(originalImage, 60, 60);
-
-            //string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "search.png");
-            //Image viewImage = Image.FromFile(viewImagePath);
-            //Image resizedImage2 = ResizeImage(viewImage, 60, 60);
-
-
-            //int index = 1;
-            //foreach (var process in processes)
-            //{
-            //    dataGridView1.Rows.Add(index++, process.serial_number, process.mo_id, process.bom_item, process.bom_revision_number, process.id, resizedImage, resizedImage2);
-            //}
-
-            //Image ResizeImage(Image img, int width, int height)
-            //{
-            //    Bitmap bmp = new Bitmap(width, height);
-            //    using (Graphics g = Graphics.FromImage(bmp))
-            //    {
-            //        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            //        g.DrawImage(img, 0, 0, width, height);
-            //    }
-            //    return bmp;
-            //}
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -241,18 +186,20 @@ namespace BTC_EnterpriseV2.Forms
             {
                 var row = dataGridView1.Rows[e.RowIndex];
                 var station_name = row.Cells["Station"].Value?.ToString();
-                ViewStationGeneratedSerials qrprint = new ViewStationGeneratedSerials(station_name, dt_list_Station_Serial);
-                qrprint.ShowDialog();
+                //ViewStationGeneratedSerials qrprint = new ViewStationGeneratedSerials(station_name, dt_list_Station_Serial);
+                ViewStationGeneratedSerials_1 qrprint1 = new ViewStationGeneratedSerials_1(storedmoid, station_name, dt_list_Station_Serial);
+                qrprint1.ShowDialog();
             }
             //if (e.RowIndex >= 0 &&
             //   e.ColumnIndex == dataGridView1.Columns["Printing"].Index)
-            //{
+            //    //{
             //    var row = dataGridView1.Rows[e.RowIndex];
 
             //    // Get quantity and count values
             //    var id = row.Cells["id"].Value?.ToString();
             //    var moid = row.Cells["mo_id"].Value?.ToString();
             //    var serialNumber = row.Cells["serial_number"].Value?.ToString();
+            //    var station_name = row.Cells["Station"].Value?.ToString();
             //    Printqrcodeform qrprint = new Printqrcodeform(ApiUrl, id, moid, serialNumber);
             //    qrprint.ShowDialog();
             //}
@@ -270,5 +217,40 @@ namespace BTC_EnterpriseV2.Forms
             //}
 
         }
+        private void btn_printallin1_Click(object sender, EventArgs e)
+        {
+            DataTable newdataforPrint = new DataTable("newdataforPrint");
+
+            // Define columns
+            newdataforPrint.Columns.Add("manufacturing_order_id", typeof(string));
+            newdataforPrint.Columns.Add("Station", typeof(string));
+            newdataforPrint.Columns.Add("serial_number", typeof(string));
+
+            // Get the first manufacturing_order_id (as string)
+            var firstBatchId = dt_list_Station_Serial.AsEnumerable()
+                .Select(row => row.Field<string>("manufacturing_order_id"))
+                .Distinct()
+                .OrderBy(id => id)
+                .FirstOrDefault();
+
+            // Filter rows that belong to the first batch
+            var firstBatchRows = dt_list_Station_Serial.AsEnumerable()
+                .Where(row => row.Field<string>("manufacturing_order_id") == firstBatchId)
+                .ToList();
+
+            // Fill the new DataTable
+            foreach (var row in firstBatchRows)
+            {
+                string moId = row.Field<string>("manufacturing_order_id");
+                string station = row.Field<string>("Station");
+                string serial = row.Field<string>("serial_number");
+
+                newdataforPrint.Rows.Add(moId, station, serial);
+            }
+
+            printingqrviewForm printingqrviewForm = new printingqrviewForm(newdataforPrint);
+            printingqrviewForm.ShowDialog();
+        }
+
     }
 }

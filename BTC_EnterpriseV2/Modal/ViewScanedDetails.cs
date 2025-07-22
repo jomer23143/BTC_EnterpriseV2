@@ -1,18 +1,18 @@
 ﻿using System.Data;
+<<<<<<< HEAD
 using System.Diagnostics;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
+=======
+using BTC_EnterpriseV2.Class;
+>>>>>>> origin/newUpdate
 using BTCP_EnterpriseV2.YaoUI;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using static BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm;
 
 namespace BTC_EnterpriseV2.Modal
 {
     public partial class ViewScanedDetails : Form
     {
-        private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-
+        private string ApiUrl = GlobalApi.GetScanSerialUrl();
         public string serialnumber;
         public string processname;
         public string moid;
@@ -22,8 +22,14 @@ namespace BTC_EnterpriseV2.Modal
         public string processId;
         public int tempqty = 0;
         public int tempcount = 0;
+<<<<<<< HEAD
         DataTable dtSerial;
         public ViewScanedDetails(int rowindex, string processid, string processname, string generatedseril, string qty, string count,DataTable dtserial)
+=======
+        private DataTable data_items;
+
+        public ViewScanedDetails(int rowindex, string processid, string processname, string generatedserial, DataTable dtitems)
+>>>>>>> origin/newUpdate
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,87 +41,34 @@ namespace BTC_EnterpriseV2.Modal
             this.lbl_processname.Text = "Scanned Items of : " + processname;
             this.qty = qty;
             this.count = count;
+<<<<<<< HEAD
             this.serialnumber = generatedseril;
             dtSerial = dtserial;
+=======
+            this.serialnumber = generatedserial;
+            this.data_items = dtitems;
+>>>>>>> origin/newUpdate
         }
 
         private async void ViewScanedDetails_Load(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             LoadProcessData(dtSerial);
             //lbl_generatedserial.Text = serialnumber;
             //int myprocessid = int.Parse(processId);
             //await Get_ScannedItems(serialnumber, myprocessid);
+=======
+            lbl_generatedserial.Text = serialnumber;
+            int myprocessid = int.Parse(processId);
+            LoadProcessData(data_items);
+            //  await Get_ScannedItems(serialnumber, myprocessid);
+>>>>>>> origin/newUpdate
         }
 
 
 
-        public async Task Get_ScannedItems(string serial, int processId)
-        {
-            try
-            {
-                var serialClean = serial.Trim();
-                var postData = new { serial_number = serialClean };
-                string json = JsonConvert.SerializeObject(postData);
-                Debug.WriteLine("Request JSON: " + json);
 
-                string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
-                Debug.WriteLine("Response: " + jsonResponse);
-
-                if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
-                {
-                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                var token = JToken.Parse(jsonResponse);
-
-                if (token.Type == JTokenType.Object && token["message"] != null)
-                {
-                    var error = token.ToObject<ApiErrorResponse>();
-                    MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                if (token.Type == JTokenType.Array)
-                {
-                    var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
-                    var data = result?.FirstOrDefault();
-
-                    if (data.process != null && data.process.Any())
-                    {
-                        var matchingProcess = data.process.FirstOrDefault(p => p.id == processId);
-
-                        if (matchingProcess != null && matchingProcess.serial != null)
-                        {
-                            LoadProcessData(matchingProcess.serial);
-                        }
-                        else
-                        {
-                            MessageBox.Show("No matching process ID or serial data found.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No valid process data found.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (JsonReaderException ex)
-            {
-                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"API Error: {ex.Message}");
-            }
-        }
-
-
-        private void LoadProcessData(List<Sub_Asy_Process_Model.Serial> serials)
+        private void LoadProcessData(DataTable items)
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -126,9 +79,9 @@ namespace BTC_EnterpriseV2.Modal
             dataGridView1.Columns["NoProcess"].Width = 50;
 
             int index = 1;
-            foreach (var serial in serials)
+            foreach (DataRow serial in items.Rows)
             {
-                dataGridView1.Rows.Add(index++, serial.serial_number);
+                dataGridView1.Rows.Add(index++, serial[2]);
             }
         }
         private void LoadProcessData(DataTable dt)

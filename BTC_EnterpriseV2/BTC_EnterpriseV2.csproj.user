@@ -16,9 +16,6 @@
     <Compile Update="Forms\PrintQRFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\SegmentFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Forms\UserIdentificationfrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -37,10 +34,10 @@
     <Compile Update="Modal\EndProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Modal\GetModalFrm.cs">
+    <Compile Update="Modal\PasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Modal\PasswordForm.cs">
+    <Compile Update="Modal\PreAssy_ProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\printingqrviewForm.cs">
@@ -58,9 +55,6 @@
     <Compile Update="Modal\ProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Modal\ScannerModal.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Modal\ScanSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,7 +67,7 @@
     <Compile Update="Modal\ViewStationGeneratedSerials.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProcessForm\Pre_AssyFrm.cs">
+    <Compile Update="Modal\ViewStationGeneratedSerials_1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ProcessForm\Sub_AssyFrm.cs">
@@ -85,16 +79,16 @@
     <Compile Update="ReportChart\ReportVeiwerQRCode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SideBar\Kitlist_Sidebar.cs">
+    <Compile Update="Settings\createConnection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SideBar\MainSidebar.cs">
+    <Compile Update="Settings\setupfrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SideBar\PerantFrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\ProcessSidebar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="SideBar\WarehouseKitingSidebar.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

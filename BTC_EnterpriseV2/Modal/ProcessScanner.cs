@@ -6,7 +6,6 @@ using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm;
 
 namespace BTC_EnterpriseV2.Modal
 {
@@ -23,9 +22,15 @@ namespace BTC_EnterpriseV2.Modal
         public int tempcount = 0;
         public event Action<string?> SerialScanned = delegate { };
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
+<<<<<<< HEAD
         DataTable dtserials;
         int is_Kitlist;
         public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count,DataTable dtSerials,int is_kit_list)
+=======
+        private int is_kit_list = 0;
+        private DataTable dataserials;
+        public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count, int iskitlist, DataTable table_serials)
+>>>>>>> origin/newUpdate
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -40,6 +45,8 @@ namespace BTC_EnterpriseV2.Modal
             this.qty = qty;
             this.count = count;
             this.serialnumber = generatedseril;
+            this.is_kit_list = iskitlist;
+            this.dataserials = table_serials;
             lbl_msg.Text = "Please scan the serial number of the item to be processed.";
             dtserials = dtSerials;
             is_Kitlist = is_kit_list;
@@ -52,8 +59,27 @@ namespace BTC_EnterpriseV2.Modal
             lbl_scancount.Text = count + " out of " + qty;
             lbl_generatedserial.Text = serialnumber;
             int myprocessid = int.Parse(processId);
+<<<<<<< HEAD
             //await Get_ScannedItems(serialnumber, myprocessid);
             LoadProcessData(dtserials);
+=======
+            LoadProcessData(dataserials);
+        }
+
+        private void LoadProcessData(DataTable serials)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("NoProcess", "No.");
+            dataGridView1.Columns.Add("serial_number", "Item Serial Number");
+            dataGridView1.Columns["NoProcess"].Width = 50;
+
+            int index = 1;
+            foreach (DataRow serial in serials.Rows)
+            {
+                dataGridView1.Rows.Add(index++, serial[2]);
+            }
+>>>>>>> origin/newUpdate
         }
 
         private async void txt_serialnumber_KeyDown(object sender, KeyEventArgs e)
@@ -72,7 +98,11 @@ namespace BTC_EnterpriseV2.Modal
                         lbl_generatedserial.Text,
                         processId,
                         txt_serialnumber.Text.Trim(),
+<<<<<<< HEAD
                         is_Kitlist
+=======
+                        is_kit_list
+>>>>>>> origin/newUpdate
                     );
 
                     txt_serialnumber.Clear();
@@ -82,8 +112,13 @@ namespace BTC_EnterpriseV2.Modal
 
                     if (tempcount == tempqty)
                     {
+<<<<<<< HEAD
                         var res = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                         if (res == DialogResult.Yes)
+=======
+                        var result = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                        if (result == DialogResult.Yes)
+>>>>>>> origin/newUpdate
                         {
                             
                             this.Close();
@@ -92,6 +127,7 @@ namespace BTC_EnterpriseV2.Modal
                         {
                            return;
                         }
+
 
                     }
                 }
@@ -114,15 +150,8 @@ namespace BTC_EnterpriseV2.Modal
 
         }
 
-        public async Task Get_ScannedItems(string serial, int processId)
-        {
-            try
-            {
-                var serialClean = serial.Trim();
-                var postData = new { serial_number = serialClean };
-                string json = JsonConvert.SerializeObject(postData);
-                Debug.WriteLine("Request JSON: " + json);
 
+<<<<<<< HEAD
                 string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
                 Debug.WriteLine("Response: " + jsonResponse);
 
@@ -214,6 +243,9 @@ namespace BTC_EnterpriseV2.Modal
         //}
 
         public async Task Get_Process_response(string serial, string processid, string kitserial,int is_kit_list)
+=======
+        public async Task Get_Process_response(string serial, string processid, string kitserial, int iskitlist)
+>>>>>>> origin/newUpdate
         {
             try
             {
@@ -223,7 +255,11 @@ namespace BTC_EnterpriseV2.Modal
                     process_id = processid.Trim(),
                     kit_serial = kitserial.Trim(),
                     serial_number = serial.Trim(),
+<<<<<<< HEAD
                     is_kit_list = is_kit_list
+=======
+                    is_kit_list = iskitlist
+>>>>>>> origin/newUpdate
                 };
                 string json = JsonConvert.SerializeObject(postData);
 
@@ -282,12 +318,33 @@ namespace BTC_EnterpriseV2.Modal
                     }
                     
                     lbl_generatedserial.Text = data.serial_number;
+<<<<<<< HEAD
                     int index = dataGridView1.Rows.Count == 0? 1 : dataGridView1.Rows.Count;
                     dataGridView1.Rows.Add(index++, lbl_generatedserial.Text);
 
                     // LoadProcessData(data.process);
                     tempcount++;
                     ShowMessage("Process data retrieved successfully.", Color.Green);
+=======
+
+                    bool exists = dataGridView1.Rows
+                        .Cast<DataGridViewRow>()
+                        .Any(r => r.Cells["serial_number"].Value?.ToString() == data.serial_number);
+
+                    if (!exists)
+                    {
+                        tempcount++;
+                        int rowNumber = dataGridView1.Rows.Count + 1;
+                        dataGridView1.Rows.Add(rowNumber, data.serial_number);
+                        //ShowMessage("Kitlist Part Number is Available.", Color.Green);
+                    }
+                    else
+                    {
+                        ShowMessage("This serial number has already been scanned.", Color.Orange);
+                    }
+
+
+>>>>>>> origin/newUpdate
                 }
                 else
                 {
@@ -338,22 +395,7 @@ namespace BTC_EnterpriseV2.Modal
         }
 
 
-        private void LoadProcessData2(string serial)
-        {
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
 
-            dataGridView1.Columns.Add("NoProcess", "No.");
-            dataGridView1.Columns.Add("serial_number", "Item Serial Number");
-
-            dataGridView1.Columns["NoProcess"].Width = 50;
-
-            int index = 1;
-            //foreach (var serial in serials)
-            //{
-            //    dataGridView1.Rows.Add(index++, serial.serial_number);
-            //}
-        }
 
     }
 }

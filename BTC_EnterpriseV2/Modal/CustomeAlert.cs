@@ -11,7 +11,8 @@ namespace BTC_EnterpriseV2.Modal
             Warning,
             confirm,
             Error,
-            Logout
+            Logout,
+            Information
         }
 
         public CustomeAlert(string Atitle, string message, Alertype type)
@@ -38,7 +39,9 @@ namespace BTC_EnterpriseV2.Modal
                     break;
                 case Alertype.Warning:
                     // this.BackColor = Color.FromArgb(241, 196, 15); // Yellow
-                    this.BackColor = Color.White;
+                    this.BackColor = Color.FromArgb(22, 27, 45);
+                    lbl_alertTitle.ForeColor = Color.White;
+                    lblMessage.ForeColor = Color.WhiteSmoke;
                     string wariningIcon = Path.Combine(Application.StartupPath, "Assets", "warning_icon.png");
                     string IconPath = wariningIcon;  // No image found in response
                     picIcon.Image = File.Exists(IconPath) ? Image.FromFile(IconPath) : null;
@@ -64,7 +67,14 @@ namespace BTC_EnterpriseV2.Modal
                     string LogoutIcon = Path.Combine(Application.StartupPath, "Assets", "logout_icon.png");
                     string LiconPath = LogoutIcon;  // No image found in response
                     picIcon.Image = File.Exists(LiconPath) ? Image.FromFile(LiconPath) : null;
-
+                    break;
+                case Alertype.Information:
+                    this.BackColor = Color.FromArgb(22, 27, 45);
+                    lbl_alertTitle.ForeColor = Color.White;
+                    lblMessage.ForeColor = Color.WhiteSmoke;
+                    string informationIcon = Path.Combine(Application.StartupPath, "Assets", "info.png");
+                    string InfoiconPath = informationIcon;  // No image found in response
+                    picIcon.Image = File.Exists(InfoiconPath) ? Image.FromFile(InfoiconPath) : null;
                     break;
             }
             this.Opacity = 0;

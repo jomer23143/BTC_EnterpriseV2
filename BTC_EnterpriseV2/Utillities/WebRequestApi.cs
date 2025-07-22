@@ -127,6 +127,7 @@ namespace BTC_EnterpriseV2.Utillities
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception($"Server Error: {response.StatusCode}\n{responseData}");
+
                 }
 
                 return responseData;

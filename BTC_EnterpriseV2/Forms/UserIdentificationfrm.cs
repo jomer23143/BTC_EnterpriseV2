@@ -1,4 +1,5 @@
-﻿using BTC_EnterpriseV2.Model;
+﻿using BTC_EnterpriseV2.Class;
+using BTC_EnterpriseV2.Model;
 using BTCP_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ namespace BTC_EnterpriseV2.Forms
         private object? jsonResponse;
         public string? modulename;
         public string? type;
+        private string loginApiUrl = GlobalApi.GetLoginProductionUrl();
         public UserIdentificationfrm(string? modulename, string? type)
         {
             InitializeComponent();
@@ -41,10 +43,7 @@ namespace BTC_EnterpriseV2.Forms
             {
                 lbl_userinfo.Text = "Processing...";
 
-                string apiUrl = "https://app.btcp-enterprise.com/api/login-production";
-
-
-                Myrequest(apiUrl, txt_scanid.Text);
+                Myrequest(loginApiUrl, txt_scanid.Text);
 
 
                 txt_scanid.Clear();

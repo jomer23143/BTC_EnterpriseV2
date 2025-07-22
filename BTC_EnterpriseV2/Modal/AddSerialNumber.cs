@@ -1,5 +1,9 @@
 ﻿using System.Data;
 using System.Text;
+<<<<<<< HEAD
+=======
+using BTC_EnterpriseV2.Class;
+>>>>>>> origin/newUpdate
 using BTC_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -9,10 +13,16 @@ namespace BTC_EnterpriseV2.Modal
     public partial class AddSerialNumber : Form
     {
         bool is_error = false;
+<<<<<<< HEAD
         private DataTable _dtSerials;
         private int _item_id;
         DialogResult dr = DialogResult.Cancel;
         public AddSerialNumber(int item_id,DataTable dtSerials)
+=======
+        private int is_kit_list = 0;
+        private DataTable list_data;
+        public AddSerialNumber(DataTable list_Serial)
+>>>>>>> origin/newUpdate
         {
             InitializeComponent();
             YUI yui = new YUI();
@@ -20,19 +30,38 @@ namespace BTC_EnterpriseV2.Modal
             yui.RoundedButton(btnsave_serial, 6, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btn_close, 6, Color.Salmon);
             yui.RoundedFormsDocker(this, 12);
+<<<<<<< HEAD
             _dtSerials = dtSerials;
             _item_id = item_id;
+=======
+            this.is_kit_list = is_kit_list;
+            this.list_data = list_Serial;
+>>>>>>> origin/newUpdate
         }
 
         private void AddSerialNumber_Load(object sender, EventArgs e)
         {
             bunifuloading.Hide();
+<<<<<<< HEAD
             dgSerialnumber.DataSource = _dtSerials;
             //dgSerialnumber.DataSource = Warehousekitting.list_serial;
             //if (dgSerialnumber.Rows.Count > 1 )
             //    dgSerialnumber.Rows[0].Cells[0].Selected = false;
             //dgSerialnumber.Rows[dgSerialnumber.RowCount - 1].Selected = true;
+=======
+            // dgSerialnumber.DataSource = Warehousekitting.list_serial;
+>>>>>>> origin/newUpdate
             label1.Text = String.Format("IPN : {0}", Warehousekitting.kit_list_item_ipn);
+            dgSerialnumber.Rows.Clear();
+            dgSerialnumber.Columns.Clear();
+            dgSerialnumber.Columns.Add("serial_number", "Item Serial Number");
+
+
+            int index = 1;
+            foreach (DataRow serial in list_data.Rows)
+            {
+                dgSerialnumber.Rows.Add(serial[1]);
+            }
         }
         
         private async void btnsave_serial_Click(object sender, EventArgs e)
@@ -89,8 +118,8 @@ namespace BTC_EnterpriseV2.Modal
             using (HttpClient client = new HttpClient())
             {
                 var content = new StringContent(res, Encoding.UTF8, "application/json");
-
-                response = await client.PostAsync("https://app.btcp-enterprise.com/api/serial/save-serial", content);
+                string save_serial_url = GlobalApi.GetSaveSerialUrl();
+                response = await client.PostAsync(save_serial_url, content);
                 responseData = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode.ToString() == "422")
                 {

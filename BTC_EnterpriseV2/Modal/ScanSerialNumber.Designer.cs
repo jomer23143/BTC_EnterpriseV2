@@ -105,7 +105,11 @@
             lbl_rowcount.AutoSize = true;
             lbl_rowcount.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_rowcount.ForeColor = Color.White;
+<<<<<<< HEAD
             lbl_rowcount.Location = new Point(459, 5);
+=======
+            lbl_rowcount.Location = new Point(495, 7);
+>>>>>>> origin/newUpdate
             lbl_rowcount.Name = "lbl_rowcount";
             lbl_rowcount.Size = new Size(81, 21);
             lbl_rowcount.TabIndex = 6;
