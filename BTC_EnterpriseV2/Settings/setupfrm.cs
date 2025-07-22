@@ -1,18 +1,21 @@
 ﻿using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2;
+using BTCP_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
 
 namespace BTC_EnterpriseV2.Settings
 {
     public partial class setupfrm : Form
     {
-        public setupfrm()
+        private readonly MainDashboard _mainDashboard;
+        public setupfrm(MainDashboard mainDashboard)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             YUI yUI = new YUI();
             yUI.RoundedFormsDocker(this, 10);
             yUI.RoundedButton(btn_save, 6, Color.FromArgb(17, 40, 86));
+            _mainDashboard = mainDashboard;
         }
 
 
@@ -34,8 +37,8 @@ namespace BTC_EnterpriseV2.Settings
                     //setup_grid.Rows.Add(records);
                     if (records.Length >= 3)
                     {
-                        txtname.Text = records[0].Trim();
-                        txtcode.Text = records[1].Trim();
+                        lbl_deptname.Text = records[0].Trim();
+                        cmb_code.Text = records[1].Trim();
 
                     }
                     else
@@ -64,8 +67,8 @@ namespace BTC_EnterpriseV2.Settings
         {
             String data = "";
 
-            String sectname = txtname.Text.Trim();
-            String sectCode = txtcode.Text.Trim();
+            String sectname = lbl_deptname.Text.Trim();
+            String sectCode = cmb_code.Text.Trim();
             String projectName = "BTC_ENTERPRISE";
             if (sectname.Length == 0 || sectCode.Length == 0)
             {
@@ -85,5 +88,21 @@ namespace BTC_EnterpriseV2.Settings
         {
             this.Close();
         }
+
+        private void cmb_code_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedValue = cmb_code.SelectedItem?.ToString() ?? cmb_code.Text;
+            DictionaryBuilder Dbuilder = new DictionaryBuilder();
+            if (Dbuilder.CodeNameMap.TryGetValue(selectedValue, out string sectionName))
+            {
+                lbl_deptname.Text = sectionName;
+                _mainDashboard.lbl_departmemnt.Text = sectionName;
+            }
+            else
+            {
+                lbl_deptname.Text = "Unknown Section";
+            }
+        }
+
     }
 }

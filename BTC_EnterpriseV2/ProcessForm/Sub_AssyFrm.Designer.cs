@@ -199,6 +199,7 @@
             lbl_segment.Size = new Size(222, 23);
             lbl_segment.TabIndex = 0;
             lbl_segment.Text = "Sub Assembly";
+            lbl_segment.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label12
             // 
@@ -207,9 +208,9 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(461, 62);
             label12.Name = "label12";
-            label12.Size = new Size(165, 28);
+            label12.Size = new Size(146, 28);
             label12.TabIndex = 0;
-            label12.Text = "Generated Serial :";
+            label12.Text = "Serial Number :";
             label12.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label9
@@ -243,6 +244,7 @@
             lbl_toplvlipn.Size = new Size(222, 23);
             lbl_toplvlipn.TabIndex = 0;
             lbl_toplvlipn.Text = "Top Level IPN :";
+            lbl_toplvlipn.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel_generatedserial
             // 
@@ -256,31 +258,31 @@
             // 
             // lbl_generatedserial
             // 
-            lbl_generatedserial.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_generatedserial.Font = new Font("Calibri", 13.8F);
             lbl_generatedserial.ForeColor = Color.White;
             lbl_generatedserial.Location = new Point(8, 7);
             lbl_generatedserial.Name = "lbl_generatedserial";
             lbl_generatedserial.Size = new Size(324, 28);
             lbl_generatedserial.TabIndex = 0;
             lbl_generatedserial.Text = "Top Level IPN :";
-            lbl_generatedserial.TextAlign = ContentAlignment.MiddleLeft;
+            lbl_generatedserial.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel_processname
             // 
             panel_processname.BackColor = Color.FromArgb(37, 45, 55);
             panel_processname.Controls.Add(lbl_station);
-            panel_processname.Location = new Point(594, 6);
+            panel_processname.Location = new Point(632, 6);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(636, 43);
+            panel_processname.Size = new Size(598, 43);
             panel_processname.TabIndex = 1;
             // 
             // lbl_station
             // 
-            lbl_station.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbl_station.Font = new Font("Calibri", 13.8F);
             lbl_station.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_station.Location = new Point(8, 0);
+            lbl_station.Location = new Point(7, 1);
             lbl_station.Name = "lbl_station";
-            lbl_station.Size = new Size(625, 38);
+            lbl_station.Size = new Size(587, 38);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
             lbl_station.TextAlign = ContentAlignment.MiddleCenter;
@@ -323,11 +325,12 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(461, 16);
+            label5.Location = new Point(480, 16);
             label5.Name = "label5";
             label5.Size = new Size(127, 23);
             label5.TabIndex = 0;
             label5.Text = "Process Name :";
+            label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -374,9 +377,9 @@
             lbl_operator.ForeColor = Color.FromArgb(255, 128, 0);
             lbl_operator.Location = new Point(122, 8);
             lbl_operator.Name = "lbl_operator";
-            lbl_operator.Size = new Size(148, 25);
+            lbl_operator.Size = new Size(117, 25);
             lbl_operator.TabIndex = 0;
-            lbl_operator.Text = "Sample Operator";
+            lbl_operator.Text = "---------------";
             lbl_operator.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label13

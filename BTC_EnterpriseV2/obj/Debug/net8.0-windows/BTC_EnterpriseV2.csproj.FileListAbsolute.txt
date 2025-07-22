@@ -469,7 +469,6 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ViewScanedDetails.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ViewStationGeneratedSerials.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ViewStationGeneratedSerials_1.resources
-C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.ProcessForm.Pre_AssyFrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Properties.Resources.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.ReportChart.Report1.resources
@@ -493,3 +492,4 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Settings.setupfrm.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Settings.createConnection.resources
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.PreAssy_ProcessScanner.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\bin\Debug\net8.0-windows\Assets\info.png

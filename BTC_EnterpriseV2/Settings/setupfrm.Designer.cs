@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(setupfrm));
             label1 = new Label();
-            txtname = new TextBox();
             label2 = new Label();
-            txtcode = new TextBox();
             btn_save = new Button();
             panel1 = new Panel();
+            label3 = new Label();
             btn_close = new Button();
             panel2 = new Panel();
+            cmb_code = new ComboBox();
             panel3 = new Panel();
-            label3 = new Label();
+            lbl_deptname = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -49,44 +49,22 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(29, 41);
+            label1.Location = new Point(50, 20);
             label1.Name = "label1";
             label1.Size = new Size(144, 28);
             label1.TabIndex = 1;
             label1.Text = "Section Name:";
-            // 
-            // txtname
-            // 
-            txtname.BackColor = Color.FromArgb(37, 45, 55);
-            txtname.BorderStyle = BorderStyle.None;
-            txtname.Font = new Font("Segoe UI", 12F);
-            txtname.ForeColor = Color.White;
-            txtname.Location = new Point(179, 42);
-            txtname.Name = "txtname";
-            txtname.Size = new Size(168, 27);
-            txtname.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(370, 41);
+            label2.Location = new Point(51, 66);
             label2.Name = "label2";
             label2.Size = new Size(143, 28);
             label2.TabIndex = 1;
             label2.Text = "Section Code :";
-            // 
-            // txtcode
-            // 
-            txtcode.BackColor = Color.FromArgb(37, 45, 55);
-            txtcode.BorderStyle = BorderStyle.None;
-            txtcode.Font = new Font("Segoe UI", 12F);
-            txtcode.ForeColor = Color.White;
-            txtcode.Location = new Point(519, 42);
-            txtcode.Name = "txtcode";
-            txtcode.Size = new Size(93, 27);
-            txtcode.TabIndex = 2;
             // 
             // btn_save
             // 
@@ -113,6 +91,17 @@
             panel1.Size = new Size(670, 49);
             panel1.TabIndex = 4;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(12, 5);
+            label3.Name = "label3";
+            label3.Size = new Size(124, 41);
+            label3.TabIndex = 1;
+            label3.Text = "Registry";
+            // 
             // btn_close
             // 
             btn_close.BackgroundImage = (Image)resources.GetObject("btn_close.BackgroundImage");
@@ -129,15 +118,29 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(37, 45, 55);
-            panel2.Controls.Add(txtcode);
+            panel2.Controls.Add(lbl_deptname);
+            panel2.Controls.Add(cmb_code);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(label2);
-            panel2.Controls.Add(txtname);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 49);
             panel2.Name = "panel2";
             panel2.Size = new Size(670, 129);
             panel2.TabIndex = 5;
+            // 
+            // cmb_code
+            // 
+            cmb_code.BackColor = Color.FromArgb(22, 27, 45);
+            cmb_code.FlatStyle = FlatStyle.Flat;
+            cmb_code.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmb_code.ForeColor = Color.White;
+            cmb_code.FormattingEnabled = true;
+            cmb_code.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" });
+            cmb_code.Location = new Point(198, 66);
+            cmb_code.Name = "cmb_code";
+            cmb_code.Size = new Size(113, 36);
+            cmb_code.TabIndex = 3;
+            cmb_code.SelectedIndexChanged += cmb_code_SelectedIndexChanged;
             // 
             // panel3
             // 
@@ -148,16 +151,16 @@
             panel3.Size = new Size(670, 72);
             panel3.TabIndex = 6;
             // 
-            // label3
+            // lbl_deptname
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(12, 5);
-            label3.Name = "label3";
-            label3.Size = new Size(124, 41);
-            label3.TabIndex = 1;
-            label3.Text = "Registry";
+            lbl_deptname.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_deptname.ForeColor = Color.White;
+            lbl_deptname.Location = new Point(200, 20);
+            lbl_deptname.Name = "lbl_deptname";
+            lbl_deptname.Size = new Size(293, 28);
+            lbl_deptname.TabIndex = 4;
+            lbl_deptname.Text = "this is a test department";
+            lbl_deptname.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // setupfrm
             // 
@@ -181,14 +184,14 @@
 
         #endregion
         private Label label1;
-        private TextBox txtname;
         private Label label2;
-        private TextBox txtcode;
         private Button btn_save;
         private Panel panel1;
         private Panel panel2;
         private Panel panel3;
         private Button btn_close;
         private Label label3;
+        private ComboBox cmb_code;
+        private Label lbl_deptname;
     }
 }

@@ -44,7 +44,8 @@ namespace BTC_EnterpriseV2.SideBar
 
             }
 
-            await ViewChar();
+            //  await ViewChar();//commented out for now waiting for the correct api.
+
         }
         Image ResizeImage(Image img, int width, int height)
         {

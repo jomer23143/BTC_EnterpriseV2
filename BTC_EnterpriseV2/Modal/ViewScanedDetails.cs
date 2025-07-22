@@ -1,12 +1,12 @@
 ﻿using System.Data;
+using BTC_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
 
 namespace BTC_EnterpriseV2.Modal
 {
     public partial class ViewScanedDetails : Form
     {
-        private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-
+        private string ApiUrl = GlobalApi.GetScanSerialUrl();
         public string serialnumber;
         public string processname;
         public string moid;
@@ -43,71 +43,6 @@ namespace BTC_EnterpriseV2.Modal
         }
 
 
-
-        //public async Task Get_ScannedItems(string serial, int processId)
-        //{
-        //    try
-        //    {
-        //        var serialClean = serial.Trim();
-        //        var postData = new { serial_number = serialClean };
-        //        string json = JsonConvert.SerializeObject(postData);
-        //        Debug.WriteLine("Request JSON: " + json);
-
-        //        string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
-        //        Debug.WriteLine("Response: " + jsonResponse);
-
-        //        if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
-        //        {
-        //            MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //            return;
-        //        }
-
-        //        var token = JToken.Parse(jsonResponse);
-
-        //        if (token.Type == JTokenType.Object && token["message"] != null)
-        //        {
-        //            var error = token.ToObject<ApiErrorResponse>();
-        //            MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            return;
-        //        }
-
-        //        if (token.Type == JTokenType.Array)
-        //        {
-        //            var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
-        //            var data = result?.FirstOrDefault();
-
-        //            if (data.process != null && data.process.Any())
-        //            {
-        //                var matchingProcess = data.process.FirstOrDefault(p => p.id == processId);
-
-        //                if (matchingProcess != null && matchingProcess.serial != null)
-        //                {
-        //                    LoadProcessData(matchingProcess.serial);
-        //                }
-        //                else
-        //                {
-        //                    MessageBox.Show("No matching process ID or serial data found.", "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                MessageBox.Show("No valid process data found.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //        }
-        //    }
-        //    catch (JsonReaderException ex)
-        //    {
-        //        MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine($"API Error: {ex.Message}");
-        //    }
-        //}
 
 
         private void LoadProcessData(DataTable items)

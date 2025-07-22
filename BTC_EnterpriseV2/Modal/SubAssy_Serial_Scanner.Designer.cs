@@ -34,6 +34,7 @@
             txt_serialnumber = new TextBox();
             pbimage = new PictureBox();
             panel_UI = new Panel();
+            btn_close2 = new Button();
             pictureBox1 = new PictureBox();
             label_progress = new Label();
             ((System.ComponentModel.ISupportInitialize)pbimage).BeginInit();
@@ -53,7 +54,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(365, 17);
+            button1.Location = new Point(381, 12);
             button1.Name = "button1";
             button1.Size = new Size(39, 31);
             button1.TabIndex = 10;
@@ -65,7 +66,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(70, 185);
+            label1.Location = new Point(85, 185);
             label1.Name = "label1";
             label1.Size = new Size(266, 20);
             label1.TabIndex = 6;
@@ -75,7 +76,7 @@
             // 
             txt_serialnumber.BorderStyle = BorderStyle.None;
             txt_serialnumber.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_serialnumber.Location = new Point(19, 153);
+            txt_serialnumber.Location = new Point(34, 153);
             txt_serialnumber.Name = "txt_serialnumber";
             txt_serialnumber.Size = new Size(369, 27);
             txt_serialnumber.TabIndex = 5;
@@ -85,7 +86,7 @@
             // pbimage
             // 
             pbimage.Image = (Image)resources.GetObject("pbimage.Image");
-            pbimage.Location = new Point(139, 66);
+            pbimage.Location = new Point(154, 66);
             pbimage.Name = "pbimage";
             pbimage.Size = new Size(121, 80);
             pbimage.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -94,14 +95,28 @@
             // 
             // panel_UI
             // 
+            panel_UI.Controls.Add(btn_close2);
             panel_UI.Controls.Add(pbimage);
-            panel_UI.Controls.Add(button1);
             panel_UI.Controls.Add(label1);
             panel_UI.Controls.Add(txt_serialnumber);
-            panel_UI.Location = new Point(11, 10);
+            panel_UI.Dock = DockStyle.Fill;
+            panel_UI.Location = new Point(0, 0);
             panel_UI.Name = "panel_UI";
-            panel_UI.Size = new Size(413, 243);
+            panel_UI.Size = new Size(432, 265);
             panel_UI.TabIndex = 11;
+            // 
+            // btn_close2
+            // 
+            btn_close2.BackgroundImage = (Image)resources.GetObject("btn_close2.BackgroundImage");
+            btn_close2.BackgroundImageLayout = ImageLayout.Center;
+            btn_close2.FlatAppearance.BorderSize = 0;
+            btn_close2.FlatStyle = FlatStyle.Flat;
+            btn_close2.Location = new Point(381, 10);
+            btn_close2.Name = "btn_close2";
+            btn_close2.Size = new Size(39, 31);
+            btn_close2.TabIndex = 7;
+            btn_close2.UseVisualStyleBackColor = true;
+            btn_close2.Click += btn_close2_Click;
             // 
             // pictureBox1
             // 
@@ -132,6 +147,7 @@
             Controls.Add(panel_UI);
             Controls.Add(pictureBox1);
             Controls.Add(label_progress);
+            Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SubAssy_Serial_Scanner";
             Text = "SubAssy_Serial_Scanner";
@@ -152,5 +168,6 @@
         private Panel panel_UI;
         private PictureBox pictureBox1;
         private Label label_progress;
+        private Button btn_close2;
     }
 }

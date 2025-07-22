@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Text;
+using BTC_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
 
@@ -106,8 +107,8 @@ namespace BTC_EnterpriseV2.Forms
             using (HttpClient client = new HttpClient())
             {
                 var content = new StringContent(res, Encoding.UTF8, "application/json");
-
-                response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list-item/scan-bulk", content);
+                string scan_bulk_url = GlobalApi.GetKitlistItemScanBulkUrl();
+                response = await client.PostAsync(scan_bulk_url, content);
                 responseData = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode.ToString() == "422")
                 {

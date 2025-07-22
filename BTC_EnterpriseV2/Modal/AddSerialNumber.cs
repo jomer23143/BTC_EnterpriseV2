@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Text;
+using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Forms;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -94,8 +95,8 @@ namespace BTC_EnterpriseV2.Modal
             using (HttpClient client = new HttpClient())
             {
                 var content = new StringContent(res, Encoding.UTF8, "application/json");
-
-                response = await client.PostAsync("https://app.btcp-enterprise.com/api/serial/save-serial", content);
+                string save_serial_url = GlobalApi.GetSaveSerialUrl();
+                response = await client.PostAsync(save_serial_url, content);
                 responseData = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode.ToString() == "422")
                 {

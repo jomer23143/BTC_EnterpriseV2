@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Diagnostics;
+using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2;
@@ -13,7 +13,7 @@ namespace BTC_EnterpriseV2.Modal
     public partial class SubAssy_Serial_Scanner : Form
     {
         // public event Action<string?> SerialScanned = delegate { };
-        public delegate void serialScannedHandler(string serial, string processType, DataTable data_list, int id);
+        public delegate void serialScannedHandler(string serial, string processType, DataTable data_list, int id, string processname, string stationName);
         public event serialScannedHandler SerialScanned;
         public event Action<DataTable> Responsetable = delegate { };
         public string segmentname;
@@ -21,8 +21,11 @@ namespace BTC_EnterpriseV2.Modal
         private string name;
         private string processType;
         private int id = 0;
-        private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-        private const string ApiUrl2 = "https://app.btcp-enterprise.com/api/manufacuring-order?with_segment=1&with_station=1&with_process=0";
+        private string statioName;
+        private string processname = string.Empty;
+
+        private string Scan_api = GlobalApi.GetScanSerialUrl();
+        private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
         public DataTable ipn_list = new DataTable("ipntable");
         private DataTable dt_list_Station_Serial = new DataTable();
         public SubAssy_Serial_Scanner()
@@ -62,18 +65,30 @@ namespace BTC_EnterpriseV2.Modal
 
             switch (processType)
             {
-                case "001":
+                case "1":
 
                     break;
-                case "002":
+                case "2":
 
                     break;
-                case "003": //Sub Assy
+                case "3": //Sub Assy
                     await Get_ScanData(txt_serialnumber.Text);
                     break;
 
-                case "004"://Pre Assy
-                    await Get_ScanData_PreAssy(txt_serialnumber.Text);
+                case "4"://Pre Assy
+                    int perc = 45;
+                    string barHtml = Utils.RenderProgressBar(perc, "orange", "white");
+                    label_progress.Text = $"{perc}%";
+                    var stationId = 2;
+                    var theprocess = "Pre Assembly";
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, stationId, theprocess, statioName);
+                    this.Close();
+                    break;
+                case "5": //Rain Test
+                    await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 3);
+                    break;
+                case "6": //Main Assembly
+                    await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 4);
                     break;
                 default:
                     ShowWarning("Invalid process type.");
@@ -144,7 +159,7 @@ namespace BTC_EnterpriseV2.Modal
             try
             {
 
-                var json = await WebRequestApi.PostRequest(ApiUrl, JsonConvert.SerializeObject(new { serial_number = serial.Trim() }));
+                var json = await WebRequestApi.PostRequest(Scan_api, JsonConvert.SerializeObject(new { serial_number = serial.Trim() }));
 
                 if (!IsValidJson(json))
                 {
@@ -202,9 +217,7 @@ namespace BTC_EnterpriseV2.Modal
                     return;
                 }
 
-                await Get_Data(MyMOID);
-
-                SerialScanned?.Invoke(txt_serialnumber.Text, processType, filteredItems, id);
+                SerialScanned?.Invoke(txt_serialnumber.Text, processType, filteredItems, id, processname, statioName);
 
                 this.Close();
             }
@@ -224,7 +237,7 @@ namespace BTC_EnterpriseV2.Modal
                 if (kitListDetails == null)
                 {
                     MessageBox.Show("Failed to load kit list item details.");
-                    return new DataTable(); // Return empty to avoid breaking the flow
+                    return new DataTable();
                 }
 
                 var result = PopulateKitList_item(kitListDetails);
@@ -232,7 +245,7 @@ namespace BTC_EnterpriseV2.Modal
                 // You can now decide what to do based on result
                 if (result.Rows.Count == 0)
                 {
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, dt_items, id);
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, dt_items, id, processname, statioName);
                     this.Close();
                 }
 
@@ -241,7 +254,7 @@ namespace BTC_EnterpriseV2.Modal
             catch (Exception ex)
             {
                 MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new DataTable(); // Gracefully return empty
+                return new DataTable();
             }
         }
 
@@ -329,64 +342,6 @@ namespace BTC_EnterpriseV2.Modal
             txt_serialnumber.Focus();
         }
 
-        /// this is for my experemental method  
-        public async Task Get_Data(string moid)
-        {
-            try
-            {
-                var ApiUrlApiUrl = $"{ApiUrl2}&mo_id={moid}";
-                // API call
-                string jsonResponse = await WebRequestApi.GetData_httpclient(ApiUrlApiUrl);
-                Debug.WriteLine("Response: " + jsonResponse);
-
-                // Basic validation
-                if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
-                {
-                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Parse response
-                var token = JToken.Parse(jsonResponse);
-
-                // Handle error object
-                if (token.Type == JTokenType.Object && token["message"] != null)
-                {
-                    var error = token.ToObject<ApiErrorResponse>();
-                    MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-                // Expecting an object with a "data" property
-                if (token.Type == JTokenType.Object && token["data"] != null)
-                {
-                    var rootObj = token.ToObject<PrintQR_Model.RootWrapper>();
-                    var dataList = rootObj?.data;
-
-                    if (dataList == null || dataList.Count == 0)
-                    {
-                        MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    //LoadProcessData(dataList);
-                    ////pb_loader.Visible = false;
-                }
-                else
-                {
-                    MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-            }
-            catch (JsonReaderException ex)
-            {
-                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"API Error: {ex.Message}");
-            }
-        }
 
         private static readonly HashSet<string> ExcludedStations = new()
               {
@@ -433,11 +388,18 @@ namespace BTC_EnterpriseV2.Modal
 
 
 
-        public async Task Get_ScanData_PreAssy(string serial)
+        public async Task Get_ScanData_PreAssy(string serial, int stat, int seq, int segement)
         {
-            var json = await WebRequestApi.PostRequest(ApiUrl, JsonConvert.SerializeObject(new { serial_number = serial.Trim() }));
+            var postData = new
+            {
+                serial_number = serial.Trim(),
+                station = stat,
+                sequence = seq,
+            };
+            string json = JsonConvert.SerializeObject(postData);
+            string jsonResponse = await WebRequestApi.PostRequest(Scan_api, json);
 
-            if (!IsValidJson(json))
+            if (!IsValidJson(jsonResponse))
             {
                 ShowWarning("Invalid response from server.");
                 return;
@@ -446,7 +408,7 @@ namespace BTC_EnterpriseV2.Modal
             JToken token;
             try
             {
-                token = JToken.Parse(json);
+                token = JToken.Parse(jsonResponse);
             }
             catch (JsonReaderException ex)
             {
@@ -469,7 +431,6 @@ namespace BTC_EnterpriseV2.Modal
 
             var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
             var data = result?.FirstOrDefault();
-
             if (data == null)
             {
                 ShowWarning("No valid process data returned.");
@@ -478,14 +439,58 @@ namespace BTC_EnterpriseV2.Modal
 
             MyMOID = data.mo_id;
             name = data.name;
-            id = data.id;
 
+            bool allCompleted = result.All(station => station.manufacturing_order_station_status_id == 3);
+            if (allCompleted)
+            {
+                MessageBox.Show("All processes are already completed.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                return;
+            }
 
-            SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, id);
-            this.Close();
+            foreach (var station in result)
+            {
+                int statusId = station.manufacturing_order_station_status_id;
+                int stationId = station.id;
+                int ordersegment = station.manufacturing_order_sequence_number;
+
+                if (statusId == 3)
+                {
+                    continue;
+                }
+                else if (statusId == 1)
+                {
+                    var theprocess = ordersegment switch
+                    {
+                        2 => "Pre Assembly",
+                        3 => "Rain Test",
+                        4 => "Main Assembly",
+                        _ => "Unknown"
+                    };
+                    statioName = station.name;
+
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, stationId, theprocess, statioName);
+                    this.Close();
+                    break;
+                }
+                else if (statusId == 2)
+                {
+                    ShowInfo($"Next process waiting for ABI: {station.name}", "Status Check");
+                    break;
+                }
+                else
+                {
+                    this.Close();
+                }
+
+            }
+
         }
 
-
+        private void btn_close2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
 }

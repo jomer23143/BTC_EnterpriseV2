@@ -142,7 +142,8 @@ namespace BTC_EnterpriseV2.Forms
 
             using HttpClient client = new HttpClient();
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list", content);
+            string kitlist_api = GlobalApi.GetKitListUrl();
+            var response = await client.PostAsync(kitlist_api, content);
             var responseData = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -508,8 +509,8 @@ namespace BTC_EnterpriseV2.Forms
             using (HttpClient client = new HttpClient())
             {
                 var content = new StringContent(res, Encoding.UTF8, "application/json");
-
-                response = await client.PostAsync("https://app.btcp-enterprise.com/api/kit-list-item/scan-bulk", content);
+                string kitlist_item_scanbulk = GlobalApi.GetKitlistItemScanBulkUrl();
+                response = await client.PostAsync(kitlist_item_scanbulk, content);
                 responseData = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode.ToString() == "422")
                 {

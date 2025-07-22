@@ -70,9 +70,6 @@
     <Compile Update="Modal\ViewStationGeneratedSerials_1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ProcessForm\Pre_AssyFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="ProcessForm\Sub_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>

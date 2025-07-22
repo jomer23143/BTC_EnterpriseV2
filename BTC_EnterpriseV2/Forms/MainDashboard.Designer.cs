@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDashboard));
             timer1 = new System.Windows.Forms.Timer(components);
             panel_menubar = new Panel();
+            lbl_departmemnt = new Label();
             Btn_maximixe = new Button();
             btn_home = new Button();
             btn_subasemble = new Button();
@@ -41,13 +42,17 @@
             settingimage = new PictureBox();
             panel_last = new Panel();
             panel_Subassy_Display = new Panel();
+            label1 = new Label();
+            pictureBox2 = new PictureBox();
+            pictureBox1 = new PictureBox();
             panel5 = new Panel();
             panel2 = new Panel();
             panel6 = new Panel();
-            lbl_departmemnt = new Label();
             panel_menubar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)settingimage).BeginInit();
             panel_Subassy_Display.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // timer1
@@ -72,6 +77,17 @@
             panel_menubar.TabIndex = 0;
             panel_menubar.MouseDown += panel_menubar_MouseDown;
             // 
+            // lbl_departmemnt
+            // 
+            lbl_departmemnt.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_departmemnt.ForeColor = Color.White;
+            lbl_departmemnt.Location = new Point(16, 52);
+            lbl_departmemnt.Name = "lbl_departmemnt";
+            lbl_departmemnt.Size = new Size(297, 27);
+            lbl_departmemnt.TabIndex = 8;
+            lbl_departmemnt.Text = "label1";
+            lbl_departmemnt.TextAlign = ContentAlignment.TopCenter;
+            // 
             // Btn_maximixe
             // 
             Btn_maximixe.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -81,6 +97,7 @@
             Btn_maximixe.TabIndex = 7;
             Btn_maximixe.Text = "button2";
             Btn_maximixe.UseVisualStyleBackColor = true;
+            Btn_maximixe.Visible = false;
             Btn_maximixe.Click += Btn_maximixe_Click;
             // 
             // btn_home
@@ -170,6 +187,9 @@
             // panel_Subassy_Display
             // 
             panel_Subassy_Display.BackColor = Color.FromArgb(37, 45, 55);
+            panel_Subassy_Display.Controls.Add(label1);
+            panel_Subassy_Display.Controls.Add(pictureBox2);
+            panel_Subassy_Display.Controls.Add(pictureBox1);
             panel_Subassy_Display.Controls.Add(panel5);
             panel_Subassy_Display.Controls.Add(panel2);
             panel_Subassy_Display.Controls.Add(panel_last);
@@ -179,6 +199,40 @@
             panel_Subassy_Display.Name = "panel_Subassy_Display";
             panel_Subassy_Display.Size = new Size(1614, 863);
             panel_Subassy_Display.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top;
+            label1.AutoSize = true;
+            label1.Font = new Font("Calibri", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(0, 192, 0);
+            label1.Location = new Point(478, 47);
+            label1.Name = "label1";
+            label1.Size = new Size(648, 97);
+            label1.TabIndex = 11;
+            label1.Text = "Production System";
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(288, 721);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(1045, 82);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 10;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(288, 147);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(1045, 568);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 9;
+            pictureBox1.TabStop = false;
             // 
             // panel5
             // 
@@ -205,17 +259,6 @@
             panel6.Size = new Size(10, 863);
             panel6.TabIndex = 8;
             // 
-            // lbl_departmemnt
-            // 
-            lbl_departmemnt.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_departmemnt.ForeColor = Color.White;
-            lbl_departmemnt.Location = new Point(16, 52);
-            lbl_departmemnt.Name = "lbl_departmemnt";
-            lbl_departmemnt.Size = new Size(297, 27);
-            lbl_departmemnt.TabIndex = 8;
-            lbl_departmemnt.Text = "label1";
-            lbl_departmemnt.TextAlign = ContentAlignment.TopCenter;
-            // 
             // MainDashboard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -232,6 +275,9 @@
             panel_menubar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)settingimage).EndInit();
             panel_Subassy_Display.ResumeLayout(false);
+            panel_Subassy_Display.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -250,6 +296,9 @@
         private Panel panel5;
         private Panel panel6;
         private Button Btn_maximixe;
-        private Label lbl_departmemnt;
+        public Label lbl_departmemnt;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private Label label1;
     }
 }

@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
+using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,6 +26,10 @@ namespace BTC_EnterpriseV2.Modal
             this.process_id = process_id;
             this.process_name = process_name;
             this.toplevelserial = toplevelserial;
+            YUI yUI = new YUI();
+            yUI.RoundedFormsDocker(this, 10);
+            yUI.RoundedTextBox(txt_serial, 10, Color.White);
+            txt_serial.Select();
         }
 
         private void PreAssy_ProcessScanner_Load(object sender, EventArgs e)
@@ -42,16 +47,10 @@ namespace BTC_EnterpriseV2.Modal
                     ShowMessage("Please enter a serial number.", Color.Red);
                     return;
                 }
-                if (toplevelserial == txt_serial.Text.Trim())
-                {
-                    await EndProcess(txt_serial.Text.Trim(), station_id, process_id, toplevelserial);
 
-                }
                 else
                 {
-
-                    ShowMessage("Please enter a correct serial number than the top level serial.", Color.Red);
-
+                    await EndProcess(toplevelserial, station_id, process_id, txt_serial.Text.Trim());
 
                     return;
                 }
@@ -59,7 +58,7 @@ namespace BTC_EnterpriseV2.Modal
         }
 
 
-        public async Task EndProcess(string serial_number, int stationid, int processid, string kit_serila)
+        public async Task EndProcess(string serial_number, int segement, int processid, string kit_serila)
         {
             try
             {
@@ -67,7 +66,7 @@ namespace BTC_EnterpriseV2.Modal
                 var postData = new
                 {
                     serial_number = serial_number.Trim(),
-                    station_id = stationid,
+                    manufacturing_order_segment_sequence_number = segement,
                     process_id = processid.ToString().Trim(),
                     kit_serial = kit_serila.ToString().Trim()
                 };
@@ -126,7 +125,7 @@ namespace BTC_EnterpriseV2.Modal
                         ShowMessage("No valid process data returned.", Color.Red);
                         return;
                     }
-
+                    //diri mag fucntion
 
                 }
                 else
@@ -149,6 +148,7 @@ namespace BTC_EnterpriseV2.Modal
                     {
                         var token = JToken.Parse(match.Value);
                         string message = token["message"]?.ToString();
+                        string error = token["errors"]?.ToString();
                         string kitSerialError = token["errors"]?["kit_serial"]?.FirstOrDefault()?.ToString();
 
                         if (!string.IsNullOrWhiteSpace(message))

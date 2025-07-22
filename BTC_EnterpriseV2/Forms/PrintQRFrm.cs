@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.Utillities;
@@ -11,7 +12,7 @@ namespace BTC_EnterpriseV2.Forms
 {
     public partial class PrintQRFrm : Form
     {
-        private const string ApiUrl = "https://app.btcp-enterprise.com/api/manufacuring-order?with_segment=1&with_station=1&with_process=0";
+        private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
         private DataTable dt_list_Station_Serial = new DataTable();
         private string storedmoid = string.Empty;
         public PrintQRFrm()
@@ -42,9 +43,9 @@ namespace BTC_EnterpriseV2.Forms
         {
             try
             {
-                var ApiUrlApiUrl = $"{ApiUrl}&mo_id={moid}";
+                var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}";
                 // API call
-                string jsonResponse = await WebRequestApi.GetData_httpclient(ApiUrlApiUrl);
+                string jsonResponse = await WebRequestApi.GetData_httpclient(api);
                 Debug.WriteLine("Response: " + jsonResponse);
 
                 // Basic validation
