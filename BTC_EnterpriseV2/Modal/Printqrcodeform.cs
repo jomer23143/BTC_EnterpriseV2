@@ -155,7 +155,7 @@ namespace BTC_EnterpriseV2.Modal
             if (preview.ShowDialog() == DialogResult.OK)
                 printDoc.Print();
         }
-        //====================================
+
 
 
         private void btn_print_Click(object sender, EventArgs e)
