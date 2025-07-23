@@ -85,10 +85,20 @@ namespace BTC_EnterpriseV2.Modal
                     this.Close();
                     break;
                 case "5": //Rain Test
-                    await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 3);
+                    //await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 3);
+                    //int perc = 45;
+                    //string barHtml = Utils.RenderProgressBar(perc, "orange", "white");
+                    //label_progress.Text = $"{perc}%";
+                    var RstationId = 3;
+                    var Rprocess = "Rain Test";
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, RstationId, Rprocess, statioName);
+                    this.Close();
                     break;
                 case "6": //Main Assembly
-                    await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 4);
+                    var MstationId = 4;
+                    var Mprocess = "Main Assembly";
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, MstationId, Mprocess, statioName);
+                    this.Close();
                     break;
                 default:
                     ShowWarning("Invalid process type.");
@@ -104,7 +114,7 @@ namespace BTC_EnterpriseV2.Modal
         }
 
         private static void ShowWarning(string message, string title = "Warning") =>
-    MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
         private static void ShowInfo(string message, string title = "Info") =>
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -27,18 +27,18 @@ namespace BTC_EnterpriseV2.Modal
         private void AddSerialNumber_Load(object sender, EventArgs e)
         {
             bunifuloading.Hide();
-            // dgSerialnumber.DataSource = Warehousekitting.list_serial;
+            dgSerialnumber.DataSource = list_data;
             label1.Text = String.Format("IPN : {0}", Warehousekitting.kit_list_item_ipn);
-            dgSerialnumber.Rows.Clear();
-            dgSerialnumber.Columns.Clear();
-            dgSerialnumber.Columns.Add("serial_number", "Item Serial Number");
+            //dgSerialnumber.Rows.Clear();
+            //dgSerialnumber.Columns.Clear();
+            //dgSerialnumber.Columns.Add("serial_number", "Item Serial Number");
 
 
-            int index = 1;
-            foreach (DataRow serial in list_data.Rows)
-            {
-                dgSerialnumber.Rows.Add(serial[1]);
-            }
+            //int index = 1;
+            //foreach (DataRow serial in list_data.Rows)
+            //{
+            //    dgSerialnumber.Rows.Add(serial[1]);
+            //}
         }
 
         private async void btnsave_serial_Click(object sender, EventArgs e)

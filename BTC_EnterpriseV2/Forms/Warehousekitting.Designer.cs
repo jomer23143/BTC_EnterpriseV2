@@ -41,7 +41,6 @@
             txtserial_number = new TextBox();
             lbl_rowcount = new Label();
             label3 = new Label();
-            btnserial = new Button();
             btnnext = new Button();
             btnprevious_page = new Button();
             btnincomplete = new Button();
@@ -91,8 +90,9 @@
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1390, 59);
+            panel1.Size = new Size(1216, 44);
             panel1.TabIndex = 0;
             // 
             // label1
@@ -100,9 +100,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Tai Le", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(100, 180, 45);
-            label1.Location = new Point(12, 9);
+            label1.Location = new Point(10, 7);
             label1.Name = "label1";
-            label1.Size = new Size(214, 29);
+            label1.Size = new Size(175, 23);
             label1.TabIndex = 0;
             label1.Text = "Warehouse Kitting";
             // 
@@ -115,9 +115,10 @@
             btnAddSerial.FlatStyle = FlatStyle.Flat;
             btnAddSerial.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAddSerial.ForeColor = Color.White;
-            btnAddSerial.Location = new Point(12, 65);
+            btnAddSerial.Location = new Point(10, 49);
+            btnAddSerial.Margin = new Padding(3, 2, 3, 2);
             btnAddSerial.Name = "btnAddSerial";
-            btnAddSerial.Size = new Size(176, 47);
+            btnAddSerial.Size = new Size(154, 35);
             btnAddSerial.TabIndex = 1;
             btnAddSerial.Text = "Add Serial";
             btnAddSerial.UseVisualStyleBackColor = false;
@@ -132,9 +133,10 @@
             btnscan.FlatStyle = FlatStyle.Flat;
             btnscan.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnscan.ForeColor = Color.White;
-            btnscan.Location = new Point(194, 65);
+            btnscan.Location = new Point(170, 49);
+            btnscan.Margin = new Padding(3, 2, 3, 2);
             btnscan.Name = "btnscan";
-            btnscan.Size = new Size(176, 47);
+            btnscan.Size = new Size(154, 35);
             btnscan.TabIndex = 1;
             btnscan.Text = "Scan Serial";
             btnscan.UseVisualStyleBackColor = false;
@@ -145,9 +147,9 @@
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(963, 91);
+            label2.Location = new Point(843, 68);
             label2.Name = "label2";
-            label2.Size = new Size(131, 28);
+            label2.Size = new Size(105, 21);
             label2.TabIndex = 2;
             label2.Text = "MO Number :";
             // 
@@ -156,9 +158,10 @@
             txtmo_number.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtmo_number.BorderStyle = BorderStyle.FixedSingle;
             txtmo_number.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtmo_number.Location = new Point(1097, 85);
+            txtmo_number.Location = new Point(960, 64);
+            txtmo_number.Margin = new Padding(3, 2, 3, 2);
             txtmo_number.Name = "txtmo_number";
-            txtmo_number.Size = new Size(278, 34);
+            txtmo_number.Size = new Size(244, 29);
             txtmo_number.TabIndex = 3;
             txtmo_number.KeyDown += txtmo_number_KeyDown;
             // 
@@ -167,24 +170,25 @@
             panel2.Controls.Add(txtserial_number);
             panel2.Controls.Add(lbl_rowcount);
             panel2.Controls.Add(label3);
-            panel2.Controls.Add(btnserial);
             panel2.Controls.Add(btnnext);
             panel2.Controls.Add(btnprevious_page);
             panel2.Controls.Add(btnincomplete);
             panel2.Controls.Add(btncomplete);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 679);
+            panel2.Location = new Point(0, 509);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1390, 68);
+            panel2.Size = new Size(1216, 51);
             panel2.TabIndex = 4;
             // 
             // txtserial_number
             // 
             txtserial_number.BorderStyle = BorderStyle.None;
             txtserial_number.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtserial_number.Location = new Point(535, 15);
+            txtserial_number.Location = new Point(468, 11);
+            txtserial_number.Margin = new Padding(3, 2, 3, 2);
             txtserial_number.Name = "txtserial_number";
-            txtserial_number.Size = new Size(209, 27);
+            txtserial_number.Size = new Size(183, 22);
             txtserial_number.TabIndex = 5;
             // 
             // lbl_rowcount
@@ -192,9 +196,9 @@
             lbl_rowcount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_rowcount.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_rowcount.ForeColor = SystemColors.GrayText;
-            lbl_rowcount.Location = new Point(1246, 9);
+            lbl_rowcount.Location = new Point(1090, 7);
             lbl_rowcount.Name = "lbl_rowcount";
-            lbl_rowcount.Size = new Size(129, 28);
+            lbl_rowcount.Size = new Size(113, 21);
             lbl_rowcount.TabIndex = 4;
             lbl_rowcount.Text = "0 out of 0";
             lbl_rowcount.TextAlign = ContentAlignment.MiddleCenter;
@@ -203,27 +207,11 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(383, 15);
+            label3.Location = new Point(335, 11);
             label3.Name = "label3";
-            label3.Size = new Size(146, 28);
+            label3.Size = new Size(118, 21);
             label3.TabIndex = 4;
             label3.Text = "Serial Number :";
-            // 
-            // btnserial
-            // 
-            btnserial.BackColor = Color.FromArgb(109, 180, 62);
-            btnserial.Cursor = Cursors.Hand;
-            btnserial.FlatAppearance.BorderSize = 0;
-            btnserial.FlatAppearance.MouseOverBackColor = Color.FromArgb(0, 192, 0);
-            btnserial.FlatStyle = FlatStyle.Flat;
-            btnserial.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnserial.ForeColor = Color.White;
-            btnserial.Location = new Point(12, 9);
-            btnserial.Name = "btnserial";
-            btnserial.Size = new Size(110, 47);
-            btnserial.TabIndex = 1;
-            btnserial.Text = "Save Serial";
-            btnserial.UseVisualStyleBackColor = false;
             // 
             // btnnext
             // 
@@ -235,9 +223,10 @@
             btnnext.FlatStyle = FlatStyle.Flat;
             btnnext.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnnext.ForeColor = Color.White;
-            btnnext.Location = new Point(903, 3);
+            btnnext.Location = new Point(790, 2);
+            btnnext.Margin = new Padding(3, 2, 3, 2);
             btnnext.Name = "btnnext";
-            btnnext.Size = new Size(110, 40);
+            btnnext.Size = new Size(96, 30);
             btnnext.TabIndex = 1;
             btnnext.Text = "Next";
             btnnext.UseVisualStyleBackColor = false;
@@ -253,9 +242,10 @@
             btnprevious_page.FlatStyle = FlatStyle.Flat;
             btnprevious_page.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnprevious_page.ForeColor = Color.White;
-            btnprevious_page.Location = new Point(787, 3);
+            btnprevious_page.Location = new Point(689, 2);
+            btnprevious_page.Margin = new Padding(3, 2, 3, 2);
             btnprevious_page.Name = "btnprevious_page";
-            btnprevious_page.Size = new Size(110, 40);
+            btnprevious_page.Size = new Size(96, 30);
             btnprevious_page.TabIndex = 1;
             btnprevious_page.Text = "Previous";
             btnprevious_page.UseVisualStyleBackColor = false;
@@ -270,9 +260,10 @@
             btnincomplete.FlatStyle = FlatStyle.Flat;
             btnincomplete.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnincomplete.ForeColor = Color.White;
-            btnincomplete.Location = new Point(244, 9);
+            btnincomplete.Location = new Point(113, 7);
+            btnincomplete.Margin = new Padding(3, 2, 3, 2);
             btnincomplete.Name = "btnincomplete";
-            btnincomplete.Size = new Size(110, 47);
+            btnincomplete.Size = new Size(96, 35);
             btnincomplete.TabIndex = 1;
             btnincomplete.Text = "Incomplete";
             btnincomplete.UseVisualStyleBackColor = false;
@@ -287,9 +278,10 @@
             btncomplete.FlatStyle = FlatStyle.Flat;
             btncomplete.Font = new Font("Calibri", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btncomplete.ForeColor = Color.White;
-            btncomplete.Location = new Point(128, 9);
+            btncomplete.Location = new Point(11, 7);
+            btncomplete.Margin = new Padding(3, 2, 3, 2);
             btncomplete.Name = "btncomplete";
-            btncomplete.Size = new Size(110, 47);
+            btncomplete.Size = new Size(96, 35);
             btncomplete.TabIndex = 1;
             btncomplete.Text = "Complete";
             btncomplete.UseVisualStyleBackColor = false;
@@ -314,14 +306,15 @@
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colipn, coldescription, coltype, colmfg, colmfgprodcode, collocation, colstock, colunitqty, colmoqty, colwipqty, colpickqty, colshortqty, colkit_quantity, colrecieved_quantity, colreject_quantity, colunit, colinvoicenumber, colkitted, colindividualkitted, coltrack, colrack, colcomment, colcreated_at, colupdated_at, colstatus, colhistory, colid, colmo_id, colitem_number, colgroup, colkit_list_status_item });
-            dataGridView1.Location = new Point(12, 125);
+            dataGridView1.Location = new Point(10, 94);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.Padding = new Padding(3);
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.Size = new Size(1363, 548);
+            dataGridView1.Size = new Size(1193, 411);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
@@ -567,19 +560,20 @@
             // 
             bunifuloading.Anchor = AnchorStyles.Top;
             bunifuloading.Image = (Image)resources.GetObject("bunifuloading.Image");
-            bunifuloading.Location = new Point(612, 296);
+            bunifuloading.Location = new Point(536, 222);
+            bunifuloading.Margin = new Padding(3, 2, 3, 2);
             bunifuloading.Name = "bunifuloading";
-            bunifuloading.Size = new Size(161, 140);
+            bunifuloading.Size = new Size(160, 144);
             bunifuloading.SizeMode = PictureBoxSizeMode.StretchImage;
             bunifuloading.TabIndex = 1;
             bunifuloading.TabStop = false;
             // 
             // Warehousekitting
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1390, 747);
+            ClientSize = new Size(1216, 560);
             Controls.Add(bunifuloading);
             Controls.Add(dataGridView1);
             Controls.Add(panel2);
@@ -589,6 +583,7 @@
             Controls.Add(btnAddSerial);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Warehousekitting";
             Text = "Warehousekitting";
             Load += Warehousekitting_Load;
@@ -611,7 +606,6 @@
         private Label label2;
         private TextBox txtmo_number;
         private Panel panel2;
-        private Button btnserial;
         private Button btncomplete;
         private TextBox txtserial_number;
         private Label lbl_rowcount;

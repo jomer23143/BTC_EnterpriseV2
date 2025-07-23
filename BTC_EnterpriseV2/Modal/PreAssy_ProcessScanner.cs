@@ -52,7 +52,7 @@ namespace BTC_EnterpriseV2.Modal
                 {
                     await EndProcess(toplevelserial, station_id, process_id, txt_serial.Text.Trim());
 
-                    return;
+                    this.Close();
                 }
             }
         }

@@ -57,9 +57,10 @@
             button1.ForeColor = Color.White;
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(597, 383);
+            button1.Location = new Point(522, 287);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(130, 40);
+            button1.Size = new Size(114, 30);
             button1.TabIndex = 7;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = false;
@@ -69,9 +70,9 @@
             // 
             lbl_msg.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_msg.ForeColor = Color.White;
-            lbl_msg.Location = new Point(57, 184);
+            lbl_msg.Location = new Point(50, 138);
             lbl_msg.Name = "lbl_msg";
-            lbl_msg.Size = new Size(593, 20);
+            lbl_msg.Size = new Size(519, 15);
             lbl_msg.TabIndex = 6;
             lbl_msg.Text = "Please Scan Item Serial Number here.";
             lbl_msg.TextAlign = ContentAlignment.MiddleCenter;
@@ -80,9 +81,10 @@
             // 
             txt_serialnumber.BorderStyle = BorderStyle.None;
             txt_serialnumber.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_serialnumber.Location = new Point(145, 146);
+            txt_serialnumber.Location = new Point(127, 110);
+            txt_serialnumber.Margin = new Padding(3, 2, 3, 2);
             txt_serialnumber.Name = "txt_serialnumber";
-            txt_serialnumber.Size = new Size(430, 31);
+            txt_serialnumber.Size = new Size(376, 25);
             txt_serialnumber.TabIndex = 5;
             txt_serialnumber.TextAlign = HorizontalAlignment.Center;
             txt_serialnumber.TextChanged += txt_serialnumber_TextChanged;
@@ -91,9 +93,10 @@
             // pbimage
             // 
             pbimage.Image = (Image)resources.GetObject("pbimage.Image");
-            pbimage.Location = new Point(309, 60);
+            pbimage.Location = new Point(279, 45);
+            pbimage.Margin = new Padding(3, 2, 3, 2);
             pbimage.Name = "pbimage";
-            pbimage.Size = new Size(121, 80);
+            pbimage.Size = new Size(82, 60);
             pbimage.SizeMode = PictureBoxSizeMode.StretchImage;
             pbimage.TabIndex = 4;
             pbimage.TabStop = false;
@@ -102,17 +105,18 @@
             // 
             panel_processname.BackColor = Color.White;
             panel_processname.Controls.Add(lbl_processname);
-            panel_processname.Location = new Point(12, 7);
+            panel_processname.Location = new Point(10, 5);
+            panel_processname.Margin = new Padding(3, 2, 3, 2);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(715, 47);
+            panel_processname.Size = new Size(626, 35);
             panel_processname.TabIndex = 8;
             // 
             // lbl_processname
             // 
             lbl_processname.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lbl_processname.Location = new Point(10, 5);
+            lbl_processname.Location = new Point(9, 4);
             lbl_processname.Name = "lbl_processname";
-            lbl_processname.Size = new Size(692, 36);
+            lbl_processname.Size = new Size(606, 27);
             lbl_processname.TabIndex = 0;
             lbl_processname.Text = "test";
             lbl_processname.TextAlign = ContentAlignment.MiddleCenter;
@@ -138,7 +142,8 @@
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(12, 237);
+            dataGridView1.Location = new Point(10, 178);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
@@ -148,7 +153,7 @@
             dataGridViewCellStyle2.SelectionBackColor = Color.White;
             dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.Size = new Size(715, 140);
+            dataGridView1.Size = new Size(626, 105);
             dataGridView1.TabIndex = 0;
             // 
             // label2
@@ -156,9 +161,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(12, 215);
+            label2.Location = new Point(10, 161);
             label2.Name = "label2";
-            label2.Size = new Size(201, 20);
+            label2.Size = new Size(158, 15);
             label2.TabIndex = 6;
             label2.Text = "Scaned Items Serial Number";
             // 
@@ -167,9 +172,9 @@
             lbl_scancount.AutoSize = true;
             lbl_scancount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_scancount.ForeColor = Color.White;
-            lbl_scancount.Location = new Point(212, 214);
+            lbl_scancount.Location = new Point(186, 160);
             lbl_scancount.Name = "lbl_scancount";
-            lbl_scancount.Size = new Size(78, 20);
+            lbl_scancount.Size = new Size(61, 15);
             lbl_scancount.TabIndex = 6;
             lbl_scancount.Text = "0 out of 5";
             // 
@@ -177,19 +182,19 @@
             // 
             lbl_generatedserial.AutoSize = true;
             lbl_generatedserial.ForeColor = Color.White;
-            lbl_generatedserial.Location = new Point(86, 79);
+            lbl_generatedserial.Location = new Point(75, 59);
             lbl_generatedserial.Name = "lbl_generatedserial";
-            lbl_generatedserial.Size = new Size(50, 20);
+            lbl_generatedserial.Size = new Size(38, 15);
             lbl_generatedserial.TabIndex = 10;
             lbl_generatedserial.Text = "label3";
             lbl_generatedserial.Visible = false;
             // 
             // ProcessScanner
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(37, 45, 55);
-            ClientSize = new Size(739, 429);
+            ClientSize = new Size(647, 322);
             Controls.Add(dataGridView1);
             Controls.Add(lbl_generatedserial);
             Controls.Add(panel_processname);
@@ -200,6 +205,7 @@
             Controls.Add(txt_serialnumber);
             Controls.Add(pbimage);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "ProcessScanner";
             Text = "ProcessScanner";
             Load += ProcessScanner_Load;

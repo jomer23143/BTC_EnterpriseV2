@@ -44,6 +44,7 @@ namespace BTCP_EnterpriseV2.Forms
                 setupfrm setupForm = new setupfrm(this);
                 setupForm.StartPosition = FormStartPosition.CenterScreen;
                 setupForm.ShowDialog(this);
+                Refresh_Main_Menu(sender);
             }
         }
 
@@ -78,7 +79,11 @@ namespace BTCP_EnterpriseV2.Forms
             // DragForm.SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
 
-        private async void MainDashboard_Load(object sender, EventArgs e)
+        private void MainDashboard_Load(object sender, EventArgs e)
+        {
+            Refresh_Main_Menu(sender);
+        }
+        private void Refresh_Main_Menu(object sender)
         {
             try
             {
@@ -109,16 +114,25 @@ namespace BTCP_EnterpriseV2.Forms
                                 fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
                                 break;
                             case "3":
-
+                                fulldisplaycontroll.closeAForm();
+                                Manage_SubAssy.Reset();
+                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "4":
+                                fulldisplaycontroll.closeAForm();
+                                Manage_SubAssy.Reset();
+                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "5":
+                                fulldisplaycontroll.closeAForm();
+                                Manage_SubAssy.Reset();
+                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "6":
+                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "7":
@@ -157,7 +171,6 @@ namespace BTCP_EnterpriseV2.Forms
 
         }
 
-
         private void panel_main_display_SizeChanged(object sender, EventArgs e)
         {
             UIControls.SetupUI(this, Setting_Click, Logout_Click);
@@ -179,8 +192,6 @@ namespace BTCP_EnterpriseV2.Forms
                 processType = processtype ?? string.Empty;
                 response_list = itemsTable ?? new DataTable("thedata");
                 var ids = id;
-
-
                 switch (processType)
                 {
                     case "1":
@@ -197,7 +208,6 @@ namespace BTCP_EnterpriseV2.Forms
                         fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 1, "Sub_Assembly"), sender);
                         break;
                     case "4":
-
                         fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 2, processname), sender);
 
                         break;
@@ -261,8 +271,6 @@ namespace BTCP_EnterpriseV2.Forms
                         var processType = records[1].Trim();
                         if (processType != "1" && processType != "2")
                         {
-
-
                             Manage_SubAssy.closeAForm();
                         }
                         else
@@ -270,7 +278,6 @@ namespace BTCP_EnterpriseV2.Forms
                             Manage_SubAssy.closeAForm();
                             fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
                         }
-
                     }
                     else
                     {

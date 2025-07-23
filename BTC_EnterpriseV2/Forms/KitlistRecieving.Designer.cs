@@ -172,6 +172,8 @@
             dataGridView1.Size = new Size(1068, 380);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            dataGridView1.Scroll += dataGridView1_Scroll;
+            dataGridView1.Paint += dataGridView1_Paint;
             // 
             // Pb_loading
             // 
@@ -180,19 +182,19 @@
             Pb_loading.Location = new Point(478, 230);
             Pb_loading.Margin = new Padding(3, 2, 3, 2);
             Pb_loading.Name = "Pb_loading";
-            Pb_loading.Size = new Size(133, 114);
+            Pb_loading.Size = new Size(139, 123);
             Pb_loading.SizeMode = PictureBoxSizeMode.StretchImage;
             Pb_loading.TabIndex = 5;
             Pb_loading.TabStop = false;
             // 
             // colstatus_item
             // 
-            colstatus_item.HeaderText = " Check(if complete)";
+            colstatus_item.HeaderText = "";
             colstatus_item.MinimumWidth = 6;
             colstatus_item.Name = "colstatus_item";
             colstatus_item.Resizable = DataGridViewTriState.True;
             colstatus_item.SortMode = DataGridViewColumnSortMode.Automatic;
-            colstatus_item.Width = 125;
+            colstatus_item.Width = 50;
             // 
             // colpart_serial
             // 
@@ -486,6 +488,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "KitlistRecieving";
             Text = "KitlistRecieving";
+            Load += KitlistRecieving_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

@@ -5,6 +5,8 @@ using BTC_EnterpriseV2.Modal;
 using BTCP_EnterpriseV2;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using static BTC_EnterpriseV2.Model.Sub_Asy_Process_Model;
 
 namespace BTC_EnterpriseV2.Forms
 {
@@ -18,20 +20,19 @@ namespace BTC_EnterpriseV2.Forms
         public static int kit_list_item_id = 0;
         public static string kit_list_item_ipn = "";
         public static int total_pick_quantity = 0;
-
+        public static string track = "";
         public static string mo_number = "";
         int rowid;
         DataSet GetMoheaderDetails = new DataSet();
         private int is_kit_list;
         public DataTable dt_items = new DataTable("warehouse_data");
-        public static DataTable list_serial = new DataTable("list_of_seials");
+        public static DataTable list_serial = new DataTable("list_of_serials");
         public Warehousekitting()
         {
             InitializeComponent();
             YUI yui = new YUI();
             yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
-            yui.RoundedButton(btncomplete, 8, Color.FromArgb(109, 180, 62));
-            yui.RoundedButton(btnserial, 8, Color.FromArgb(109, 180, 62));
+            yui.RoundedButton(btnincomplete, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnnext, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnprevious_page, 8, Color.FromArgb(109, 180, 62));
             yui.RoundedButton(btnscan, 8, Color.Teal);
@@ -48,7 +49,6 @@ namespace BTC_EnterpriseV2.Forms
         {
             txtmo_number.Focus();
             bunifuloading.Hide();
-            btnserial.Visible = false;
             btncomplete.Visible = false;
             btnincomplete.Visible = false;
             btnnext.Enabled = false;
@@ -242,6 +242,11 @@ namespace BTC_EnterpriseV2.Forms
 
             dataGridView1.DataSource = data;
             bunifuloading.Hide();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells[colkitted.Name].Value = row.Cells[colpickqty.Name].Value;
+            }
 
             if (dataGridView1.Rows.Count > 0)
             {
@@ -786,26 +791,35 @@ namespace BTC_EnterpriseV2.Forms
 
         private void btnAddSerial_Click(object sender, EventArgs e)
         {
-            list_serial.Rows.Clear();
-
-            // Always reset the column structure to avoid duplicates
-            list_serial.Columns.Clear();
-            list_serial.Columns.Add("id");
-            list_serial.Columns.Add("serial_number");
-
-            foreach (DataRow row in dt_items.Rows)
+            if (track != "Serialized")
             {
-                string rowKitListItemId = row["kit_list_item_id"]?.ToString() ?? "";
-
-                if (rowKitListItemId != kit_list_item_id.ToString())
-                    continue;
-
-                string id = row["id"]?.ToString() ?? "";
-                string serialNumber = row["kit_list_part_serial_number"]?.ToString() ?? "";
-
-                list_serial.Rows.Add(new string[] { id, serialNumber });
+                MessageBox.Show("Only Serialized IPN");
+                return;
             }
+            list_serial.Rows.Clear();
+            //// Always reset the column structure to avoid duplicates
+            //list_serial.Columns.Clear();
+            //list_serial.Columns.Add("id");
+            //list_serial.Columns.Add("serial_number");
 
+            //foreach (DataRow row in dt_items.Rows)
+            //{
+            //    string rowKitListItemId = row["kit_list_item_id"]?.ToString() ?? "";
+
+            //    if (rowKitListItemId != kit_list_item_id.ToString())
+            //        continue;
+
+            //    string id = row["id"]?.ToString() ?? "";
+            //    string serialNumber = row["kit_list_part_serial_number"]?.ToString() ?? "";
+
+            //    list_serial.Rows.Add(new string[] { id, serialNumber });
+            //}
+            var rows = dt_items.AsEnumerable().Where
+                        (row => row.Field<string>("kit_list_item_id") == kit_list_item_id.ToString());
+            if (rows.Any())
+            {
+                list_serial = rows.CopyToDataTable<DataRow>();//Copying the rows into the DataTable as DataRow
+            }
             AddSerialNumber addSerialnumber = new AddSerialNumber(list_serial);
             addSerialnumber.Show();
         }
@@ -815,28 +829,38 @@ namespace BTC_EnterpriseV2.Forms
 
         private async void btnscan_Click(object sender, EventArgs e)
         {
-            list_serial.Clear();
-            list_serial.Columns.Clear();
-            list_serial.Columns.Add("id");
-            list_serial.Columns.Add("kit_list_part_serial_number");
-            list_serial.Columns.Add("is_scan");
-
-            foreach (DataRow row in dt_items.Rows)
+            if (track != "Serialized")
             {
-                string rowKitListItemId = row["kit_list_item_id"]?.ToString() ?? "";
-
-                if (rowKitListItemId != kit_list_item_id.ToString())
-                    continue;
-
-                string id = row["id"]?.ToString() ?? "";
-                string serialNumber = row["kit_list_part_serial_number"]?.ToString() ?? "";
-
-                var rawScan = row["is_scan"];
-                string isscan = rawScan != DBNull.Value ? rawScan.ToString() : "0";
-
-                list_serial.Rows.Add(new string?[] { id, serialNumber, isscan });
+                MessageBox.Show("Only Serialized IPN");
+                return;
             }
+            list_serial.Clear();
+            //list_serial.Columns.Clear();
+            //list_serial.Columns.Add("id");
+            //list_serial.Columns.Add("kit_list_part_serial_number");
+            //list_serial.Columns.Add("is_scan");
 
+            //foreach (DataRow row in dt_items.Rows)
+            //{
+            //    string rowKitListItemId = row["kit_list_item_id"]?.ToString() ?? "";
+
+            //    if (rowKitListItemId != kit_list_item_id.ToString())
+            //        continue;
+
+            //    string id = row["id"]?.ToString() ?? "";
+            //    string serialNumber = row["kit_list_part_serial_number"]?.ToString() ?? "";
+
+            //    var rawScan = row["is_scan"];
+            //    string isscan = rawScan != DBNull.Value ? rawScan.ToString() : "0";
+
+            //    list_serial.Rows.Add(new string?[] { id, serialNumber, isscan });
+            // }
+            var rows = dt_items.AsEnumerable().Where
+                        (row => row.Field<string>("kit_list_item_id") == kit_list_item_id.ToString());
+            if (rows.Any())
+            {
+                list_serial = rows.CopyToDataTable<DataRow>();//Copying the rows into the DataTable as DataRow
+            }
             ScanSerialNumber ScanSerialnumber = new ScanSerialNumber(list_serial, kit_list_item_id);
             ScanSerialnumber.Show();
         }
@@ -844,14 +868,21 @@ namespace BTC_EnterpriseV2.Forms
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int rowindex = dataGridView1.CurrentCell.RowIndex;
-            //int columnindex = dataGridView1.CurrentCell.ColumnIndex;
-            kit_list_item_ipn = dataGridView1.Rows[rowindex].Cells[colipn.Name].Value.ToString();
-            kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
-            total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colpickqty.Name].Value);
-            rowid = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+            try
+            {
+                int rowindex = dataGridView1.CurrentCell.RowIndex;
+                //int columnindex = dataGridView1.CurrentCell.ColumnIndex;
+                kit_list_item_ipn = dataGridView1.Rows[rowindex].Cells[colipn.Name]?.Value.ToString();
+                kit_list_item_id = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+                total_pick_quantity = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colpickqty.Name].Value);
+                track = dataGridView1.Rows[rowindex].Cells[coltrack.Name]?.Value.ToString();
+                rowid = Convert.ToInt32(dataGridView1.Rows[rowindex].Cells[colid.Name].Value);
+            }
+            catch (Exception)
+            {
+
+            }
+           
         }
-
-
     }
 }

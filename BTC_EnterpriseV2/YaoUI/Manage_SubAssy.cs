@@ -80,6 +80,7 @@
             {
                 AForm.Close();
             }
+
             Reset();
         }
         #endregion

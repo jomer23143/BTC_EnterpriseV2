@@ -109,8 +109,9 @@
             panel1.Controls.Add(panel_info1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1623, 114);
+            panel1.Size = new Size(1420, 86);
             panel1.TabIndex = 0;
             // 
             // panel_info2
@@ -120,9 +121,10 @@
             panel_info2.Controls.Add(btn_scan);
             panel_info2.Controls.Add(PB_qrcode);
             panel_info2.Controls.Add(lbl_qrinfo);
-            panel_info2.Location = new Point(1252, 0);
+            panel_info2.Location = new Point(1096, 0);
+            panel_info2.Margin = new Padding(3, 2, 3, 2);
             panel_info2.Name = "panel_info2";
-            panel_info2.Size = new Size(363, 108);
+            panel_info2.Size = new Size(318, 81);
             panel_info2.TabIndex = 0;
             // 
             // btn_scan
@@ -134,9 +136,10 @@
             btn_scan.FlatStyle = FlatStyle.Flat;
             btn_scan.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_scan.ForeColor = Color.White;
-            btn_scan.Location = new Point(11, 12);
+            btn_scan.Location = new Point(10, 9);
+            btn_scan.Margin = new Padding(3, 2, 3, 2);
             btn_scan.Name = "btn_scan";
-            btn_scan.Size = new Size(317, 84);
+            btn_scan.Size = new Size(277, 63);
             btn_scan.TabIndex = 2;
             btn_scan.Text = "Tap to End the Process";
             btn_scan.UseVisualStyleBackColor = false;
@@ -145,9 +148,10 @@
             // PB_qrcode
             // 
             PB_qrcode.Image = (Image)resources.GetObject("PB_qrcode.Image");
-            PB_qrcode.Location = new Point(19, 26);
+            PB_qrcode.Location = new Point(17, 20);
+            PB_qrcode.Margin = new Padding(3, 2, 3, 2);
             PB_qrcode.Name = "PB_qrcode";
-            PB_qrcode.Size = new Size(60, 50);
+            PB_qrcode.Size = new Size(52, 38);
             PB_qrcode.SizeMode = PictureBoxSizeMode.StretchImage;
             PB_qrcode.TabIndex = 1;
             PB_qrcode.TabStop = false;
@@ -156,9 +160,9 @@
             // 
             lbl_qrinfo.Font = new Font("Segoe UI", 7.8F);
             lbl_qrinfo.ForeColor = Color.White;
-            lbl_qrinfo.Location = new Point(89, 29);
+            lbl_qrinfo.Location = new Point(78, 22);
             lbl_qrinfo.Name = "lbl_qrinfo";
-            lbl_qrinfo.Size = new Size(224, 37);
+            lbl_qrinfo.Size = new Size(196, 28);
             lbl_qrinfo.TabIndex = 0;
             lbl_qrinfo.Text = "Please scan the qr \r\ncode to end to process.\r\n";
             // 
@@ -176,27 +180,29 @@
             panel_info1.Controls.Add(label3);
             panel_info1.Controls.Add(label5);
             panel_info1.Controls.Add(label1);
-            panel_info1.Location = new Point(10, 3);
+            panel_info1.Location = new Point(9, 2);
+            panel_info1.Margin = new Padding(3, 2, 3, 2);
             panel_info1.Name = "panel_info1";
-            panel_info1.Size = new Size(1236, 105);
+            panel_info1.Size = new Size(1082, 79);
             panel_info1.TabIndex = 0;
             // 
             // panel_segment
             // 
             panel_segment.BackColor = Color.FromArgb(37, 45, 55);
             panel_segment.Controls.Add(lbl_segment);
-            panel_segment.Location = new Point(196, 58);
+            panel_segment.Location = new Point(172, 44);
+            panel_segment.Margin = new Padding(3, 2, 3, 2);
             panel_segment.Name = "panel_segment";
-            panel_segment.Size = new Size(259, 43);
+            panel_segment.Size = new Size(227, 32);
             panel_segment.TabIndex = 2;
             // 
             // lbl_segment
             // 
             lbl_segment.Font = new Font("Calibri", 13.8F);
             lbl_segment.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_segment.Location = new Point(12, 10);
+            lbl_segment.Location = new Point(10, 1);
             lbl_segment.Name = "lbl_segment";
-            lbl_segment.Size = new Size(222, 23);
+            lbl_segment.Size = new Size(194, 28);
             lbl_segment.TabIndex = 0;
             lbl_segment.Text = "Sub Assembly";
             lbl_segment.TextAlign = ContentAlignment.MiddleCenter;
@@ -206,9 +212,9 @@
             label12.AutoSize = true;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.White;
-            label12.Location = new Point(461, 62);
+            label12.Location = new Point(403, 46);
             label12.Name = "label12";
-            label12.Size = new Size(146, 28);
+            label12.Size = new Size(118, 21);
             label12.TabIndex = 0;
             label12.Text = "Serial Number :";
             label12.TextAlign = ContentAlignment.MiddleCenter;
@@ -219,9 +225,9 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(1007, 65);
+            label9.Location = new Point(881, 49);
             label9.Name = "label9";
-            label9.Size = new Size(74, 28);
+            label9.Size = new Size(59, 21);
             label9.TabIndex = 0;
             label9.Text = "Status :";
             label9.TextAlign = ContentAlignment.MiddleCenter;
@@ -230,18 +236,19 @@
             // 
             panel_moid.BackColor = Color.FromArgb(37, 45, 55);
             panel_moid.Controls.Add(lbl_toplvlipn);
-            panel_moid.Location = new Point(196, 6);
+            panel_moid.Location = new Point(172, 4);
+            panel_moid.Margin = new Padding(3, 2, 3, 2);
             panel_moid.Name = "panel_moid";
-            panel_moid.Size = new Size(259, 43);
+            panel_moid.Size = new Size(227, 32);
             panel_moid.TabIndex = 2;
             // 
             // lbl_toplvlipn
             // 
             lbl_toplvlipn.Font = new Font("Calibri", 13.8F);
             lbl_toplvlipn.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_toplvlipn.Location = new Point(12, 12);
+            lbl_toplvlipn.Location = new Point(10, 3);
             lbl_toplvlipn.Name = "lbl_toplvlipn";
-            lbl_toplvlipn.Size = new Size(222, 23);
+            lbl_toplvlipn.Size = new Size(194, 26);
             lbl_toplvlipn.TabIndex = 0;
             lbl_toplvlipn.Text = "Top Level IPN :";
             lbl_toplvlipn.TextAlign = ContentAlignment.MiddleCenter;
@@ -251,18 +258,19 @@
             panel_generatedserial.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panel_generatedserial.BackColor = Color.FromArgb(37, 45, 55);
             panel_generatedserial.Controls.Add(lbl_generatedserial);
-            panel_generatedserial.Location = new Point(632, 55);
+            panel_generatedserial.Location = new Point(553, 41);
+            panel_generatedserial.Margin = new Padding(3, 2, 3, 2);
             panel_generatedserial.Name = "panel_generatedserial";
-            panel_generatedserial.Size = new Size(355, 43);
+            panel_generatedserial.Size = new Size(311, 32);
             panel_generatedserial.TabIndex = 0;
             // 
             // lbl_generatedserial
             // 
             lbl_generatedserial.Font = new Font("Calibri", 13.8F);
             lbl_generatedserial.ForeColor = Color.White;
-            lbl_generatedserial.Location = new Point(8, 7);
+            lbl_generatedserial.Location = new Point(7, 5);
             lbl_generatedserial.Name = "lbl_generatedserial";
-            lbl_generatedserial.Size = new Size(324, 28);
+            lbl_generatedserial.Size = new Size(284, 21);
             lbl_generatedserial.TabIndex = 0;
             lbl_generatedserial.Text = "Top Level IPN :";
             lbl_generatedserial.TextAlign = ContentAlignment.MiddleCenter;
@@ -271,18 +279,19 @@
             // 
             panel_processname.BackColor = Color.FromArgb(37, 45, 55);
             panel_processname.Controls.Add(lbl_station);
-            panel_processname.Location = new Point(632, 6);
+            panel_processname.Location = new Point(553, 4);
+            panel_processname.Margin = new Padding(3, 2, 3, 2);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(598, 43);
+            panel_processname.Size = new Size(523, 32);
             panel_processname.TabIndex = 1;
             // 
             // lbl_station
             // 
             lbl_station.Font = new Font("Calibri", 13.8F);
             lbl_station.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_station.Location = new Point(7, 1);
+            lbl_station.Location = new Point(6, 1);
             lbl_station.Name = "lbl_station";
-            lbl_station.Size = new Size(587, 38);
+            lbl_station.Size = new Size(514, 28);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
             lbl_station.TextAlign = ContentAlignment.MiddleCenter;
@@ -292,9 +301,10 @@
             panel_statusprocess.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             panel_statusprocess.BackColor = Color.FromArgb(12, 54, 18);
             panel_statusprocess.Controls.Add(lbl_processStatus);
-            panel_statusprocess.Location = new Point(1099, 55);
+            panel_statusprocess.Location = new Point(962, 41);
+            panel_statusprocess.Margin = new Padding(3, 2, 3, 2);
             panel_statusprocess.Name = "panel_statusprocess";
-            panel_statusprocess.Size = new Size(127, 43);
+            panel_statusprocess.Size = new Size(111, 32);
             panel_statusprocess.TabIndex = 0;
             // 
             // lbl_processStatus
@@ -302,9 +312,9 @@
             lbl_processStatus.AutoSize = true;
             lbl_processStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_processStatus.ForeColor = Color.FromArgb(7, 222, 151);
-            lbl_processStatus.Location = new Point(7, 7);
+            lbl_processStatus.Location = new Point(6, 5);
             lbl_processStatus.Name = "lbl_processStatus";
-            lbl_processStatus.Size = new Size(113, 28);
+            lbl_processStatus.Size = new Size(92, 21);
             lbl_processStatus.TabIndex = 0;
             lbl_processStatus.Text = "Processing";
             lbl_processStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -314,9 +324,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(16, 66);
+            label3.Location = new Point(14, 50);
             label3.Name = "label3";
-            label3.Size = new Size(176, 23);
+            label3.Size = new Size(144, 19);
             label3.TabIndex = 0;
             label3.Text = "Production Segment :";
             // 
@@ -325,9 +335,9 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(480, 16);
+            label5.Location = new Point(420, 12);
             label5.Name = "label5";
-            label5.Size = new Size(127, 23);
+            label5.Size = new Size(104, 19);
             label5.TabIndex = 0;
             label5.Text = "Process Name :";
             label5.TextAlign = ContentAlignment.MiddleCenter;
@@ -337,9 +347,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(16, 16);
+            label1.Location = new Point(14, 12);
             label1.Name = "label1";
-            label1.Size = new Size(135, 23);
+            label1.Size = new Size(111, 19);
             label1.TabIndex = 0;
             label1.Text = "Product MO ID :";
             // 
@@ -353,9 +363,10 @@
             panel2.Controls.Add(panel_date);
             panel2.Controls.Add(panel_start);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 666);
+            panel2.Location = new Point(0, 499);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1623, 101);
+            panel2.Size = new Size(1420, 76);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
@@ -365,9 +376,10 @@
             panel_operator.BackColor = Color.FromArgb(22, 27, 45);
             panel_operator.Controls.Add(lbl_operator);
             panel_operator.Controls.Add(label13);
-            panel_operator.Location = new Point(1130, 51);
+            panel_operator.Location = new Point(989, 38);
+            panel_operator.Margin = new Padding(3, 2, 3, 2);
             panel_operator.Name = "panel_operator";
-            panel_operator.Size = new Size(412, 43);
+            panel_operator.Size = new Size(360, 32);
             panel_operator.TabIndex = 0;
             // 
             // lbl_operator
@@ -375,9 +387,9 @@
             lbl_operator.AutoSize = true;
             lbl_operator.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_operator.ForeColor = Color.FromArgb(255, 128, 0);
-            lbl_operator.Location = new Point(122, 8);
+            lbl_operator.Location = new Point(107, 6);
             lbl_operator.Name = "lbl_operator";
-            lbl_operator.Size = new Size(117, 25);
+            lbl_operator.Size = new Size(99, 20);
             lbl_operator.TabIndex = 0;
             lbl_operator.Text = "---------------";
             lbl_operator.TextAlign = ContentAlignment.MiddleCenter;
@@ -387,9 +399,9 @@
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(13, 7);
+            label13.Location = new Point(11, 5);
             label13.Name = "label13";
-            label13.Size = new Size(101, 28);
+            label13.Size = new Size(80, 21);
             label13.TabIndex = 0;
             label13.Text = "Operator :";
             label13.TextAlign = ContentAlignment.MiddleCenter;
@@ -400,9 +412,10 @@
             panel_duration.BackColor = Color.FromArgb(22, 27, 45);
             panel_duration.Controls.Add(lbl_duration);
             panel_duration.Controls.Add(label10);
-            panel_duration.Location = new Point(1129, 6);
+            panel_duration.Location = new Point(988, 4);
+            panel_duration.Margin = new Padding(3, 2, 3, 2);
             panel_duration.Name = "panel_duration";
-            panel_duration.Size = new Size(412, 43);
+            panel_duration.Size = new Size(360, 32);
             panel_duration.TabIndex = 0;
             // 
             // lbl_duration
@@ -410,9 +423,9 @@
             lbl_duration.AutoSize = true;
             lbl_duration.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_duration.ForeColor = Color.Yellow;
-            lbl_duration.Location = new Point(109, 11);
+            lbl_duration.Location = new Point(95, 8);
             lbl_duration.Name = "lbl_duration";
-            lbl_duration.Size = new Size(80, 25);
+            lbl_duration.Size = new Size(63, 20);
             lbl_duration.TabIndex = 0;
             lbl_duration.Text = "00:00:00";
             lbl_duration.TextAlign = ContentAlignment.MiddleCenter;
@@ -422,9 +435,9 @@
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.White;
-            label10.Location = new Point(13, 7);
+            label10.Location = new Point(11, 5);
             label10.Name = "label10";
-            label10.Size = new Size(98, 28);
+            label10.Size = new Size(78, 21);
             label10.TabIndex = 0;
             label10.Text = "Duration :";
             label10.TextAlign = ContentAlignment.MiddleCenter;
@@ -435,9 +448,10 @@
             panel_end.BackColor = Color.FromArgb(22, 27, 45);
             panel_end.Controls.Add(lbl_timeEnd);
             panel_end.Controls.Add(label8);
-            panel_end.Location = new Point(636, 6);
+            panel_end.Location = new Point(556, 4);
+            panel_end.Margin = new Padding(3, 2, 3, 2);
             panel_end.Name = "panel_end";
-            panel_end.Size = new Size(238, 43);
+            panel_end.Size = new Size(208, 32);
             panel_end.TabIndex = 0;
             // 
             // lbl_timeEnd
@@ -445,9 +459,9 @@
             lbl_timeEnd.AutoSize = true;
             lbl_timeEnd.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_timeEnd.ForeColor = Color.Red;
-            lbl_timeEnd.Location = new Point(128, 8);
+            lbl_timeEnd.Location = new Point(112, 6);
             lbl_timeEnd.Name = "lbl_timeEnd";
-            lbl_timeEnd.Size = new Size(86, 28);
+            lbl_timeEnd.Size = new Size(70, 21);
             lbl_timeEnd.TabIndex = 0;
             lbl_timeEnd.Text = "00:00:00";
             lbl_timeEnd.TextAlign = ContentAlignment.MiddleCenter;
@@ -457,9 +471,9 @@
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.White;
-            label8.Location = new Point(13, 7);
+            label8.Location = new Point(11, 5);
             label8.Name = "label8";
-            label8.Size = new Size(101, 28);
+            label8.Size = new Size(81, 21);
             label8.TabIndex = 0;
             label8.Text = "Time End :";
             label8.TextAlign = ContentAlignment.MiddleCenter;
@@ -470,9 +484,10 @@
             panel_dateend.BackColor = Color.FromArgb(22, 27, 45);
             panel_dateend.Controls.Add(lbl_date_end);
             panel_dateend.Controls.Add(label11);
-            panel_dateend.Location = new Point(636, 51);
+            panel_dateend.Location = new Point(556, 38);
+            panel_dateend.Margin = new Padding(3, 2, 3, 2);
             panel_dateend.Name = "panel_dateend";
-            panel_dateend.Size = new Size(403, 43);
+            panel_dateend.Size = new Size(353, 32);
             panel_dateend.TabIndex = 0;
             // 
             // lbl_date_end
@@ -480,9 +495,9 @@
             lbl_date_end.AutoSize = true;
             lbl_date_end.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_date_end.ForeColor = Color.Red;
-            lbl_date_end.Location = new Point(140, 8);
+            lbl_date_end.Location = new Point(122, 6);
             lbl_date_end.Name = "lbl_date_end";
-            lbl_date_end.Size = new Size(233, 28);
+            lbl_date_end.Size = new Size(187, 21);
             lbl_date_end.TabIndex = 0;
             lbl_date_end.Text = "wendesday,May-28-2025";
             lbl_date_end.TextAlign = ContentAlignment.MiddleCenter;
@@ -492,9 +507,9 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.White;
-            label11.Location = new Point(11, 7);
+            label11.Location = new Point(10, 5);
             label11.Name = "label11";
-            label11.Size = new Size(100, 28);
+            label11.Size = new Size(79, 21);
             label11.TabIndex = 0;
             label11.Text = "Date End :";
             label11.TextAlign = ContentAlignment.MiddleCenter;
@@ -505,9 +520,10 @@
             panel_date.BackColor = Color.FromArgb(22, 27, 45);
             panel_date.Controls.Add(lbl_date);
             panel_date.Controls.Add(label6);
-            panel_date.Location = new Point(126, 51);
+            panel_date.Location = new Point(110, 38);
+            panel_date.Margin = new Padding(3, 2, 3, 2);
             panel_date.Name = "panel_date";
-            panel_date.Size = new Size(403, 43);
+            panel_date.Size = new Size(353, 32);
             panel_date.TabIndex = 0;
             // 
             // lbl_date
@@ -515,9 +531,9 @@
             lbl_date.AutoSize = true;
             lbl_date.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_date.ForeColor = Color.LimeGreen;
-            lbl_date.Location = new Point(140, 8);
+            lbl_date.Location = new Point(122, 6);
             lbl_date.Name = "lbl_date";
-            lbl_date.Size = new Size(233, 28);
+            lbl_date.Size = new Size(187, 21);
             lbl_date.TabIndex = 0;
             lbl_date.Text = "wendesday,May-28-2025";
             lbl_date.TextAlign = ContentAlignment.MiddleCenter;
@@ -527,9 +543,9 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(11, 7);
+            label6.Location = new Point(10, 5);
             label6.Name = "label6";
-            label6.Size = new Size(130, 28);
+            label6.Size = new Size(102, 21);
             label6.TabIndex = 0;
             label6.Text = "Date Started :";
             label6.TextAlign = ContentAlignment.MiddleCenter;
@@ -540,9 +556,10 @@
             panel_start.BackColor = Color.FromArgb(22, 27, 45);
             panel_start.Controls.Add(lbl_timestart);
             panel_start.Controls.Add(label2);
-            panel_start.Location = new Point(126, 6);
+            panel_start.Location = new Point(110, 4);
+            panel_start.Margin = new Padding(3, 2, 3, 2);
             panel_start.Name = "panel_start";
-            panel_start.Size = new Size(238, 43);
+            panel_start.Size = new Size(208, 32);
             panel_start.TabIndex = 0;
             // 
             // lbl_timestart
@@ -550,9 +567,9 @@
             lbl_timestart.AutoSize = true;
             lbl_timestart.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_timestart.ForeColor = Color.LimeGreen;
-            lbl_timestart.Location = new Point(128, 8);
+            lbl_timestart.Location = new Point(112, 6);
             lbl_timestart.Name = "lbl_timestart";
-            lbl_timestart.Size = new Size(86, 28);
+            lbl_timestart.Size = new Size(70, 21);
             lbl_timestart.TabIndex = 0;
             lbl_timestart.Text = "00:00:00";
             lbl_timestart.TextAlign = ContentAlignment.MiddleCenter;
@@ -562,9 +579,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(13, 7);
+            label2.Location = new Point(11, 5);
             label2.Name = "label2";
-            label2.Size = new Size(109, 28);
+            label2.Size = new Size(87, 21);
             label2.TabIndex = 0;
             label2.Text = "Time Start :";
             label2.TextAlign = ContentAlignment.MiddleCenter;
@@ -572,17 +589,19 @@
             // panel3
             // 
             panel3.Dock = DockStyle.Left;
-            panel3.Location = new Point(0, 114);
+            panel3.Location = new Point(0, 86);
+            panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(10, 552);
+            panel3.Size = new Size(9, 413);
             panel3.TabIndex = 2;
             // 
             // panel4
             // 
             panel4.Dock = DockStyle.Right;
-            panel4.Location = new Point(1615, 114);
+            panel4.Location = new Point(1413, 86);
+            panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
-            panel4.Size = new Size(8, 552);
+            panel4.Size = new Size(7, 413);
             panel4.TabIndex = 3;
             // 
             // dataGridView1
@@ -606,7 +625,8 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5 });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(10, 114);
+            dataGridView1.Location = new Point(9, 86);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
@@ -619,7 +639,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1605, 552);
+            dataGridView1.Size = new Size(1404, 413);
             dataGridView1.TabIndex = 4;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -661,7 +681,7 @@
             Column5.ReadOnly = true;
             Column5.Resizable = DataGridViewTriState.True;
             Column5.SortMode = DataGridViewColumnSortMode.Automatic;
-            Column5.Width = 178;
+            Column5.Width = 146;
             // 
             // timer1
             // 
@@ -671,19 +691,20 @@
             // 
             pb_loader.Anchor = AnchorStyles.Top;
             pb_loader.Image = (Image)resources.GetObject("pb_loader.Image");
-            pb_loader.Location = new Point(636, 222);
+            pb_loader.Location = new Point(556, 166);
+            pb_loader.Margin = new Padding(3, 2, 3, 2);
             pb_loader.Name = "pb_loader";
-            pb_loader.Size = new Size(361, 263);
+            pb_loader.Size = new Size(316, 206);
             pb_loader.SizeMode = PictureBoxSizeMode.StretchImage;
             pb_loader.TabIndex = 3;
             pb_loader.TabStop = false;
             // 
             // Sub_AssyFrm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1623, 767);
+            ClientSize = new Size(1420, 575);
             Controls.Add(pb_loader);
             Controls.Add(dataGridView1);
             Controls.Add(panel4);
@@ -691,6 +712,7 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Sub_AssyFrm";
             Text = "Sub_AssyFrm";
             Load += Sub_AssyFrm_Load;

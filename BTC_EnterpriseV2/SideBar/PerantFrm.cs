@@ -32,6 +32,7 @@ namespace BTC_EnterpriseV2.SideBar
 
         private async void PerantFrm_Load(object sender, EventArgs e)
         {
+            formManager.ActivateButton(button1);
             if (isSidebarExpanded)
             {
                 string arrowRight = Path.Combine(Application.StartupPath, "Assets", "next.png");
@@ -90,7 +91,7 @@ namespace BTC_EnterpriseV2.SideBar
 
         private void button1_Click(object sender, EventArgs e)
         {
-            formManager.closeAForm();
+            formManager.ActivateButton(sender);
         }
 
         private void button3_Click(object sender, EventArgs e)

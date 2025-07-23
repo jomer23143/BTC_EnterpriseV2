@@ -65,7 +65,10 @@ namespace BTC_EnterpriseV2.Modal
             int index = 1;
             foreach (DataRow serial in serials.Rows)
             {
-                dataGridView1.Rows.Add(index++, serial[2]);
+                if (processId == serial[1].ToString())
+                {
+                    dataGridView1.Rows.Add(index++, serial[2]);
+                }
             }
         }
 
@@ -104,8 +107,6 @@ namespace BTC_EnterpriseV2.Modal
                         {
                             return;
                         }
-
-
                     }
                 }
                 else

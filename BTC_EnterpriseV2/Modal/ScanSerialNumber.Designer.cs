@@ -45,6 +45,8 @@
             colpart_serial = new DataGridViewTextBoxColumn();
             colid = new DataGridViewTextBoxColumn();
             coliscan = new DataGridViewTextBoxColumn();
+            colitem_list_item_id = new DataGridViewTextBoxColumn();
+            colstatus_id = new DataGridViewTextBoxColumn();
             panel2.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgSerialnumber).BeginInit();
@@ -61,9 +63,10 @@
             btn_close.FlatStyle = FlatStyle.Flat;
             btn_close.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btn_close.ForeColor = Color.White;
-            btn_close.Location = new Point(588, 9);
+            btn_close.Location = new Point(514, 7);
+            btn_close.Margin = new Padding(3, 2, 3, 2);
             btn_close.Name = "btn_close";
-            btn_close.Size = new Size(39, 31);
+            btn_close.Size = new Size(34, 23);
             btn_close.TabIndex = 0;
             btn_close.UseVisualStyleBackColor = false;
             btn_close.Click += btn_close_Click;
@@ -77,9 +80,10 @@
             btnsave_serial.FlatStyle = FlatStyle.Flat;
             btnsave_serial.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnsave_serial.ForeColor = Color.White;
-            btnsave_serial.Location = new Point(12, 3);
+            btnsave_serial.Location = new Point(10, 2);
+            btnsave_serial.Margin = new Padding(3, 2, 3, 2);
             btnsave_serial.Name = "btnsave_serial";
-            btnsave_serial.Size = new Size(198, 46);
+            btnsave_serial.Size = new Size(173, 34);
             btnsave_serial.TabIndex = 0;
             btnsave_serial.Text = "Save Serial";
             btnsave_serial.UseVisualStyleBackColor = false;
@@ -91,9 +95,10 @@
             panel2.Controls.Add(btnsave_serial);
             panel2.Controls.Add(lbl_rowcount);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 562);
+            panel2.Location = new Point(0, 421);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(639, 61);
+            panel2.Size = new Size(559, 46);
             panel2.TabIndex = 5;
             // 
             // lbl_rowcount
@@ -101,9 +106,9 @@
             lbl_rowcount.AutoSize = true;
             lbl_rowcount.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_rowcount.ForeColor = Color.White;
-            lbl_rowcount.Location = new Point(495, 7);
+            lbl_rowcount.Location = new Point(433, 5);
             lbl_rowcount.Name = "lbl_rowcount";
-            lbl_rowcount.Size = new Size(102, 28);
+            lbl_rowcount.Size = new Size(81, 21);
             lbl_rowcount.TabIndex = 6;
             lbl_rowcount.Text = "0 out of 0";
             // 
@@ -112,9 +117,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 34);
+            label1.Location = new Point(10, 26);
             label1.Name = "label1";
-            label1.Size = new Size(45, 28);
+            label1.Size = new Size(36, 21);
             label1.TabIndex = 6;
             label1.Text = "IPN";
             // 
@@ -123,9 +128,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(229, 106);
+            label3.Location = new Point(200, 80);
             label3.Name = "label3";
-            label3.Size = new Size(190, 28);
+            label3.Size = new Size(152, 21);
             label3.TabIndex = 6;
             label3.Text = "Scan Serial Number";
             // 
@@ -134,18 +139,19 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.SpringGreen;
-            label2.Location = new Point(213, 8);
+            label2.Location = new Point(186, 6);
             label2.Name = "label2";
-            label2.Size = new Size(219, 31);
+            label2.Size = new Size(180, 25);
             label2.TabIndex = 0;
             label2.Text = "Scan Serial Number";
             // 
             // txtserial_number
             // 
             txtserial_number.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtserial_number.Location = new Point(159, 69);
+            txtserial_number.Location = new Point(139, 52);
+            txtserial_number.Margin = new Padding(3, 2, 3, 2);
             txtserial_number.Name = "txtserial_number";
-            txtserial_number.Size = new Size(330, 34);
+            txtserial_number.Size = new Size(289, 29);
             txtserial_number.TabIndex = 7;
             txtserial_number.TextAlign = HorizontalAlignment.Center;
             txtserial_number.KeyDown += txtserial_number_KeyDown;
@@ -160,8 +166,9 @@
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(639, 156);
+            panel1.Size = new Size(559, 117);
             panel1.TabIndex = 4;
             // 
             // dgSerialnumber
@@ -181,9 +188,10 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgSerialnumber.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgSerialnumber.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgSerialnumber.Columns.AddRange(new DataGridViewColumn[] { colscan, colpart_serial, colid, coliscan });
+            dgSerialnumber.Columns.AddRange(new DataGridViewColumn[] { colscan, colpart_serial, colid, coliscan, colitem_list_item_id, colstatus_id });
             dgSerialnumber.EnableHeadersVisualStyles = false;
-            dgSerialnumber.Location = new Point(12, 162);
+            dgSerialnumber.Location = new Point(10, 122);
+            dgSerialnumber.Margin = new Padding(3, 2, 3, 2);
             dgSerialnumber.Name = "dgSerialnumber";
             dgSerialnumber.RowHeadersWidth = 51;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -191,7 +199,7 @@
             dataGridViewCellStyle2.Padding = new Padding(3);
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgSerialnumber.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dgSerialnumber.Size = new Size(615, 394);
+            dgSerialnumber.Size = new Size(538, 296);
             dgSerialnumber.TabIndex = 7;
             dgSerialnumber.CellClick += dgSerialnumber_CellClick;
             dgSerialnumber.CellContentClick += dgSerialnumber_CellContentClick;
@@ -235,15 +243,30 @@
             coliscan.SortMode = DataGridViewColumnSortMode.NotSortable;
             coliscan.Visible = false;
             // 
+            // colitem_list_item_id
+            // 
+            colitem_list_item_id.DataPropertyName = "kit_list_item_id";
+            colitem_list_item_id.HeaderText = "item_id";
+            colitem_list_item_id.Name = "colitem_list_item_id";
+            colitem_list_item_id.Visible = false;
+            // 
+            // colstatus_id
+            // 
+            colstatus_id.DataPropertyName = "kit_list_item_serial_number_status_id";
+            colstatus_id.HeaderText = "status_id";
+            colstatus_id.Name = "colstatus_id";
+            colstatus_id.Visible = false;
+            // 
             // ScanSerialNumber
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(639, 623);
+            ClientSize = new Size(559, 467);
             Controls.Add(dgSerialnumber);
             Controls.Add(panel1);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "ScanSerialNumber";
             Text = "ScanSerialNumber";
             Load += ScanSerialNumber_Load;
@@ -270,5 +293,7 @@
         private DataGridViewTextBoxColumn colpart_serial;
         private DataGridViewTextBoxColumn colid;
         private DataGridViewTextBoxColumn coliscan;
+        private DataGridViewTextBoxColumn colitem_list_item_id;
+        private DataGridViewTextBoxColumn colstatus_id;
     }
 }

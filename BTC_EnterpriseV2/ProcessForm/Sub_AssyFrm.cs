@@ -147,15 +147,9 @@ namespace BTC_EnterpriseV2.ProcessForm
                     lbl_segment.Text = "Unknown Segment";
                     break;
             }
-
-
         }
 
-
-
         /// for Pre Assembly Process
-
-
         public async Task LoadSegmentProcessAsync(string serial, int segmentId)
         {
             try
@@ -476,15 +470,15 @@ namespace BTC_EnterpriseV2.ProcessForm
                 return;
 
             var row = dataGridView1.Rows[e.RowIndex];
-
-            switch (_segmentID)
+            bool result = _segmentID == 1 ? true : false;
+            switch (result)
             {
-                case 1:
+                case true:
                     await HandleSubAssyClickAsync(row, e.RowIndex);
                     break;
 
-                case 2:
-                    await HandlePreAssyClickAsync(row);
+                case false:
+                    await HandlePreAssyClickAsync(row,e.RowIndex);
                     break;
             }
 
@@ -496,16 +490,12 @@ namespace BTC_EnterpriseV2.ProcessForm
 
         private async Task HandleSubAssyClickAsync(DataGridViewRow row, int rowIndex)
         {
-            var trackdata = row.Cells["track"].Value?.ToString();
-            if (trackdata != "Serialized")
-            {
-                MessageBox.Show("This is not serialized, you cannot scan it.", "Track Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+           
 
             string serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
             string serialCountStr = row.Cells["serial_count"].Value?.ToString();
             string processName = row.Cells["name"].Value?.ToString();
+            string ipnnumber = row.Cells["ipn_number"].Value?.ToString();
             string processId = row.Cells["id"].Value?.ToString();
 
             if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
@@ -513,6 +503,24 @@ namespace BTC_EnterpriseV2.ProcessForm
                 MessageBox.Show("Invalid quantity or count value.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            bool isMultipleIPN = ipnnumber != null && ipnnumber.Contains("/");
+
+            var trackdata = row.Cells["track"].Value?.ToString();
+            if (trackdata != "Serialized" && !isMultipleIPN)
+            {
+                MessageBox.Show("This is not serialized, you cannot scan it.", "Track Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (isMultipleIPN && trackdata != "Serialized")
+            {
+                var scanMulti = new ProcessScanner(rowIndex, processId, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
+                scanMulti.ShowDialog();
+                await LoadSegmentProcessAsync(lbl_generatedserial.Text, _segmentID);
+                return;
+            }
+
 
             if (serialCount == serialQty)
             {
@@ -528,16 +536,18 @@ namespace BTC_EnterpriseV2.ProcessForm
                 return;
             }
 
+
             var scan = new ProcessScanner(rowIndex, processId, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
             scan.ShowDialog();
             await LoadSegmentProcessAsync(lbl_generatedserial.Text, _segmentID);
         }
 
 
-        private async Task HandlePreAssyClickAsync(DataGridViewRow row)
+        private async Task HandlePreAssyClickAsync(DataGridViewRow row,int rowindex)
         {
             string serialCount = row.Cells["serial_count"].Value?.ToString();
             string ipn = row.Cells["ipn_number"].Value?.ToString();
+            string serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
             string isKitList = row.Cells["is_kit_list"].Value?.ToString();
 
             if (serialCount == "1")
@@ -551,19 +561,20 @@ namespace BTC_EnterpriseV2.ProcessForm
                 ShowAlert("Process No IPN Number", "This process has no IPN number. You cannot scan this process. 😌", CustomeAlert.Alertype.Error);
                 return;
             }
-
-            if (isKitList == "1")
-            {
-                ShowAlert("Process Assembled", "This item is in kit list. You can skip though. 😌", CustomeAlert.Alertype.Warning);
-                return;
-            }
-
             int processId = Convert.ToInt32(row.Cells["id"].Value);
+            string _processId = row.Cells["id"].Value.ToString();
             string ipnNumber = ipn;
             string processName = row.Cells["name"].Value?.ToString();
-
-            var scan = new PreAssy_ProcessScanner(_segmentID, processId, processName, _serial);
-            scan.ShowDialog();
+            if (isKitList == "1")
+            {
+                var scan = new ProcessScanner(rowindex, _processId, processName, lbl_generatedserial.Text, serialQtyStr, serialCount, is_kit_list, dtserials);
+                scan.ShowDialog();
+            }
+            else
+            {
+                var scan = new PreAssy_ProcessScanner(_segmentID, processId, processName, _serial);
+                scan.ShowDialog();
+            }
             await LoadSegmentProcessAsync(_serial, _segmentID);
         }
 
@@ -589,15 +600,13 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             PB_qrcode.Image = qrCodeImage;
         }
-
-
         private void EndProcessValidation()
         {
             bool hasMismatch = false;
-
-            switch (_segmentID)
+            bool result = _segmentID == 1 ? true : false;
+            switch (result)
             {
-                case 1:
+                case true:
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         if (row.IsNewRow)
@@ -670,7 +679,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         endProcess.ShowDialog();
                     }
                     break;
-                case 2:
+                case false:
                     foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
                         if (row.IsNewRow)
@@ -679,6 +688,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         var serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
                         var serialCountStr = row.Cells["serial_count"].Value?.ToString();
                         var iskitlist = Convert.ToUInt32(row.Cells["is_kit_list"].Value?.ToString());
+                        var ipn = row.Cells["ipn_number"].Value.ToString();
                         processname = row.Cells["name"].Value?.ToString();
 
                         if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
@@ -702,10 +712,13 @@ namespace BTC_EnterpriseV2.ProcessForm
                         }
 
 
-                        if (serialCount != serialQty && iskitlist == 0)
+                        if (serialCount != serialQty)
                         {
-                            hasMismatch = true;
-                            break;
+                            if (!string.IsNullOrWhiteSpace(ipn))
+                            {
+                                hasMismatch = true;
+                                break;
+                            }
                         }
                     }
 
@@ -750,11 +763,6 @@ namespace BTC_EnterpriseV2.ProcessForm
 
 
         }
-
-
-
-
-
 
         public async Task End_ProcessWithDectionary(string serial, int segment, int status, string remark, string rfid)
         {
