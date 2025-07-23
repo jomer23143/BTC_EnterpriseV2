@@ -103,15 +103,27 @@ namespace BTCP_EnterpriseV2.Forms
                         var departmentName = records[0].Trim();
                         switch (processType = records[1].Trim())
                         {
-                            case "1":
+                            case "101":
                                 btn_subasemble.Visible = false;
                                 lbl_departmemnt.Text = departmentName;
                                 fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
                                 break;
-                            case "2":
+                            case "102":
                                 btn_subasemble.Visible = false;
                                 lbl_departmemnt.Text = departmentName;
                                 fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
+                                break;
+                            case "1":
+                                fulldisplaycontroll.closeAForm();
+                                Manage_SubAssy.Reset();
+                                btn_subasemble.Visible = true;
+                                lbl_departmemnt.Text = departmentName;
+                                break;
+                            case "2":
+                                fulldisplaycontroll.closeAForm();
+                                Manage_SubAssy.Reset();
+                                btn_subasemble.Visible = true;
+                                lbl_departmemnt.Text = departmentName;
                                 break;
                             case "3":
                                 fulldisplaycontroll.closeAForm();
@@ -120,19 +132,13 @@ namespace BTCP_EnterpriseV2.Forms
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "4":
-                                fulldisplaycontroll.closeAForm();
-                                Manage_SubAssy.Reset();
                                 btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "5":
-                                fulldisplaycontroll.closeAForm();
-                                Manage_SubAssy.Reset();
-                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "6":
-                                btn_subasemble.Visible = true;
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "7":
@@ -142,12 +148,6 @@ namespace BTCP_EnterpriseV2.Forms
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             case "9":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "10":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "11":
                                 lbl_departmemnt.Text = departmentName;
                                 break;
                             default:
@@ -186,58 +186,14 @@ namespace BTCP_EnterpriseV2.Forms
             string processType = string.Empty;
 
 
-            scannerForm.SerialScanned += async (serial, processtype, itemsTable, id, processname, stationame) =>
+            scannerForm.SerialScanned += async (serial, processtype, segmentname, itemsTable) =>
             {
                 scannedSerial = serial ?? string.Empty;
+                segmentname = segmentname ?? string.Empty;
                 processType = processtype ?? string.Empty;
+                int _segmentID = Convert.ToInt32(processType);
                 response_list = itemsTable ?? new DataTable("thedata");
-                var ids = id;
-                switch (processType)
-                {
-                    case "1":
-                        // Handle process type 001 for Warehouse
-
-                        break;
-
-                    case "2":
-                        // Handle process type 002 for kitlist Reciving
-
-                        break;
-                    case "3":
-                        // Handle process type 3 for Sub Assembly segment 1 for sub assymble
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 1, "Sub_Assembly"), sender);
-                        break;
-                    case "4":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 2, processname), sender);
-
-                        break;
-                    case "5":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 3, processname), sender);
-                        break;
-                    case "6":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 4, processname), sender);
-                        break;
-                    case "7":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 5, processname), sender);
-                        break;
-                    case "8":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 6, processname), sender);
-                        break;
-                    case "9":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 7, processname), sender);
-                        break;
-                    case "10":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 8, processname), sender);
-                        break;
-                    case "11":
-                        fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, 9, processname), sender);
-                        break;
-
-                    default:
-                        MessageBox.Show("Invalid process type selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                }
-
+                fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, _segmentID, segmentname), sender);
             };
 
             scannerForm.ShowDialog(this);
@@ -269,9 +225,9 @@ namespace BTCP_EnterpriseV2.Forms
                     {
                         var departmentName = records[0].Trim();
                         var processType = records[1].Trim();
-                        if (processType != "1" && processType != "2")
+                        if (processType != "101" && processType != "102")
                         {
-                            Manage_SubAssy.closeAForm();
+                            fulldisplaycontroll.closeAForm();
                         }
                         else
                         {

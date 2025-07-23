@@ -70,5 +70,13 @@ namespace BTCP_EnterpriseV2.YaoUI
             obj.Region = new Region(path);
             obj.BackColor = color;
         }
+        public void RoundedPicturebox(PictureBox obj)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, obj.Width, obj.Height);
+            obj.Region = new Region(path);
+            obj.BackColor = Color.White;
+        }
+
     }
 }

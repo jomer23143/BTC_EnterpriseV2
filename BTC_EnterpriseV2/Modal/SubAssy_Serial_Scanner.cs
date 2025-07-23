@@ -13,7 +13,7 @@ namespace BTC_EnterpriseV2.Modal
     public partial class SubAssy_Serial_Scanner : Form
     {
         // public event Action<string?> SerialScanned = delegate { };
-        public delegate void serialScannedHandler(string serial, string processType, DataTable data_list, int id, string processname, string stationName);
+        public delegate void serialScannedHandler(string serial, string processType, string processname, DataTable data_list);
         public event serialScannedHandler SerialScanned;
         public event Action<DataTable> Responsetable = delegate { };
         public string segmentname;
@@ -54,59 +54,82 @@ namespace BTC_EnterpriseV2.Modal
                 pictureBox1.Visible = true;
             }
         }
+        private void LoadDataRegistry()
+        {
+            try
+            {
+                RegistrySupport_Operation registry = new RegistrySupport_Operation();
+                String data = registry.Read(Def.REGKEY_SUB);
+                if (data == null)
+                {
+                    data += String.Format($"BTC_ENTERPRISE<limiter>DEFualSection<limiter>DefualtCode<limiter>");
+                    registry.Write(Def.REGKEY_SUB, data);
+                }
+                String[] programs = data.Split(new String[] { "<limiter1>" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (String program in programs)
+                {
+                    String[] records = program.Split(new String[] { "<limiter>" }, StringSplitOptions.RemoveEmptyEntries);
+                    //setup_grid.Rows.Add(records);
+                    if (records.Length >= 3)
+                    {
+                        segmentname = records[0].Trim();
+                        processType = records[1].Trim();
 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid data format in registry.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private async void ValidateIPN()
         {
-            if (string.IsNullOrWhiteSpace(txt_serialnumber.Text))
+            string serial = txt_serialnumber.Text.Trim();
+
+            if (!IsValidSerial(serial)) return;
+            if (!IsValidProcessType(processType)) return;
+
+            await ProcessByTypeAsync(serial, processType, segmentname);
+        }
+
+        private bool IsValidSerial(string serial)
+        {
+            if (string.IsNullOrWhiteSpace(serial))
             {
                 ShowWarning("Please enter a serial number.");
-                return;
+                return false;
             }
-
-            switch (processType)
-            {
-                case "1":
-
-                    break;
-                case "2":
-
-                    break;
-                case "3": //Sub Assy
-                    await Get_ScanData(txt_serialnumber.Text);
-                    break;
-
-                case "4"://Pre Assy
-                    int perc = 45;
-                    string barHtml = Utils.RenderProgressBar(perc, "orange", "white");
-                    label_progress.Text = $"{perc}%";
-                    var stationId = 2;
-                    var theprocess = "Pre Assembly";
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, stationId, theprocess, statioName);
-                    this.Close();
-                    break;
-                case "5": //Rain Test
-                    //await Get_ScanData_PreAssy(txt_serialnumber.Text, 1, 2, 3);
-                    //int perc = 45;
-                    //string barHtml = Utils.RenderProgressBar(perc, "orange", "white");
-                    //label_progress.Text = $"{perc}%";
-                    var RstationId = 3;
-                    var Rprocess = "Rain Test";
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, RstationId, Rprocess, statioName);
-                    this.Close();
-                    break;
-                case "6": //Main Assembly
-                    var MstationId = 4;
-                    var Mprocess = "Main Assembly";
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, MstationId, Mprocess, statioName);
-                    this.Close();
-                    break;
-                default:
-                    ShowWarning("Invalid process type.");
-                    return;
-            }
-
-
+            return true;
         }
+
+        private bool IsValidProcessType(string type)
+        {
+            if (type == "101" || type == "102")
+            {
+                ShowWarning("Please select a valid process type from the registry.");
+                return false;
+            }
+            return true;
+        }
+
+        private async Task ProcessByTypeAsync(string serial, string type, string processname)
+        {
+            if (type == "1")
+            {
+                await Get_ScanData(serial);
+            }
+            else
+            {
+                SerialScanned?.Invoke(serial, type, processname, ipn_list);
+                this.Close();
+            }
+        }
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
@@ -126,39 +149,7 @@ namespace BTC_EnterpriseV2.Modal
             !string.IsNullOrWhiteSpace(json) && !json.StartsWith("<");
 
 
-        private void LoadDataRegistry()
-        {
-            try
-            {
-                RegistrySupport_Operation registry = new RegistrySupport_Operation();
-                String data = registry.Read(Def.REGKEY_SUB);
-                if (data == null)
-                {
-                    data += String.Format($"BTC_ENTERPRISE<limiter>DEFualSection<limiter>DefualtCode<limiter>");
-                    registry.Write(Def.REGKEY_SUB, data);
-                }
-                String[] programs = data.Split(new String[] { "<limiter1>" }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (String program in programs)
-                {
-                    String[] records = program.Split(new String[] { "<limiter>" }, StringSplitOptions.RemoveEmptyEntries);
-                    //setup_grid.Rows.Add(records);
-                    if (records.Length >= 3)
-                    {
 
-                        processType = records[1].Trim();
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid data format in registry.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
 
 
@@ -227,7 +218,7 @@ namespace BTC_EnterpriseV2.Modal
                     return;
                 }
 
-                SerialScanned?.Invoke(txt_serialnumber.Text, processType, filteredItems, id, processname, statioName);
+                SerialScanned?.Invoke(txt_serialnumber.Text, processType, segmentname, filteredItems);
 
                 this.Close();
             }
@@ -255,7 +246,7 @@ namespace BTC_EnterpriseV2.Modal
                 // You can now decide what to do based on result
                 if (result.Rows.Count == 0)
                 {
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, dt_items, id, processname, statioName);
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, segmentname, dt_items);
                     this.Close();
                 }
 
@@ -479,7 +470,7 @@ namespace BTC_EnterpriseV2.Modal
                     };
                     statioName = station.name;
 
-                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, ipn_list, stationId, theprocess, statioName);
+                    SerialScanned?.Invoke(txt_serialnumber.Text, processType, segmentname, ipn_list);
                     this.Close();
                     break;
                 }

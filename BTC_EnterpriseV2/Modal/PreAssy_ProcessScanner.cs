@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Model;
+using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -15,10 +16,10 @@ namespace BTC_EnterpriseV2.Modal
 
         public int station_id { get; set; }
         public int process_id { get; set; }
-
+        public int rowindex;
         public string toplevelserial { get; set; }
         public string process_name { get; set; }
-        public PreAssy_ProcessScanner(int station_id, int process_id, string process_name, string toplevelserial)
+        public PreAssy_ProcessScanner(int rowIndex, int station_id, int process_id, string process_name, string toplevelserial)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -26,6 +27,7 @@ namespace BTC_EnterpriseV2.Modal
             this.process_id = process_id;
             this.process_name = process_name;
             this.toplevelserial = toplevelserial;
+            this.rowindex = rowIndex;
             YUI yUI = new YUI();
             yUI.RoundedFormsDocker(this, 10);
             yUI.RoundedTextBox(txt_serial, 10, Color.White);
@@ -52,7 +54,7 @@ namespace BTC_EnterpriseV2.Modal
                 {
                     await EndProcess(toplevelserial, station_id, process_id, txt_serial.Text.Trim());
 
-                    this.Close();
+                    // this.Close();
                 }
             }
         }
@@ -125,8 +127,26 @@ namespace BTC_EnterpriseV2.Modal
                         ShowMessage("No valid process data returned.", Color.Red);
                         return;
                     }
-                    //diri mag fucntion
+                    string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
+                    Image viewImage = Image.FromFile(viewImagePath);
+                    Image resizedImage2 = ResizeImage(viewImage, 60, 60);
 
+                    Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["ScanItemSerial"].Value = resizedImage2;
+
+                    Image ResizeImage(Image img, int width, int height)
+                    {
+                        Bitmap bmp = new Bitmap(width, height);
+                        using (Graphics g = Graphics.FromImage(bmp))
+                        {
+                            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                            g.DrawImage(img, 0, 0, width, height);
+                        }
+                        return bmp;
+                    }
+                    int index = 0;
+
+                    Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["serial_count"].Value = 1;
+                    this.Close();
                 }
                 else
                 {

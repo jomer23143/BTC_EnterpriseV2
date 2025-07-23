@@ -37,8 +37,8 @@ namespace BTC_EnterpriseV2.Settings
                     //setup_grid.Rows.Add(records);
                     if (records.Length >= 3)
                     {
-                        lbl_deptname.Text = records[0].Trim();
-                        cmb_code.Text = records[1].Trim();
+                        cmb_name.Text = records[0].Trim();
+                        lbl_code.Text = records[1].Trim();
 
                     }
                     else
@@ -67,8 +67,8 @@ namespace BTC_EnterpriseV2.Settings
         {
             String data = "";
 
-            String sectname = lbl_deptname.Text.Trim();
-            String sectCode = cmb_code.Text.Trim();
+            String sectname = cmb_name.Text.Trim();
+            String sectCode = lbl_code.Text.Trim();
             String projectName = "BTC_ENTERPRISE";
             if (sectname.Length == 0 || sectCode.Length == 0)
             {
@@ -91,18 +91,45 @@ namespace BTC_EnterpriseV2.Settings
 
         private void cmb_code_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedValue = cmb_code.SelectedItem?.ToString() ?? cmb_code.Text;
-            DictionaryBuilder Dbuilder = new DictionaryBuilder();
-            if (Dbuilder.CodeNameMap.TryGetValue(selectedValue, out string sectionName))
+            //var selectedValue = cmb_code.SelectedItem?.ToString() ?? cmb_code.Text;
+            //DictionaryBuilder Dbuilder = new DictionaryBuilder();
+            //if (Dbuilder.CodeNameMap.TryGetValue(selectedValue, out string sectionName))
+            //{
+            //    lbl_deptname.Text = sectionName;
+            //    _mainDashboard.lbl_departmemnt.Text = sectionName;
+            //}
+            //else
+            //{
+            //    lbl_deptname.Text = "Unknown Section";
+            //}
+            if (cmb_name.SelectedItem is CodeItem selectedItem)
             {
-                lbl_deptname.Text = sectionName;
+                string selectedCode = selectedItem.Code;
+                string sectionName = selectedItem.Name;
+
+                lbl_code.Text = selectedCode;
                 _mainDashboard.lbl_departmemnt.Text = sectionName;
             }
-            else
-            {
-                lbl_deptname.Text = "Unknown Section";
-            }
+        }
+        public class CodeItem
+        {
+            public string Code { get; set; }
+            public string Name { get; set; }
         }
 
+        private void cmb_code_Click(object sender, EventArgs e)
+        {
+            DictionaryBuilder Dbuilder = new DictionaryBuilder();
+
+            var items = Dbuilder.CodeNameMap.Select(pair => new CodeItem
+            {
+                Code = pair.Key,
+                Name = pair.Value
+            }).ToList();
+
+            cmb_name.DataSource = items;
+            cmb_name.DisplayMember = "name";  // What user sees
+            cmb_name.ValueMember = "code";    // What you get internally
+        }
     }
 }

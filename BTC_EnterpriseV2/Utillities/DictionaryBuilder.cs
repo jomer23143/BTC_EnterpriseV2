@@ -49,17 +49,17 @@
 
         public readonly Dictionary<string, string> CodeNameMap = new Dictionary<string, string>
         {
-            { "1", "Warehouse Kitting" },
-            { "2", "Kitlist Receiving" },
-            { "3", "Sub-Assembly" },
-            { "4", "Pre-Assembly" },
-            { "5", "Rain Test" },
-            { "6", "Main Assembly" },
-            { "7", "In-Station QC" },
-            { "8", "EQL Test" },
-            { "9", "Final Assembly" },
-            { "10", "Final QC" },
-            { "11", "Packing" }
+            { "101", "Warehouse Kitting" },
+            { "102", "Kitlist Receiving" },
+            { "1", "Sub-Assembly" },
+            { "2", "Pre-Assembly" },
+            { "3", "Rain Test" },
+            { "4", "Main Assembly" },
+            { "5", "In-Station QC" },
+            { "6", "EQL Test" },
+            { "7", "Final Assembly" },
+            { "8", "Final QC" },
+            { "9", "Packing" }
         };
     }
 }

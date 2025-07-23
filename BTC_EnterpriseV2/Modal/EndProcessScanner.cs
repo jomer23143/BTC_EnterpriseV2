@@ -10,8 +10,17 @@ namespace BTC_EnterpriseV2.Modal
         public EndProcessScanner()
         {
             InitializeComponent();
+            // Prevent flickering
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.UserPaint, true);
+            this.UpdateStyles();
+
             this.StartPosition = FormStartPosition.CenterScreen;
+
             yui.RoundedFormsDocker(this, 10);
+            yui.RoundedPicturebox(pictureBox1);
+            yui.RoundedButton(button1, 12, Color.FromArgb(7, 222, 151));
             txt_rfid.Select();
         }
 

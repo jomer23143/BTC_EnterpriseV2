@@ -36,9 +36,10 @@
             label3 = new Label();
             btn_close = new Button();
             panel2 = new Panel();
-            cmb_code = new ComboBox();
+            cmb_name = new ComboBox();
             panel3 = new Panel();
-            lbl_deptname = new Label();
+            sqlCommandBuilder1 = new Microsoft.Data.SqlClient.SqlCommandBuilder();
+            lbl_code = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -118,9 +119,9 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(37, 45, 55);
-            panel2.Controls.Add(lbl_deptname);
-            panel2.Controls.Add(cmb_code);
+            panel2.Controls.Add(cmb_name);
             panel2.Controls.Add(label1);
+            panel2.Controls.Add(lbl_code);
             panel2.Controls.Add(label2);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 49);
@@ -128,19 +129,19 @@
             panel2.Size = new Size(670, 129);
             panel2.TabIndex = 5;
             // 
-            // cmb_code
+            // cmb_name
             // 
-            cmb_code.BackColor = Color.FromArgb(22, 27, 45);
-            cmb_code.FlatStyle = FlatStyle.Flat;
-            cmb_code.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cmb_code.ForeColor = Color.White;
-            cmb_code.FormattingEnabled = true;
-            cmb_code.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" });
-            cmb_code.Location = new Point(198, 66);
-            cmb_code.Name = "cmb_code";
-            cmb_code.Size = new Size(113, 36);
-            cmb_code.TabIndex = 3;
-            cmb_code.SelectedIndexChanged += cmb_code_SelectedIndexChanged;
+            cmb_name.BackColor = Color.FromArgb(22, 27, 45);
+            cmb_name.FlatStyle = FlatStyle.Flat;
+            cmb_name.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmb_name.ForeColor = Color.White;
+            cmb_name.FormattingEnabled = true;
+            cmb_name.Location = new Point(200, 17);
+            cmb_name.Name = "cmb_name";
+            cmb_name.Size = new Size(269, 36);
+            cmb_name.TabIndex = 3;
+            cmb_name.SelectedIndexChanged += cmb_code_SelectedIndexChanged;
+            cmb_name.Click += cmb_code_Click;
             // 
             // panel3
             // 
@@ -151,16 +152,16 @@
             panel3.Size = new Size(670, 72);
             panel3.TabIndex = 6;
             // 
-            // lbl_deptname
+            // lbl_code
             // 
-            lbl_deptname.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_deptname.ForeColor = Color.White;
-            lbl_deptname.Location = new Point(200, 20);
-            lbl_deptname.Name = "lbl_deptname";
-            lbl_deptname.Size = new Size(293, 28);
-            lbl_deptname.TabIndex = 4;
-            lbl_deptname.Text = "this is a test department";
-            lbl_deptname.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_code.AutoSize = true;
+            lbl_code.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lbl_code.ForeColor = Color.White;
+            lbl_code.Location = new Point(252, 66);
+            lbl_code.Name = "lbl_code";
+            lbl_code.Size = new Size(143, 28);
+            lbl_code.TabIndex = 1;
+            lbl_code.Text = "Section Code :";
             // 
             // setupfrm
             // 
@@ -191,7 +192,8 @@
         private Panel panel3;
         private Button btn_close;
         private Label label3;
-        private ComboBox cmb_code;
-        private Label lbl_deptname;
+        private ComboBox cmb_name;
+        private Label lbl_code;
+        private Microsoft.Data.SqlClient.SqlCommandBuilder sqlCommandBuilder1;
     }
 }

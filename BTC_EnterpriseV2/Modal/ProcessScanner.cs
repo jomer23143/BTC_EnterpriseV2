@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Model;
+using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -98,15 +99,23 @@ namespace BTC_EnterpriseV2.Modal
 
                     if (tempcount == tempqty)
                     {
-                        var result = MessageBox.Show("All required items have been scanned. Would you like to close the Modal?", "Scan Complete", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                        if (result == DialogResult.Yes)
+                        string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
+                        Image viewImage = Image.FromFile(viewImagePath);
+                        Image resizedImage2 = ResizeImage(viewImage, 60, 60);
+
+                        Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["ScanItemSerial"].Value = resizedImage2;
+
+                        Image ResizeImage(Image img, int width, int height)
                         {
-                            this.Close();
+                            Bitmap bmp = new Bitmap(width, height);
+                            using (Graphics g = Graphics.FromImage(bmp))
+                            {
+                                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                                g.DrawImage(img, 0, 0, width, height);
+                            }
+                            return bmp;
                         }
-                        else
-                        {
-                            return;
-                        }
+                        //   Sub_AssyFrm.dtserials = dataserials;
                     }
                 }
                 else
@@ -206,7 +215,12 @@ namespace BTC_EnterpriseV2.Modal
                     {
                         tempcount++;
                         int rowNumber = dataGridView1.Rows.Count + 1;
-                        dataGridView1.Rows.Add(rowNumber, data.serial_number);
+                        dataGridView1.Rows.Add(rowNumber, kitserial);
+
+                        int index = 0;
+                        dataserials.Rows.Add(index++, processId, txt_serialnumber.Text.Trim());
+                        Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["serial_count"].Value = tempcount;
+
                         //ShowMessage("Kitlist Part Number is Available.", Color.Green);
                     }
                     else
