@@ -91,17 +91,6 @@ namespace BTC_EnterpriseV2.Settings
 
         private void cmb_code_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //var selectedValue = cmb_code.SelectedItem?.ToString() ?? cmb_code.Text;
-            //DictionaryBuilder Dbuilder = new DictionaryBuilder();
-            //if (Dbuilder.CodeNameMap.TryGetValue(selectedValue, out string sectionName))
-            //{
-            //    lbl_deptname.Text = sectionName;
-            //    _mainDashboard.lbl_departmemnt.Text = sectionName;
-            //}
-            //else
-            //{
-            //    lbl_deptname.Text = "Unknown Section";
-            //}
             if (cmb_name.SelectedItem is CodeItem selectedItem)
             {
                 string selectedCode = selectedItem.Code;
@@ -128,8 +117,8 @@ namespace BTC_EnterpriseV2.Settings
             }).ToList();
 
             cmb_name.DataSource = items;
-            cmb_name.DisplayMember = "name";  // What user sees
-            cmb_name.ValueMember = "code";    // What you get internally
+            cmb_name.DisplayMember = "name";
+            cmb_name.ValueMember = "code";
         }
     }
 }

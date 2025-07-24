@@ -125,6 +125,7 @@ namespace BTC_EnterpriseV2.Modal
             }
             else
             {
+
                 SerialScanned?.Invoke(serial, type, processname, ipn_list);
                 this.Close();
             }
@@ -210,8 +211,11 @@ namespace BTC_EnterpriseV2.Modal
                 ipn_list.Columns.Add("Name");
 
                 foreach (var p in data.process)
-                    ipn_list.Rows.Add(p.ipn_number, p.name);
-
+                {
+                    string[] ipn = p.ipn_number.Split('/');
+                    foreach (string i in ipn)
+                        ipn_list.Rows.Add(i, p.name);
+                }
                 var filteredItems = await PostData(MyMOID);
                 if (filteredItems == null || filteredItems.Rows.Count == 0)
                 {
@@ -349,43 +353,6 @@ namespace BTC_EnterpriseV2.Modal
             "Rain Test", "Main Assembly", "In-station QC", "EOL Test", "Final Assembly", "Final QC", "Packing"
             };
 
-
-        //    private void LoadProcessData(List<PrintQR_Model.Main> processes)
-        //    {
-        //        var dt = new DataTable("Segment_Station");
-        //        dt.Columns.AddRange(new[] { new DataColumn("No"), new DataColumn("Segment"), new DataColumn("Station") });
-
-        //        dt_list_Station_Serial.Clear();
-        //        dt_list_Station_Serial.Columns.Clear();
-        //        dt_list_Station_Serial.Columns.AddRange(new[] {
-        //    new DataColumn("manufacturing_order_id"),
-        //    new DataColumn("Station"),
-        //    new DataColumn("serial_number")
-        //});
-
-        //        int index = 1;
-        //        foreach (var proc in processes)
-        //        {
-        //            foreach (var segment in proc.segment)
-        //            {
-        //                if (ExcludedStations.Contains(segment.name)) continue;
-
-        //                foreach (var station in segment.station)
-        //                {
-        //                    if (!dt.AsEnumerable().Any(r => r["Station"].ToString() == station.name))
-        //                        dt.Rows.Add(index++, segment.name, station.name);
-
-        //                    dt_list_Station_Serial.Rows.Add(segment.manufacturing_order_id, station.name, station.serial_number);
-        //                }
-        //            }
-        //        }
-
-        //        var matchedStation = dt_list_Station_Serial.AsEnumerable()
-        //            .FirstOrDefault(r => r["serial_number"].ToString() == txt_serialnumber.Text)?["Station"]?.ToString();
-
-        //        // if (!string.IsNullOrEmpty(matchedStation))
-        //        // ShowInfo($"Station matched: {matchedStation}");
-        //    }
 
 
 

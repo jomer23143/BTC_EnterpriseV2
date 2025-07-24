@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
+using BTC_EnterpriseV2.Modal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm;
 
 namespace BTC_EnterpriseV2.Utillities
 {
@@ -25,10 +25,15 @@ namespace BTC_EnterpriseV2.Utillities
 
                 var token = JToken.Parse(response);
 
-                if (token.Type == JTokenType.Object && token["message"] != null)
+                // Check for known error structure
+                if (token.Type == JTokenType.Object && token["errors"] != null)
                 {
-                    var error = token.ToObject<ApiErrorResponse>();
-                    MessageBox.Show($"Error: {error?.message ?? "Unknown error"}", "API Response", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string message = token["message"]?.ToString() ?? "Unknown error.";
+                    string? detailed = token["errors"]?["station_serial_number"]?.FirstOrDefault()?.ToString();
+
+                    string fullMessage = $"{message}\n\nDetails: {detailed}";
+                    MessageBox.Show(fullMessage, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     return null;
                 }
 
@@ -36,18 +41,23 @@ namespace BTC_EnterpriseV2.Utillities
             }
             catch (JsonReaderException ex)
             {
-                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"JSON parsing failed: {ex.Message}", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"API Error: {ex.Message}");
-                MessageBox.Show($"Unhandled Error: {ex.Message}", "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // MessageBox.Show($"Unhandled exception: {ex.Message}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowAlert("Process Notification", $" {ex.Message}", CustomeAlert.Alertype.Information);
+
                 return null;
             }
         }
 
 
+        private static void ShowAlert(string title, string message, CustomeAlert.Alertype type)
+        {
+            new CustomeAlert(title, message, type).ShowDialog();
+        }
 
 
     }

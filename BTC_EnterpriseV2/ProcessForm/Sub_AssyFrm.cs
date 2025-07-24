@@ -20,7 +20,7 @@ namespace BTC_EnterpriseV2.ProcessForm
         public string? toplvlipn;
         public string? psegment;
         public string? station;
-        public string? mo;
+        public string? _MoID;
         public string? serialnumber;
         public string? generatedcode;
         public string _serial;
@@ -163,6 +163,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                 {
                     var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
                     var data = result?.FirstOrDefault();
+                    //  GetTrackHandler GetTrackHandler = new GetTrackHandler();
+                    //  var details = await GetTrackHandler.PostData(data?.mo_id ?? string.Empty);
                     if (data == null)
                     {
                         MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -173,6 +175,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     dtserials.Columns.Add("id");
                     dtserials.Columns.Add("process_id");
                     dtserials.Columns.Add("serial_number");
+                    //dtserials.Columns.Add("is_kit_list");
                     ///From master jomer
                     foreach (var data_process in data.process)
                     {
@@ -182,8 +185,11 @@ namespace BTC_EnterpriseV2.ProcessForm
                         }
                         is_kit_list = data_process.is_kit_list;
                     }
+                    bool anyIsKitList = data.process.Any(p => p.is_kit_list == 1);
+
 
                     // Populate labels
+                    _MoID = data.mo_id;
                     lbl_toplvlipn.Text = data.mo_id;
                     lbl_segment.Text = processname;
                     lbl_station.Text = data.name;
@@ -285,8 +291,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                         lbl_duration.Text = "0 Days : 00 : 00 : 00";
                     }
 
-                    bool isPreAssembly = segmentId == 1;
-                    LoadProcessDataMerged(data.process, isPreAssembly);
+                    bool isSubAssembly = segmentId == 1;
+                    LoadProcessDataMerged(data.process, isSubAssembly, anyIsKitList);
 
 
                     pb_loader.Visible = false;
@@ -307,7 +313,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             }
         }
 
-        private void LoadProcessDataMerged(List<Sub_Asy_Process_Model.Process> processes, bool isPreAssembly)
+        private async void LoadProcessDataMerged(List<Sub_Asy_Process_Model.Process> processes, bool isSubAssembly, bool iskitlist)
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -316,15 +322,18 @@ namespace BTC_EnterpriseV2.ProcessForm
             dataGridView1.Columns.Add("name", "Process");
             dataGridView1.Columns.Add("ipn_number", "IPN");
             dataGridView1.Columns.Add("serial_quantity", "Serial Quantity");
-
-            if (isPreAssembly)
-                dataGridView1.Columns.Add("track", "Track");
-
+            dataGridView1.Columns.Add("track", "Track");
             dataGridView1.Columns.Add("serial_count", "Scanned");
 
-            if (!isPreAssembly)
+
+
+
+            if (!isSubAssembly)
+            {
                 dataGridView1.Columns.Add("is_kit_list", "KitList");
-            dataGridView1.Columns["is_kit_list"].Visible = false; // Hide KitList column if not needed
+                dataGridView1.Columns["is_kit_list"].Visible = false;
+
+            }
 
             var idColumn = dataGridView1.Columns.Add("id", "ID");
             dataGridView1.Columns["id"].Visible = false;
@@ -344,6 +353,17 @@ namespace BTC_EnterpriseV2.ProcessForm
             Image resizedViewImage = ResizeImage(Image.FromFile(viewImagePath), 60, 60);
 
             int index = 1;
+            if (iskitlist)
+            {
+                List<string> ipnList = processes
+                    .SelectMany(p => p.ipn_number.Split('/'))
+                    .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
+                    .Distinct()
+                    .ToList();
+
+                GetTrackHandler GetTrackHandler = new GetTrackHandler();
+                response_list = await GetTrackHandler.PostData(_MoID, ipnList);
+            }
 
             foreach (var process in processes)
             {
@@ -353,28 +373,37 @@ namespace BTC_EnterpriseV2.ProcessForm
                 bool isCompleted = process.serial_count >= process.serial_quantity;
                 Image iconToShow = isCompleted ? resizedViewImage : resizedDefaultImage;
 
-                var rowValues = new List<object>
-        {
-            index++,
-            process.name,
-            process.ipn_number,
-            process.serial_quantity
-        };
 
-                if (isPreAssembly)
+                List<string> ipnList = process.ipn_number.Contains("/")
+                    ? process.ipn_number.Split('/').Select(ipn => ipn.Trim()).ToList()
+                    : new List<string> { process.ipn_number.Trim() };
+
+                string track = string.Empty;
+
+                if (iskitlist && response_list != null)
                 {
-                    string track = string.Empty;
-                    var match = response_list.AsEnumerable()
-                        .FirstOrDefault(r => r["ipn"]?.ToString() == process.ipn_number);
-                    if (match != null)
-                        track = match["track"]?.ToString();
+                    foreach (string ipn in ipnList)
+                    {
+                        var match = response_list.AsEnumerable()
+                            .FirstOrDefault(r => r["ipn"]?.ToString() == ipn);
 
-                    rowValues.Add(track);
+                        if (match != null)
+                        {
+                            track = match["track"]?.ToString();
+                            break;
+                        }
+                    }
                 }
-
-                rowValues.Add(process.serial_count);
-
-                if (!isPreAssembly)
+                var rowValues = new List<object>
+    {
+        index++,
+        process.name,
+        process.ipn_number,
+        process.serial_quantity,
+        track,
+        process.serial_count
+    };
+                if (!isSubAssembly)
                     rowValues.Add(process.is_kit_list);
 
                 rowValues.Add(process.id);
@@ -382,18 +411,19 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 dataGridView1.Rows.Add(rowValues.ToArray());
             }
-
-            Image ResizeImage(Image img, int width, int height)
-            {
-                Bitmap bmp = new Bitmap(width, height);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(img, 0, 0, width, height);
-                }
-                return bmp;
-            }
         }
+
+        Image ResizeImage(Image img, int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.DrawImage(img, 0, 0, width, height);
+            }
+            return bmp;
+        }
+
 
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -419,6 +449,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             string processName = row.Cells["name"].Value?.ToString();
             string ipnnumber = row.Cells["ipn_number"].Value?.ToString();
             string processIdStr = row.Cells["id"].Value?.ToString();
+            string Track = row.Cells["track"].Value?.ToString();
 
             if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
             {
@@ -443,6 +474,17 @@ namespace BTC_EnterpriseV2.ProcessForm
                     ShowAlert("Process No IPN Number", "This process has no IPN number. You cannot scan this process. 😌", CustomeAlert.Alertype.Error);
                     return;
                 }
+                if (Track == "" && ipnnumber == "")
+                {
+                    ShowAlert("Track Info", "This process has no track info. You cannot scan this process. 😌", CustomeAlert.Alertype.Error);
+                    return;
+                }
+                if (Track == "Common Item - Not Tracked")
+                {
+                    ShowAlert("Track Info", "This process has common ipn. You cannot scan this process. 😌", CustomeAlert.Alertype.Error);
+                    return;
+                }
+
 
                 int processId = Convert.ToInt32(processIdStr);
 
@@ -450,17 +492,16 @@ namespace BTC_EnterpriseV2.ProcessForm
                 {
                     var scan = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
                     scan.ShowDialog();
+                    return;
                 }
                 else
                 {
                     var scan = new PreAssy_ProcessScanner(rowIndex, _segmentID, processId, processName, _serial);
                     scan.ShowDialog();
+
+                    return;
                 }
-
-                //   await LoadSegmentProcessAsync(_serial, _segmentID);
-                return;
             }
-
             // Sub-Assy logic
             bool isMultipleIPN = ipnnumber != null && ipnnumber.Contains("/");
             var trackdata = row.Cells["track"].Value?.ToString();
@@ -498,6 +539,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             // await LoadSegmentProcessAsync(lbl_generatedserial.Text, _segmentID); // Uncomment if needed
         }
 
+
         private void btn_scan_Click(object sender, EventArgs e)
         {
             btn_scan.Visible = false;
@@ -505,7 +547,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             lbl_qrinfo.Visible = true;
             string id = string.Empty;
             string processname = "Sub Assembly";
-            string moid = mo;
+            string moid = _MoID;
             string segment = psegment;
             GenerateQRCode(lbl_generatedserial.Text);
             EndProcessValidation();
@@ -609,8 +651,10 @@ namespace BTC_EnterpriseV2.ProcessForm
                         var serialCountStr = row.Cells["serial_count"].Value?.ToString();
                         var iskitlist = Convert.ToUInt32(row.Cells["is_kit_list"].Value?.ToString());
                         var ipn = row.Cells["ipn_number"].Value.ToString();
+                        var track = row.Cells["track"].Value.ToString();
                         processname = row.Cells["name"].Value?.ToString();
-
+                        bool isTrack = string.IsNullOrWhiteSpace(track) && iskitlist == 1 ? true : false;
+                        bool isrealized = track == "Serialized" && iskitlist == 1 ? true : false;
                         if (!int.TryParse(serialQtyStr, out int serialQty) || !int.TryParse(serialCountStr, out int serialCount))
                         {
                             using (var dialog = new CustomDialog("ABI", "Invalid quantity or count value., would you like to proceed for ABI?"))
@@ -636,14 +680,32 @@ namespace BTC_EnterpriseV2.ProcessForm
                         {
                             if (!string.IsNullOrWhiteSpace(ipn))
                             {
-                                hasMismatch = true;
-                                break;
+
+                                if (!isTrack)
+                                {
+                                    {
+                                        if (isrealized)
+                                        {
+                                            hasMismatch = true;
+                                            break;
+                                        }
+                                        else if (iskitlist == 0 && string.IsNullOrEmpty(track))
+                                        {
+                                            hasMismatch = true;
+                                            break;
+                                        }
+
+                                    }
+                                }
+
                             }
+
                         }
                     }
 
                     if (hasMismatch)
                     {
+
                         using (var dialog = new CustomDialog("ABI", "Invalid quantity or count value., would you like to proceed for ABI?"))
                         {
                             dialog.StartPosition = FormStartPosition.CenterScreen;
