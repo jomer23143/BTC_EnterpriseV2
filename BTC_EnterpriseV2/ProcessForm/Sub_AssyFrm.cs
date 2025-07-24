@@ -360,7 +360,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
                     .Distinct()
                     .ToList();
-
+                pb_loader.Visible = true;
                 GetTrackHandler GetTrackHandler = new GetTrackHandler();
                 response_list = await GetTrackHandler.PostData(_MoID, ipnList);
             }
@@ -395,14 +395,9 @@ namespace BTC_EnterpriseV2.ProcessForm
                     }
                 }
                 var rowValues = new List<object>
-    {
-        index++,
-        process.name,
-        process.ipn_number,
-        process.serial_quantity,
-        track,
-        process.serial_count
-    };
+                   {
+                    index++,process.name, process.ipn_number,  process.serial_quantity, track,  process.serial_count
+                  };
                 if (!isSubAssembly)
                     rowValues.Add(process.is_kit_list);
 
@@ -411,6 +406,7 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 dataGridView1.Rows.Add(rowValues.ToArray());
             }
+            pb_loader.Visible = false;
         }
 
         Image ResizeImage(Image img, int width, int height)
@@ -595,10 +591,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                                     return;
                                 }
                             }
-
                         }
-
-                        //  Debug.WriteLine($"Serial Quantity: {serialQty}, Serial Count: {serialCount}");
 
                         if (serialCount != serialQty && track == "Serialized")
                         {
