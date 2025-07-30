@@ -29,16 +29,7 @@ namespace BTC_EnterpriseV2.Modal
             bunifuloading.Hide();
             dgSerialnumber.DataSource = list_data;
             label1.Text = String.Format("IPN : {0}", Warehousekitting.kit_list_item_ipn);
-            //dgSerialnumber.Rows.Clear();
-            //dgSerialnumber.Columns.Clear();
-            //dgSerialnumber.Columns.Add("serial_number", "Item Serial Number");
 
-
-            //int index = 1;
-            //foreach (DataRow serial in list_data.Rows)
-            //{
-            //    dgSerialnumber.Rows.Add(serial[1]);
-            //}
         }
 
         private async void btnsave_serial_Click(object sender, EventArgs e)
@@ -46,11 +37,11 @@ namespace BTC_EnterpriseV2.Modal
             for (int currentRow = 0; currentRow < dgSerialnumber.Rows.Count - 1; currentRow++)
             {
                 string serial_number = dgSerialnumber.Rows[currentRow].Cells[colpart_serial.Name].Value.ToString();
-                //string ipn = dgSerialnumber.Rows[currentRow].Cells[colipn.Name].Value.ToString();
+
                 for (int row = 0; row < dgSerialnumber.Rows.Count - 1; row++)
                 {
                     string serial_number_compare = dgSerialnumber.Rows[row].Cells[colpart_serial.Name].Value.ToString();
-                    // string ipn_compare = dgSerialnumber.Rows[row].Cells[colipn.Name].Value.ToString();
+
                     if (currentRow != row)
                     {
                         if (serial_number == serial_number_compare)
@@ -68,7 +59,7 @@ namespace BTC_EnterpriseV2.Modal
             }
             if (is_error)
             {
-                //MessageBox.Show($@"Duplicate Serial", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 is_error = false;
                 return;
             }

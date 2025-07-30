@@ -15,6 +15,8 @@ namespace BTC_EnterpriseV2.Forms
         private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
         private DataTable dt_list_Station_Serial = new DataTable();
         private string storedmoid = string.Empty;
+        private string loginAdminAPIUrl = GlobalApi.GetAdminLoginUrl();
+        private string T;
         public PrintQRFrm()
         {
             InitializeComponent();
@@ -26,8 +28,38 @@ namespace BTC_EnterpriseV2.Forms
         }
         private void PrintQRFrm_Load(object sender, EventArgs e)
         {
-
+            var email = "super_admin@btcpower.com";
+            var password = "password";
+            Login(email, password);
         }
+
+        public async Task Login(string username, string password)
+        {
+            try
+            {
+                DictionaryBuilder Dbuilder = new DictionaryBuilder();
+
+                var responseJson = await ApiHelper.Get_AdminLoginJsonAsync(loginAdminAPIUrl, Dbuilder.Build_Login(username, password));
+                if (responseJson == null) ;
+
+                var result = responseJson.ToObject<Model.LoginToken.Root>();
+                if (result?.token == null)
+                {
+                    MessageBox.Show("No valid employee data returned.", "API Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                T = result.token;
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
+
+            }
+        }
+
+
         private async void txt_moid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -43,9 +75,9 @@ namespace BTC_EnterpriseV2.Forms
         {
             try
             {
-                var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}";
+                var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}&per_row=9999";
                 // API call
-                string jsonResponse = await WebRequestApi.GetData_httpclient(api);
+                string jsonResponse = await WebRequestApi.GetData_Token_httpclient(api, T);
                 Debug.WriteLine("Response: " + jsonResponse);
 
                 // Basic validation

@@ -163,11 +163,10 @@ namespace BTC_EnterpriseV2.ProcessForm
                 {
                     var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
                     var data = result?.FirstOrDefault();
-                    //  GetTrackHandler GetTrackHandler = new GetTrackHandler();
-                    //  var details = await GetTrackHandler.PostData(data?.mo_id ?? string.Empty);
+
                     if (data == null)
                     {
-                        MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        pb_loader.Visible = false;
                         return;
                     }
                     dtserials.Rows.Clear();
@@ -175,8 +174,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     dtserials.Columns.Add("id");
                     dtserials.Columns.Add("process_id");
                     dtserials.Columns.Add("serial_number");
-                    //dtserials.Columns.Add("is_kit_list");
-                    ///From master jomer
+
                     foreach (var data_process in data.process)
                     {
                         foreach (var data_serial in data_process.serial)
@@ -188,7 +186,6 @@ namespace BTC_EnterpriseV2.ProcessForm
                     bool anyIsKitList = data.process.Any(p => p.is_kit_list == 1);
 
 
-                    // Populate labels
                     _MoID = data.mo_id;
                     lbl_toplvlipn.Text = data.mo_id;
                     lbl_segment.Text = processname;
@@ -356,10 +353,10 @@ namespace BTC_EnterpriseV2.ProcessForm
             if (iskitlist)
             {
                 List<string> ipnList = processes
-                    .SelectMany(p => p.ipn_number.Split('/'))
-                    .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
-                    .Distinct()
-                    .ToList();
+           .SelectMany(p => (p.ipn_number ?? "").Split('/'))
+           .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
+           .Distinct()
+           .ToList();
                 pb_loader.Visible = true;
                 GetTrackHandler GetTrackHandler = new GetTrackHandler();
                 response_list = await GetTrackHandler.PostData(_MoID, ipnList);
@@ -373,10 +370,16 @@ namespace BTC_EnterpriseV2.ProcessForm
                 bool isCompleted = process.serial_count >= process.serial_quantity;
                 Image iconToShow = isCompleted ? resizedViewImage : resizedDefaultImage;
 
+                //change for null
+                List<string> ipnList = string.IsNullOrWhiteSpace(process.ipn_number)
+               ? new List<string>()
+                : process.ipn_number.Contains("/")
+                ? process.ipn_number.Split('/')
+                .Select(ipn => ipn.Trim())
+                .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
+                .ToList()
+                : new List<string> { process.ipn_number.Trim() };
 
-                List<string> ipnList = process.ipn_number.Contains("/")
-                    ? process.ipn_number.Split('/').Select(ipn => ipn.Trim()).ToList()
-                    : new List<string> { process.ipn_number.Trim() };
 
                 string track = string.Empty;
 
@@ -512,7 +515,6 @@ namespace BTC_EnterpriseV2.ProcessForm
             {
                 var scanMulti = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
                 scanMulti.ShowDialog();
-                //  await LoadSegmentProcessAsync(lbl_generatedserial.Text, _segmentID);
                 return;
             }
 
@@ -532,7 +534,6 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             var scanSub = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
             scanSub.ShowDialog();
-            // await LoadSegmentProcessAsync(lbl_generatedserial.Text, _segmentID); // Uncomment if needed
         }
 
 
@@ -643,7 +644,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                         var serialQtyStr = row.Cells["serial_quantity"].Value?.ToString();
                         var serialCountStr = row.Cells["serial_count"].Value?.ToString();
                         var iskitlist = Convert.ToUInt32(row.Cells["is_kit_list"].Value?.ToString());
-                        var ipn = row.Cells["ipn_number"].Value.ToString();
+                        var ipn = row.Cells["ipn_number"].Value?.ToString()?.Trim() ?? "";
+
                         var track = row.Cells["track"].Value.ToString();
                         processname = row.Cells["name"].Value?.ToString();
                         bool isTrack = string.IsNullOrWhiteSpace(track) && iskitlist == 1 ? true : false;
@@ -751,7 +753,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     : Dbuilder.BuildPost_EndProcessData1(serialClean, status, remarks, rfidClean);
 
                 var token = await ApiHelper.PostJsonAsync(ApiUrl, postData);
-                if (token == null) return; // already handled
+                if (token == null) return;
 
                 if (token.Type == JTokenType.Array)
                 {

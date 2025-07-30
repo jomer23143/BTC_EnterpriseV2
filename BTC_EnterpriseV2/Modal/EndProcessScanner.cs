@@ -29,6 +29,7 @@ namespace BTC_EnterpriseV2.Modal
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+            DialogResult = DialogResult.Yes;
         }
 
         private void txt_rfid_KeyDown(object sender, KeyEventArgs e)
@@ -36,7 +37,7 @@ namespace BTC_EnterpriseV2.Modal
             if (e.KeyCode == Keys.Enter)
             {
                 rfidScaned?.Invoke(txt_rfid.Text);
-                //  MessageBox.Show("RFID Scanned: " + txt_rfid.Text, "RFID Scan", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 this.Close();
             }
         }

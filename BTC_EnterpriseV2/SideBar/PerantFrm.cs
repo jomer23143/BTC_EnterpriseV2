@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using BTC_EnterpriseV2.Forms;
+using BTC_EnterpriseV2.Modal;
 using BTCP_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
 using LiveChartsCore;
@@ -86,7 +87,20 @@ namespace BTC_EnterpriseV2.SideBar
 
         private void button2_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new PrintQRFrm(), sender);
+            EndProcessScanner sec = new EndProcessScanner();
+
+            if (sec.ShowDialog() == DialogResult.Yes)
+            {
+                MessageBox.Show("Please scan id to Print Qr Code", "", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }
+            else
+            {
+
+                formManager.OpenChildForm(new PrintQRFrm(), sender);
+            }
+
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)

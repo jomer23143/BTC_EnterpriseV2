@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.Utillities;
@@ -241,33 +239,7 @@ namespace BTC_EnterpriseV2.Modal
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"❗ API Error: {ex}");
-                // i try to catch json from the errorr message
-                var match = Regex.Match(ex.Message, @"\{.*\}", RegexOptions.Singleline);
-                if (match.Success)
-                {
-                    try
-                    {
-                        var token = JToken.Parse(match.Value);
-                        string message = token["message"]?.ToString();
-                        string kitSerialError = token["errors"]?["kit_serial"]?.FirstOrDefault()?.ToString();
-
-                        if (!string.IsNullOrWhiteSpace(message))
-                            ShowMessage(message, Color.Orange);
-                        else if (!string.IsNullOrWhiteSpace(kitSerialError))
-                            ShowMessage(kitSerialError, Color.Red);
-                        else
-                            ShowMessage("An unknown error occurred.", Color.Red);
-
-                        return;
-                    }
-                    catch (Exception parseEx)
-                    {
-                        Debug.WriteLine("Failed to parse error JSON: " + parseEx);
-                    }
-                }
-
-                ShowMessage("Serial not found. It may be invalid, unregistered, or entered incorrectly.", Color.Red);
+                ShowMessage(ex.Message, Color.Orange);
             }
 
         }

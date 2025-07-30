@@ -212,10 +212,17 @@ namespace BTC_EnterpriseV2.Modal
 
                 foreach (var p in data.process)
                 {
-                    string[] ipn = p.ipn_number.Split('/');
-                    foreach (string i in ipn)
-                        ipn_list.Rows.Add(i, p.name);
+                    if (!string.IsNullOrWhiteSpace(p.ipn_number))
+                    {
+                        string[] ipn = p.ipn_number.Split('/');
+                        foreach (string i in ipn)
+                        {
+                            if (!string.IsNullOrWhiteSpace(i))
+                                ipn_list.Rows.Add(i, p.name);
+                        }
+                    }
                 }
+
                 var filteredItems = await PostData(MyMOID);
                 if (filteredItems == null || filteredItems.Rows.Count == 0)
                 {

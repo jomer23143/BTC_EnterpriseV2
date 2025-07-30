@@ -12,6 +12,7 @@
         public static readonly string LoginProduction = $"{BaseUrl}login-production";
         public static readonly string kitlistItem_scanbulk = $"{BaseUrl}kit-list-item/scan-bulk";
         public static readonly string Save_Serial = $"{BaseUrl}serial/save-serial";
+        public static readonly string AdminLogin = $"{BaseUrl}login";
 
         public static string GetScanSerialUrl()
         {
@@ -38,6 +39,11 @@
         public static string GetSaveSerialUrl()
         {
             return Save_Serial;
+        }
+
+        public static string GetAdminLoginUrl()
+        {
+            return AdminLogin;
         }
     }
 }

@@ -178,7 +178,7 @@
             panel_info1.Controls.Add(label1);
             panel_info1.Location = new Point(10, 3);
             panel_info1.Name = "panel_info1";
-            panel_info1.Size = new Size(1237, 105);
+            panel_info1.Size = new Size(1173, 105);
             panel_info1.TabIndex = 0;
             // 
             // panel_segment
@@ -219,7 +219,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.White;
-            label9.Location = new Point(1007, 65);
+            label9.Location = new Point(943, 63);
             label9.Name = "label9";
             label9.Size = new Size(74, 28);
             label9.TabIndex = 0;
@@ -253,7 +253,7 @@
             panel_generatedserial.Controls.Add(lbl_generatedserial);
             panel_generatedserial.Location = new Point(632, 55);
             panel_generatedserial.Name = "panel_generatedserial";
-            panel_generatedserial.Size = new Size(355, 43);
+            panel_generatedserial.Size = new Size(293, 43);
             panel_generatedserial.TabIndex = 0;
             // 
             // lbl_generatedserial
@@ -262,7 +262,7 @@
             lbl_generatedserial.ForeColor = Color.White;
             lbl_generatedserial.Location = new Point(8, 7);
             lbl_generatedserial.Name = "lbl_generatedserial";
-            lbl_generatedserial.Size = new Size(325, 28);
+            lbl_generatedserial.Size = new Size(270, 28);
             lbl_generatedserial.TabIndex = 0;
             lbl_generatedserial.Text = "Top Level IPN :";
             lbl_generatedserial.TextAlign = ContentAlignment.MiddleCenter;
@@ -273,7 +273,7 @@
             panel_processname.Controls.Add(lbl_station);
             panel_processname.Location = new Point(632, 5);
             panel_processname.Name = "panel_processname";
-            panel_processname.Size = new Size(598, 43);
+            panel_processname.Size = new Size(518, 43);
             panel_processname.TabIndex = 1;
             // 
             // lbl_station
@@ -282,7 +282,7 @@
             lbl_station.ForeColor = Color.FromArgb(7, 222, 151);
             lbl_station.Location = new Point(7, 1);
             lbl_station.Name = "lbl_station";
-            lbl_station.Size = new Size(587, 37);
+            lbl_station.Size = new Size(504, 37);
             lbl_station.TabIndex = 0;
             lbl_station.Text = "Test Process LCD Attachment This to the last";
             lbl_station.TextAlign = ContentAlignment.MiddleCenter;
@@ -292,7 +292,7 @@
             panel_statusprocess.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             panel_statusprocess.BackColor = Color.FromArgb(12, 54, 18);
             panel_statusprocess.Controls.Add(lbl_processStatus);
-            panel_statusprocess.Location = new Point(1099, 55);
+            panel_statusprocess.Location = new Point(1023, 54);
             panel_statusprocess.Name = "panel_statusprocess";
             panel_statusprocess.Size = new Size(127, 43);
             panel_statusprocess.TabIndex = 0;
@@ -327,9 +327,9 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(480, 16);
             label5.Name = "label5";
-            label5.Size = new Size(127, 23);
+            label5.Size = new Size(130, 23);
             label5.TabIndex = 0;
-            label5.Text = "Process Name :";
+            label5.Text = "Product Name :";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1

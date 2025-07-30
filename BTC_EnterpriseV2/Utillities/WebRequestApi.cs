@@ -1,5 +1,8 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
+using BTC_EnterpriseV2.Model;
+using Newtonsoft.Json.Linq;
 
 namespace BTC_EnterpriseV2.Utillities
 {
@@ -56,19 +59,38 @@ namespace BTC_EnterpriseV2.Utillities
         public static async Task<string> GetData_httpclient(string url)
         {
             string responseData = "";
+
             using (HttpClient client = new HttpClient())
             {
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(url),
-                    //  Content = new StringContent(data, Encoding.UTF8, "application/json")
+
                 };
                 HttpResponseMessage response = await client.SendAsync(request);
                 responseData = await response.Content.ReadAsStringAsync();
             }
             return responseData;
         }
+
+        public static async Task<string> GetData_Token_httpclient(string url, string TheToken)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TheToken);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(url)
+            };
+
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseData = await response.Content.ReadAsStringAsync();
+
+            return responseData;
+        }
+
         public static async Task<string> PostData_httpclient(string url, string data)
         {
             string responseData = "";
@@ -126,13 +148,36 @@ namespace BTC_EnterpriseV2.Utillities
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Server Error: {response.StatusCode}\n{responseData}");
+                    var token = JToken.Parse(responseData);
+                    var errorMessage = token.ToObject<kitlist.ApiError>();
+
+
+
+                    throw new Exception(errorMessage.message);
 
                 }
 
                 return responseData;
             }
         }
+        public static async Task<string> GetAdmin_httpclient(string url)
+        {
+            string responseData = "";
+            using (HttpClient client = new HttpClient())
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(url),
+
+                };
+                HttpResponseMessage response = await client.SendAsync(request);
+                responseData = await response.Content.ReadAsStringAsync();
+            }
+            return responseData;
+
+        }
+
 
 
     }

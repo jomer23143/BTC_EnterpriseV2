@@ -10430,9 +10430,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+      "projectUniqueName": "C:\\Users\\GlynnDelaCruz\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
       "projectName": "BTC_EnterpriseV2",
-      "projectPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
+      "projectPath": "C:\\Users\\GlynnDelaCruz\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
       "packagesPath": "C:\\Users\\GlynnDelaCruz\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
       "projectStyle": "PackageReference",

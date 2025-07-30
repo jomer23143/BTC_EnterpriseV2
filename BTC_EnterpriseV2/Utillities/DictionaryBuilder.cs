@@ -2,7 +2,15 @@
 {
     internal class DictionaryBuilder
     {
-        // Overload 1: for Sub-Assy
+        public Dictionary<string, object> Build_Login(string email, string password)
+        {
+            return new Dictionary<string, object>
+            {
+                { "email", email.Trim() },
+                { "password", password.Trim() }
+            };
+        }
+
         public Dictionary<string, object> BuildPostData(string serial)
         {
             return new Dictionary<string, object>
@@ -11,7 +19,7 @@
             };
         }
 
-        // Overload 2: for Pre-Assy (with segment ID)
+
         public Dictionary<string, object> BuildPostData(string serial, int segmentId)
         {
             var postData = new Dictionary<string, object>
