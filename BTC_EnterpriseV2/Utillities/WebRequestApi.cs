@@ -31,7 +31,7 @@ namespace BTC_EnterpriseV2.Utillities
             try
             {
                 string respond = "";
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 httpWebRequest.Accept = "application/json";

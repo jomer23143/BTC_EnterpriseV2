@@ -173,7 +173,7 @@
         private TextBox txt_moid;
         private Panel panel_dgvHolder;
         private DataGridView dataGridView1;
-        private PictureBox pb_loader;
         private Button btn_printallin1;
+        public PictureBox pb_loader;
     }
 }

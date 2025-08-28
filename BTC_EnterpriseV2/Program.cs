@@ -8,10 +8,12 @@ namespace BTCP_EnterpriseV2
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            // Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mjc3MTI2NUAzMjMyMmUzMDJlMzBnOEZsZlBUZGxxSkVPazZ6NksyNm1xaTBzZFd3aGYrcm1xam9yNlZyZDg0PQ==");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzk4NDE2MkAzMjM5MmUzMDJlMzAzYjMyMzkzYmk4QzNZdUlrVmdUclliT2VkRDFsZU0xcnJBeTQrN1JPMDB2MnNkYlJmOHM9"); //license for 29.1.33 version
             ApplicationConfiguration.Initialize();
             Application.Run(new Forms.MainDashboard());
+            //  Application.Run(new TestForm());
+            // Application.Run(new ProcessFrm());
         }
     }
 }

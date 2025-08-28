@@ -1,21 +1,17 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.Model;
-using BTC_EnterpriseV2.Utillities;
+using BTC_EnterpriseV2.Services;
 using BTCP_EnterpriseV2.YaoUI;
-using Newtonsoft.Json.Linq;
-using static BTC_EnterpriseV2.ProcessForm.Sub_AssyFrm;
 
 namespace BTC_EnterpriseV2.Forms
 {
     public partial class PrintQRFrm : Form
     {
-        private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
+
         private DataTable dt_list_Station_Serial = new DataTable();
         private string storedmoid = string.Empty;
-        private string loginAdminAPIUrl = GlobalApi.GetAdminLoginUrl();
         private string T;
         public PrintQRFrm()
         {
@@ -26,38 +22,12 @@ namespace BTC_EnterpriseV2.Forms
             txt_moid.Select();
             btn_printallin1.Visible = false;
         }
-        private void PrintQRFrm_Load(object sender, EventArgs e)
+        private async void PrintQRFrm_Load(object sender, EventArgs e)
         {
-            var email = "super_admin@btcpower.com";
-            var password = "password";
-            Login(email, password);
+            var loginService = new LoginService_PrintQRFrm();
+            T = await loginService.LoginAsync();
         }
 
-        public async Task Login(string username, string password)
-        {
-            try
-            {
-                DictionaryBuilder Dbuilder = new DictionaryBuilder();
-
-                var responseJson = await ApiHelper.Get_AdminLoginJsonAsync(loginAdminAPIUrl, Dbuilder.Build_Login(username, password));
-                if (responseJson == null) ;
-
-                var result = responseJson.ToObject<Model.LoginToken.Root>();
-                if (result?.token == null)
-                {
-                    MessageBox.Show("No valid employee data returned.", "API Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                T = result.token;
-
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error: {ex.Message}");
-
-            }
-        }
 
 
         private async void txt_moid_KeyDown(object sender, KeyEventArgs e)
@@ -65,70 +35,85 @@ namespace BTC_EnterpriseV2.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 var moid = txt_moid.Text.Trim();
-                storedmoid = moid; // Store the MO ID for later use
+                storedmoid = moid;
                 pb_loader.Visible = true;
-                await Get_Data(moid);
-            }
-        }
 
-        public async Task Get_Data(string moid)
-        {
-            try
-            {
-                var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}&per_row=9999";
-                // API call
-                string jsonResponse = await WebRequestApi.GetData_Token_httpclient(api, T);
-                Debug.WriteLine("Response: " + jsonResponse);
+                var service = new LoginService_PrintQRFrm();
+                var dataList = await service.GetDataAsync(moid, T);
 
-                // Basic validation
-                if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
+                pb_loader.Visible = false;
+
+                if (dataList == null || dataList.Count == 0)
                 {
-                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("No valid process data returned or invalid MO ID.",
+                        "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Parse response
-                var token = JToken.Parse(jsonResponse);
+                LoadProcessData(dataList);
 
-                // Handle error object
-                if (token.Type == JTokenType.Object && token["message"] != null)
-                {
-                    var error = token.ToObject<ApiErrorResponse>();
-                    MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    pb_loader.Visible = false;
-                    return;
-                }
-
-                // Expecting an object with a "data" property
-                if (token.Type == JTokenType.Object && token["data"] != null)
-                {
-                    var rootObj = token.ToObject<PrintQR_Model.RootWrapper>();
-                    var dataList = rootObj?.data;
-
-                    if (dataList == null || dataList.Count == 0)
-                    {
-                        MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    LoadProcessData(dataList);
-                    pb_loader.Visible = false;
-                }
-                else
-                {
-                    MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-            }
-            catch (JsonReaderException ex)
-            {
-                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"API Error: {ex.Message}");
+                Debug.WriteLine($"Retrieved {dataList.Count} items");
             }
         }
+
+        //public async Task Get_Data(string moid)
+        //{
+        //    try
+        //    {
+        //        var api = $"{manufacturingOrder_Api}?with_segment=1&with_station=1&with_process=0&mo_id={moid}&per_row=9999";
+        //        // API call
+        //        string jsonResponse = await WebRequestApi.GetData_Token_httpclient(api, T);
+        //        Debug.WriteLine("Response: " + jsonResponse);
+
+        //        // Basic validation
+        //        if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
+        //        {
+        //            MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            return;
+        //        }
+
+        //        // Parse response
+        //        var token = JToken.Parse(jsonResponse);
+
+        //        // Handle error object
+        //        if (token.Type == JTokenType.Object && token["message"] != null)
+        //        {
+        //            var error = token.ToObject<ApiErrorResponse>();
+        //            MessageBox.Show($"Error: {error.message}", "Serial Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            pb_loader.Visible = false;
+        //            return;
+        //        }
+
+        //        // Expecting an object with a "data" property
+        //        if (token.Type == JTokenType.Object && token["data"] != null)
+        //        {
+        //            var rootObj = token.ToObject<PrintQR_Model.RootWrapper>();
+        //            var dataList = rootObj?.data;
+
+        //            if (dataList == null || dataList.Count == 0)
+        //            {
+        //                MessageBox.Show("No valid process data returned.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //                return;
+        //            }
+
+        //            LoadProcessData(dataList);
+        //            pb_loader.Visible = false;
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("Unexpected response format.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //        }
+
+        //    }
+        //    catch (JsonReaderException ex)
+        //    {
+        //        MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"API Error: {ex.Message}");
+        //    }
+        //}
 
         private void LoadProcessData(List<PrintQR_Model.Main> processes)
         {

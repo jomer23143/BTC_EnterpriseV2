@@ -140,8 +140,8 @@ namespace BTC_EnterpriseV2.ProcessForm
 
 
                 default:
-                    lbl_segment.Text = "Unknown Segment";
-                    break;
+                    //lbl_segment.Text = "Unknown Segment";
+                    // break;
             }
         }
 
@@ -151,8 +151,8 @@ namespace BTC_EnterpriseV2.ProcessForm
             try
             {
                 DictionaryBuilder Dbuilder = new DictionaryBuilder();
-                var postData = segmentId != 1 ? Dbuilder.BuildPostData(serial, segmentId) : Dbuilder.BuildPostData(serial);
-
+                //var postData = segmentId != 1 ? Dbuilder.BuildPostData(serial, segmentId) : Dbuilder.BuildPostData(serial);
+                var postData = Dbuilder.BuildPostSubAssy(serial, segmentId);
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
@@ -175,13 +175,13 @@ namespace BTC_EnterpriseV2.ProcessForm
                     dtserials.Columns.Add("process_id");
                     dtserials.Columns.Add("serial_number");
 
-                    foreach (var data_process in data.process)
+                    foreach (var data_process in data.name)
                     {
-                        foreach (var data_serial in data_process.serial)
-                        {
-                            dtserials.Rows.Add(data_serial.id, data_serial.manufacturing_order_process_id, data_serial.serial_number);
-                        }
-                        is_kit_list = data_process.is_kit_list;
+                        //foreach (var data_serial in data_process.serial_number)
+                        //{
+                        //    dtserials.Rows.Add(data_serial.name, data_serial.manufacturing_order_process_id, data_serial.serial_number);
+                        //}
+                        //is_kit_list = data_process.is_kit_list;
                     }
                     bool anyIsKitList = data.process.Any(p => p.is_kit_list == 1);
 
@@ -202,7 +202,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         return;
                     }
 
-                    int reqValidator = durationItem.manufacturing_order_station_status_id;
+                    int reqValidator = durationItem.manufacturing_order_process_status_id;
 
                     switch (reqValidator)
                     {
@@ -315,26 +315,39 @@ namespace BTC_EnterpriseV2.ProcessForm
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
-            dataGridView1.Columns.Add("NoProcess", "No. Process");
+            // Core columns
+            dataGridView1.Columns.Add("NoProcess", "#");
+            dataGridView1.Columns["NoProcess"].Width = 10;
             dataGridView1.Columns.Add("name", "Process");
             dataGridView1.Columns.Add("ipn_number", "IPN");
             dataGridView1.Columns.Add("serial_quantity", "Serial Quantity");
             dataGridView1.Columns.Add("track", "Track");
+            dataGridView1.Columns.Add("torque", "Torque");
             dataGridView1.Columns.Add("serial_count", "Scanned");
-
-
-
+            dataGridView1.Columns.Add("duration", "Duration");
 
             if (!isSubAssembly)
             {
                 dataGridView1.Columns.Add("is_kit_list", "KitList");
                 dataGridView1.Columns["is_kit_list"].Visible = false;
-
             }
 
-            var idColumn = dataGridView1.Columns.Add("id", "ID");
+            dataGridView1.Columns.Add("id", "ID");
             dataGridView1.Columns["id"].Visible = false;
 
+
+            var startendColumn = new DataGridViewButtonColumn
+            {
+                Name = "startend",
+                HeaderText = "Start",
+                UseColumnTextForButtonValue = false
+            };
+            dataGridView1.Columns.Add(startendColumn);
+
+
+
+
+            // Image column
             var imgColumn = new DataGridViewImageColumn
             {
                 Name = "ScanItemSerial",
@@ -342,47 +355,70 @@ namespace BTC_EnterpriseV2.ProcessForm
                 ImageLayout = DataGridViewImageCellLayout.Zoom
             };
             dataGridView1.Columns.Add(imgColumn);
-
             string defaultImagePath = Path.Combine(Application.StartupPath, "Assets", "qrcode.gif");
             string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
 
             Image resizedDefaultImage = ResizeImage(Image.FromFile(defaultImagePath), 60, 60);
             Image resizedViewImage = ResizeImage(Image.FromFile(viewImagePath), 60, 60);
 
-            int index = 1;
+
+
+            var holdColumn = new DataGridViewButtonColumn
+            {
+                Name = "hold",
+                HeaderText = "Hold",
+                UseColumnTextForButtonValue = false
+            };
+            dataGridView1.Columns.Add(holdColumn);
+
+            var breakColumn = new DataGridViewButtonColumn
+            {
+                Name = "break",
+                HeaderText = "Break",
+                Text = "Break",
+                UseColumnTextForButtonValue = true
+            };
+            dataGridView1.Columns.Add(breakColumn);
+
+
+
+
+
+
+            // Preload track data if kit list is used
             if (iskitlist)
             {
                 List<string> ipnList = processes
-           .SelectMany(p => (p.ipn_number ?? "").Split('/'))
-           .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
-           .Distinct()
-           .ToList();
+                    .SelectMany(p => (p.ipn_number ?? "").Split('/'))
+                    .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
+                    .Distinct()
+                    .ToList();
+
                 pb_loader.Visible = true;
-                GetTrackHandler GetTrackHandler = new GetTrackHandler();
-                response_list = await GetTrackHandler.PostData(_MoID, ipnList);
+                var trackHandler = new GetTrackHandler();
+                response_list = await trackHandler.PostData(_MoID, ipnList);
             }
+
+            int index = 1;
 
             foreach (var process in processes)
             {
-                process.serial_count = process.serial_quantity - process.serial_count;
-                if (process.serial_count < 0) process.serial_count = 0;
+                // Calculate remaining serials
+                process.serial_count = Math.Max((process.serial_quantity ?? 0) - (process.serial_count ?? 0), 0);
 
                 bool isCompleted = process.serial_count >= process.serial_quantity;
                 Image iconToShow = isCompleted ? resizedViewImage : resizedDefaultImage;
 
-                //change for null
+                // Process IPN
                 List<string> ipnList = string.IsNullOrWhiteSpace(process.ipn_number)
-               ? new List<string>()
-                : process.ipn_number.Contains("/")
-                ? process.ipn_number.Split('/')
-                .Select(ipn => ipn.Trim())
-                .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
-                .ToList()
-                : new List<string> { process.ipn_number.Trim() };
+                    ? new List<string>()
+                    : process.ipn_number.Split('/')
+                        .Select(ipn => ipn.Trim())
+                        .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
+                        .ToList();
 
-
+                // Determine track (if applicable)
                 string track = string.Empty;
-
                 if (iskitlist && response_list != null)
                 {
                     foreach (string ipn in ipnList)
@@ -397,20 +433,35 @@ namespace BTC_EnterpriseV2.ProcessForm
                         }
                     }
                 }
+
+                // Build row
                 var rowValues = new List<object>
-                   {
-                    index++,process.name, process.ipn_number,  process.serial_quantity, track,  process.serial_count
-                  };
+        {
+            index++,
+            process.name,
+            process.ipn_number,
+            process.serial_quantity,
+            track,
+            "N/A", // Handle null torque
+            process.serial_count,
+            "",//handle duration
+        };
+
                 if (!isSubAssembly)
                     rowValues.Add(process.is_kit_list);
 
                 rowValues.Add(process.id);
+                rowValues.Add("Start");
                 rowValues.Add(iconToShow);
+                rowValues.Add("Hold");
+                rowValues.Add("Break");
 
                 dataGridView1.Rows.Add(rowValues.ToArray());
             }
+
             pb_loader.Visible = false;
         }
+
 
         Image ResizeImage(Image img, int width, int height)
         {
@@ -433,7 +484,6 @@ namespace BTC_EnterpriseV2.ProcessForm
             var row = dataGridView1.Rows[e.RowIndex];
             bool result = _segmentID == 1;
             await HandleContentClickAsync(row, e.RowIndex, _segmentID);
-
         }
         private void ShowAlert(string title, string message, CustomeAlert.Alertype type)
         {
@@ -583,7 +633,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 dialog.ShowDialog();
                                 if (dialog.Result == DialogResult.OK)
                                 {
-                                    ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, _serial, processname);
+                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
                                     aBI_Frm.ShowDialog();
                                     return;
                                 }
@@ -609,7 +659,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                             dialog.ShowDialog();
                             if (dialog.Result == DialogResult.OK)
                             {
-                                ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, _serial, processname);
+                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
                                 aBI_Frm.ShowDialog();
                                 return;
                             }
@@ -658,7 +708,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 dialog.ShowDialog();
                                 if (dialog.Result == DialogResult.OK)
                                 {
-                                    ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, _serial, processname);
+                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
                                     aBI_Frm.ShowDialog();
                                     return;
                                 }
@@ -707,7 +757,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                             dialog.ShowDialog();
                             if (dialog.Result == DialogResult.OK)
                             {
-                                ABI_Frm aBI_Frm = new ABI_Frm(lbl_segment.Text, lbl_toplvlipn.Text, _serial, processname);
+                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
                                 aBI_Frm.ShowDialog();
                                 return;
                             }
@@ -830,6 +880,75 @@ namespace BTC_EnterpriseV2.ProcessForm
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "startend")
+            {
+                var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+
+                if (cell.Value?.ToString() == "Start")
+                {
+                    cell.Style.BackColor = Color.Green;
+                    cell.Style.ForeColor = Color.White;
+                }
+                else if (cell.Value?.ToString() == "End")
+                {
+                    cell.Style.BackColor = Color.Red;
+                    cell.Style.ForeColor = Color.White;
+                }
+            }
+
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            var dgv = dataGridView1;
+            var clickedColumn = dgv.Columns[e.ColumnIndex];
+
+            if (clickedColumn.Name == "startend")
+            {
+                var cell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+
+                // Toggle text
+                string currentText = cell.Value?.ToString();
+                if (currentText == "Start")
+                {
+                    cell.Value = "End";
+                    cell.Style.BackColor = Color.Red;
+                    cell.Style.ForeColor = Color.White;
+                }
+                else
+                {
+                    cell.Value = "Start";
+                    cell.Style.BackColor = Color.Green;
+                    cell.Style.ForeColor = Color.White;
+                }
+            }
+            if (clickedColumn.Name == "hold")
+            {
+                var cell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+                string currentText = cell.Value?.ToString();
+
+                if (currentText == "Hold")
+                {
+                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+                    aBI_Frm.ShowDialog();
+                    cell.Value = "OnHold";
+                    cell.Style.BackColor = Color.Orange;
+                    cell.Style.ForeColor = Color.White;
+                }
+                else
+                {
+                    cell.Value = "Hold";
+                    cell.Style.BackColor = Color.White;
+                    cell.Style.ForeColor = Color.White;
+                }
+
+            }
         }
     }
 }

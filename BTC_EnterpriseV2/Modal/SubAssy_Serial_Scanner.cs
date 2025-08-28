@@ -24,7 +24,7 @@ namespace BTC_EnterpriseV2.Modal
         private string statioName;
         private string processname = string.Empty;
 
-        private string Scan_api = GlobalApi.GetScanSerialUrl();
+        private string Scan_api = GlobalApi.GetScanUrl();
         private string manufacturingOrder_Api = GlobalApi.GetManufacturingOrdersUrl();
         public DataTable ipn_list = new DataTable("ipntable");
         private DataTable dt_list_Station_Serial = new DataTable();
@@ -121,7 +121,8 @@ namespace BTC_EnterpriseV2.Modal
         {
             if (type == "1")
             {
-                await Get_ScanData(serial);
+                SerialScanned?.Invoke(serial, type, processname, ipn_list);
+                this.Close();
             }
             else
             {
@@ -156,15 +157,18 @@ namespace BTC_EnterpriseV2.Modal
 
 
         // First method to get the scan data from the API
-        public async Task Get_ScanData(string serial)
+        public async Task Get_ScanData(string serial, int seq)
         {
             try
             {
-
-                var json = await WebRequestApi.PostRequest(Scan_api, JsonConvert.SerializeObject(new { serial_number = serial.Trim() }));
+                DictionaryBuilder Dbuilder = new DictionaryBuilder();
+                // var postData = segmentId != 1 ? Dbuilder.BuildPostData(serial, segmentId) : Dbuilder.BuildPostData(serial);
+                var postData = Dbuilder.BuildPostSubAssy(serial, seq);
+                var json = await WebRequestApi.PostRequest(Scan_api, JsonConvert.SerializeObject(postData));
 
                 if (!IsValidJson(json))
                 {
+
                     ShowWarning("Invalid response from server.");
                     return;
                 }
@@ -194,6 +198,9 @@ namespace BTC_EnterpriseV2.Modal
                 }
 
                 var result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
+
+
+
                 var data = result?.FirstOrDefault();
 
                 if (data == null)
@@ -426,7 +433,7 @@ namespace BTC_EnterpriseV2.Modal
             foreach (var station in result)
             {
                 int statusId = station.manufacturing_order_station_status_id;
-                int stationId = station.id;
+                int stationId = Convert.ToInt32(station.id);
                 int ordersegment = station.manufacturing_order_sequence_number;
 
                 if (statusId == 3)

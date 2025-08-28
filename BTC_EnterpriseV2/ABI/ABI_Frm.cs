@@ -17,7 +17,7 @@ namespace BTC_EnterpriseV2.ABI
         public string generatedSerial = "";
         public string processname = "";
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-        public ABI_Frm(string segment, string moid, string generatedSerial, string processname)
+        public ABI_Frm(int processid, string moid, string generatedSerial, string processname)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -25,13 +25,13 @@ namespace BTC_EnterpriseV2.ABI
             YUI yui = new YUI();
             yui.RoundedFormsDocker(this, 8);
             yui.RoundedButton(btn_submit, 8, Color.DarkSlateBlue);
-            yui.RoundedButton(btn_cancel, 8, Color.Salmon);
+            // yui.RoundedButton(btn_cancel, 8, Color.Salmon);
 
 
             textBox_abi_reason.Visible = false;
             chckbox.Checked = false;
 
-            this.segment = segment;
+            this.segment = Convert.ToString(processid);
             this.moid = moid;
             this.generatedSerial = generatedSerial;
             this.processname = processname;
@@ -72,7 +72,8 @@ namespace BTC_EnterpriseV2.ABI
         private void textBox_abi_reason_TextChanged(object sender, EventArgs e)
         {
             thereason = textBox_abi_reason.Text;
-            label_details.Text = $"ABI with MOID: {moid}, Segment: {segment}, Process: {processname}, Generated Serial: {generatedSerial}, ABI Reason: {thereason}.";
+            //  label_details.Text = $"ABI with MOID: {moid}, Segment: {segment}, Process: {processname}, Generated Serial: {generatedSerial}, ABI Reason: {thereason}.";
+            label_details.Text = $"ABI with MOID: {moid}, Process: {processname}, Generated Serial: {generatedSerial}, ABI Reason: {thereason}.";
 
         }
 

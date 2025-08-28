@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Model;
 using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.Utillities;
@@ -21,6 +22,7 @@ namespace BTC_EnterpriseV2.Modal
         public int tempcount = 0;
         public event Action<string?> SerialScanned = delegate { };
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
+        private string PostMaterial = GlobalApi.GetPostMaterialAssignSerialUrl();
         private int is_kit_list = 0;
         private DataTable dataserials;
         public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count, int iskitlist, DataTable table_serials)
@@ -28,10 +30,9 @@ namespace BTC_EnterpriseV2.Modal
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             YUI yUI = new YUI();
-            yUI.RoundedFormsDocker(this, 8);
+            // yUI.RoundedFormsDocker(this, 8);
             yUI.RoundedTextBox(txt_serialnumber, 6, Color.White);
             yUI.RoundedPanelDocker(panel_processname, 6);
-
             this.rowindex = rowindex;
             this.processId = processid;
             this.lbl_processname.Text = processname;
@@ -83,11 +84,9 @@ namespace BTC_EnterpriseV2.Modal
 
                 if (tempcount < tempqty)
                 {
-                    await Get_Process_response(
+                    await PostItemSerial(
                         lbl_generatedserial.Text,
-                        processId,
-                        txt_serialnumber.Text.Trim(),
-                        is_kit_list
+                        processId
                     );
 
                     txt_serialnumber.Clear();
@@ -135,6 +134,112 @@ namespace BTC_EnterpriseV2.Modal
 
         }
 
+        public async Task PostItemSerial(string serial, string processid)
+        {
+            try
+            {
+                // Sanitize inputs
+                var postData = new
+                {
+                    serial = processid.Trim(),
+                    material_id = serial.Trim(),
+
+                };
+                string json = JsonConvert.SerializeObject(postData);
+
+                string jsonResponse = await WebRequestApi.PostRequest(PostMaterial, json);
+
+                // Check if the response is empty or invalid HTML
+                if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))
+                {
+                    ShowMessage("Invalid response from server.", Color.Red);
+                    return;
+                }
+                var token = JToken.Parse(jsonResponse);
+
+                // Handle object-based response (likely error/info)
+                if (token.Type == JTokenType.Object && token["message"] != null)
+                {
+                    string message = token["message"]?.ToString();
+                    string kitSerialError = token["errors"]?["kit_serial"]?.FirstOrDefault()?.ToString();
+
+                    if (!string.IsNullOrWhiteSpace(message))
+                    {
+                        ShowMessage(message, Color.Orange);
+                    }
+                    else if (!string.IsNullOrWhiteSpace(kitSerialError))
+                    {
+                        ShowMessage(kitSerialError, Color.Red);
+                    }
+                    else
+                    {
+                        ShowMessage("An unknown error occurred.", Color.Red);
+                    }
+
+                    return;
+                }
+                // Handle array-based response (expected successful data)
+                if (token.Type == JTokenType.Array)
+                {
+                    List<Sub_Asy_Process_Model.Root> result;
+                    try
+                    {
+                        result = token.ToObject<List<Sub_Asy_Process_Model.Root>>();
+                    }
+                    catch (Exception parseEx)
+                    {
+                        ShowMessage("Failed to parse process data.", Color.Red);
+                        //  Debug.WriteLine("Parse Error: " + parseEx);
+                        return;
+                    }
+
+                    var data = result?.FirstOrDefault();
+
+                    if (data == null)
+                    {
+                        ShowMessage("No valid process data returned.", Color.Red);
+                        return;
+                    }
+                    lbl_generatedserial.Text = data.serial_number;
+
+                    bool exists = dataGridView1.Rows
+                        .Cast<DataGridViewRow>()
+                        .Any(r => r.Cells["serial_number"].Value?.ToString() == data.serial_number);
+
+                    if (!exists)
+                    {
+                        tempcount++;
+                        int rowNumber = dataGridView1.Rows.Count + 1;
+                        dataGridView1.Rows.Add(rowNumber, is_kit_list);
+
+                        int index = 0;
+                        dataserials.Rows.Add(index++, processId, txt_serialnumber.Text.Trim());
+                        Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["serial_count"].Value = tempcount;
+
+                        //ShowMessage("Kitlist Part Number is Available.", Color.Green);
+                    }
+                    else
+                    {
+                        ShowMessage("This serial number has already been scanned.", Color.Orange);
+                    }
+
+
+                }
+                else
+                {
+                    ShowMessage("Unexpected response format.", Color.Red);
+                }
+            }
+            catch (JsonReaderException ex)
+            {
+                MessageBox.Show($"JSON Error: {ex.Message}", "Parsing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(ex.Message, Color.Orange);
+            }
+
+        }
 
         public async Task Get_Process_response(string serial, string processid, string kitserial, int iskitlist)
         {

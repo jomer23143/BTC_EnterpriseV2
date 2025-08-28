@@ -26,7 +26,7 @@ namespace BTCP_EnterpriseV2.Forms
             UIControls.SetupUI(this, Setting_Click, Logout_Click);
             Manage_SubAssy = new Manage_SubAssy(panel_menubar, panel_Subassy_Display);
             fulldisplaycontroll = new FormManager(panel_menubar, panel_Subassy_Display);
-            //lbl_departmemnt.Text = ;
+
         }
         private void MainDashboard_SizeChanged(object sender, EventArgs e)
         {
@@ -193,7 +193,10 @@ namespace BTCP_EnterpriseV2.Forms
                 processType = processtype ?? string.Empty;
                 int _segmentID = Convert.ToInt32(processType);
                 response_list = itemsTable ?? new DataTable("thedata");
-                fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, _segmentID, segmentname), sender);
+                // fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, _segmentID, segmentname), sender);
+                //  fulldisplaycontroll.OpenChildForm(new TestForm(scannedSerial, response_list, _segmentID, segmentname), sender); // Open TestForm as an example
+
+                fulldisplaycontroll.OpenChildForm(new ProcessFrm(scannedSerial, _segmentID, segmentname), sender);
             };
 
             scannerForm.ShowDialog(this);

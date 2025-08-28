@@ -2,6 +2,15 @@
 {
     internal class DictionaryBuilder
     {
+        public Dictionary<string, object> Build_PostSubP(int processid)
+        {
+            return new Dictionary<string, object>
+            {
+                { "process_id", processid },
+
+            };
+        }
+
         public Dictionary<string, object> Build_Login(string email, string password)
         {
             return new Dictionary<string, object>
@@ -11,11 +20,13 @@
             };
         }
 
-        public Dictionary<string, object> BuildPostData(string serial)
+        public Dictionary<string, object> BuildPostSubAssy(string serial, int seq)
         {
             return new Dictionary<string, object>
             {
-                { "serial_number", serial.Trim() }
+                { "serial_number", serial.Trim() } ,
+                {  "sequence_number",seq}
+
             };
         }
 
@@ -53,6 +64,20 @@
             };
             return postData;
         }
+
+        //new 
+        public Dictionary<string, object> BuilderPost_Process(int processid, string remarks, string status, string rfid)
+        {
+            var postData = new Dictionary<string, object>
+            {
+                    { "process_id", processid},
+                    { "remarks", remarks },
+                    { "status", status.Trim() },
+                    { "employee_rfid", rfid.Trim() }
+            };
+            return postData;
+        }
+
 
 
         public readonly Dictionary<string, string> CodeNameMap = new Dictionary<string, string>

@@ -58,7 +58,13 @@
     <Compile Update="Modal\ScanSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\scantorque.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\SubAssy_Serial_Scanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\TabFrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\ViewScanedDetails.cs">
@@ -70,6 +76,9 @@
     <Compile Update="Modal\ViewStationGeneratedSerials_1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ProcessForm\ProcessFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProcessForm\Sub_AssyFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +86,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ReportChart\ReportVeiwerQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\ABIFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings\Breakfrm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Settings\createConnection.cs">
@@ -89,6 +104,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="SideBar\ProcessSidebar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

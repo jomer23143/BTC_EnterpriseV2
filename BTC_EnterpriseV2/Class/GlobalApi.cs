@@ -7,6 +7,11 @@
 
         // API Endpoints
         public static readonly string ScanSerial = $"{BaseUrl}scan-serial";
+        public static readonly string Scan = $"{BaseUrl}scan";
+        public static readonly string GetSubP = $"{BaseUrl}view-sub-process";
+        public static readonly string PostProcess = $"{BaseUrl}process";
+        public static readonly string PostMaterialAssignSerial = $"{BaseUrl}material-assign-serial";
+        public static readonly string PostMaterialAssignTorque = $"{BaseUrl}material-assign-torque";
         public static readonly string KitList = $"{BaseUrl}kit-list";
         public static readonly string ManufacturingOrders = $"{BaseUrl}manufacturing-order";
         public static readonly string LoginProduction = $"{BaseUrl}login-production";
@@ -18,7 +23,32 @@
         {
             return ScanSerial;
         }
+        //new
+        public static string GetScanUrl()
+        {
+            return Scan;
+        }
+        //new
+        public static string GetGetSubPUrl()
+        {
+            return GetSubP;
+        }
 
+        //new Pos
+        public static string GetPostProcessUrl()
+        {
+            return PostProcess;
+        }
+
+        public static string GetPostMaterialAssignSerialUrl()
+        {
+            return PostMaterialAssignSerial;
+        }
+
+        public static string GetPostMaterialAssignTorqueUrl()
+        {
+            return PostMaterialAssignTorque;
+        }
         public static string GetKitListUrl()
         {
             return KitList;

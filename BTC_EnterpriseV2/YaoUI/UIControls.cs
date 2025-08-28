@@ -8,7 +8,7 @@ namespace BTCP_EnterpriseV2.YaoUI
         public static void SetupUI(MainDashboard form, EventHandler settingHandler, EventHandler logoutHandler)
         {
             // 1. Configure basic form appearance: no border, centered start, maximized window.
-            form.FormBorderStyle = FormBorderStyle.None;
+            //   form.FormBorderStyle = FormBorderStyle.None;  // temporary disabled for testing porpuse
             form.StartPosition = FormStartPosition.CenterScreen;
             form.WindowState = FormWindowState.Maximized;
 
