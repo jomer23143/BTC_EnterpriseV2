@@ -179,6 +179,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "scantorque";
             Text = "scantorque";
+            Load += scantorque_Load;
             panel1.ResumeLayout(false);
             panel_processname.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

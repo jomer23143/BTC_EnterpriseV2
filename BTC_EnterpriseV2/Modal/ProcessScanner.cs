@@ -25,7 +25,9 @@ namespace BTC_EnterpriseV2.Modal
         private string PostMaterial = GlobalApi.GetPostMaterialAssignSerialUrl();
         private int is_kit_list = 0;
         private DataTable dataserials;
-        public ProcessScanner(int rowindex, string processid, string processname, string generatedseril, string qty, string count, int iskitlist, DataTable table_serials)
+        private ProcessFrm _processfrm;
+        public event Action<string, string> ItemScanSuccess;
+        public ProcessScanner(ProcessFrm processFrm, int rowindex, string processid, string processname, string generatedseril, string qty, string count, int iskitlist, DataTable table_serials)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -41,6 +43,7 @@ namespace BTC_EnterpriseV2.Modal
             this.serialnumber = generatedseril;
             this.is_kit_list = iskitlist;
             this.dataserials = table_serials;
+            this._processfrm = processFrm;
             lbl_msg.Text = "Please scan the serial number of the item to be processed.";
         }
 
@@ -85,7 +88,7 @@ namespace BTC_EnterpriseV2.Modal
                 if (tempcount < tempqty)
                 {
                     await PostItemSerial(
-                        lbl_generatedserial.Text,
+                        txt_serialnumber.Text,
                         processId
                     );
 
@@ -96,32 +99,33 @@ namespace BTC_EnterpriseV2.Modal
 
                     if (tempcount == tempqty)
                     {
-                        string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
-                        Image viewImage = Image.FromFile(viewImagePath);
-                        Image resizedImage2 = ResizeImage(viewImage, 60, 60);
+                        //string viewImagePath = Path.Combine(Application.StartupPath, "Assets", "viewsacn.png");
+                        //Image viewImage = Image.FromFile(viewImagePath);
+                        //Image resizedImage2 = ResizeImage(viewImage, 60, 60);
 
-                        Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["ScanItemSerial"].Value = resizedImage2;
+                        //Sub_AssyFrm.instance.dgv1.Rows[rowindex].Cells["ScanItemSerial"].Value = resizedImage2;
 
-                        Image ResizeImage(Image img, int width, int height)
-                        {
-                            Bitmap bmp = new Bitmap(width, height);
-                            using (Graphics g = Graphics.FromImage(bmp))
-                            {
-                                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                                g.DrawImage(img, 0, 0, width, height);
-                            }
-                            return bmp;
-                        }
-                        //   Sub_AssyFrm.dtserials = dataserials;
+                        //Image ResizeImage(Image img, int width, int height)
+                        //{
+                        //    Bitmap bmp = new Bitmap(width, height);
+                        //    using (Graphics g = Graphics.FromImage(bmp))
+                        //    {
+                        //        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        //        g.DrawImage(img, 0, 0, width, height);
+                        //    }
+                        //    return bmp;
                     }
+                    //   Sub_AssyFrm.dtserials = dataserials;
                 }
                 else
                 {
                     MessageBox.Show("You have already met the required number of items.", "Scanning Validator", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.Close();
                 }
+
             }
         }
+
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -141,8 +145,8 @@ namespace BTC_EnterpriseV2.Modal
                 // Sanitize inputs
                 var postData = new
                 {
-                    serial = processid.Trim(),
-                    material_id = serial.Trim(),
+                    serial = serial.Trim(),
+                    material_id = processid.Trim(),
 
                 };
                 string json = JsonConvert.SerializeObject(postData);
@@ -227,7 +231,23 @@ namespace BTC_EnterpriseV2.Modal
                 }
                 else
                 {
-                    ShowMessage("Unexpected response format.", Color.Red);
+                    ItemScanSuccess?.Invoke(serial, processid);
+
+                    bool exists = dataGridView1.Rows
+                      .Cast<DataGridViewRow>()
+                      .Any(r => r.Cells["serial_number"].Value?.ToString() == serial);
+
+                    if (!exists)
+                    {
+                        tempcount++;
+                        int rowNumber = dataGridView1.Rows.Count + 1;
+                        dataGridView1.Rows.Add(rowNumber, serial);
+
+                    }
+
+
+                    ShowMessage($"Success!! . Item Serial Code :{serial} Scanned Successfully.  ", Color.Green);
+
                 }
             }
             catch (JsonReaderException ex)

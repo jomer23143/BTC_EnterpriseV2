@@ -1,5 +1,6 @@
 ﻿using BTC_EnterpriseV2.Class;
 using BTC_EnterpriseV2.Model;
+using BTC_EnterpriseV2.ProcessForm;
 using BTC_EnterpriseV2.Utillities;
 using BTCP_EnterpriseV2.YaoUI;
 using Newtonsoft.Json;
@@ -11,8 +12,16 @@ namespace BTC_EnterpriseV2.Modal
     {
         private string processid;
         private string processname;
+        public string qty;
+        public string count;
+        public int tempqty = 0;
+        public int tempcount = 0;
         private string PostTorque = GlobalApi.GetPostMaterialAssignTorqueUrl();
-        public scantorque(string processid, string processname)
+
+        public event Action<string, string> TorqueScanSuccess;
+
+        private ProcessFrm _processfrm;
+        public scantorque(ProcessFrm processFrm, string processid, string processname, string qty, string count)
         {
             InitializeComponent();
             YUI yUI = new YUI();
@@ -21,6 +30,9 @@ namespace BTC_EnterpriseV2.Modal
             yUI.RoundedPanelDocker(panel_processname, 6);
             this.processid = processid;
             lbl_processname.Text = processname;
+            this.qty = qty;
+            this.count = count;
+            this._processfrm = processFrm;
         }
         private async void txt_torque_KeyDown(object sender, KeyEventArgs e)
         {
@@ -28,16 +40,30 @@ namespace BTC_EnterpriseV2.Modal
             {
                 if (string.IsNullOrWhiteSpace(txt_torque.Text))
                 {
-                    MessageBox.Show("Please enter a Torque serial number.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please enter a serial number.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                if (tempcount >= tempqty)
+                {
+                    await PostItemSerial(
+                        txt_torque.Text,
+                        processid
+                    );
+
+                    txt_torque.Clear();
+
+                    lbl_scancount.Text = $"{tempcount} out of {tempqty}";
+
+
+
+                }
                 else
                 {
-                    await PostItemSerial(txt_torque.Text, processid);
-                    txt_torque.Clear();
-                    txt_torque.Select();
+                    MessageBox.Show("You have already met the required number of Torque.", "Scanning Validator", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
                 }
+
             }
         }
 
@@ -111,7 +137,45 @@ namespace BTC_EnterpriseV2.Modal
                 }
                 else
                 {
-                    ShowMessage("Unexpected response format.", Color.Red);
+
+                    if (token.Type == JTokenType.Object && token["machine_tool_torque_value"] != null)
+                    {
+                        string torqueValue = token["machine_tool_torque_value"]?.ToString();
+                        string torqueName = token["machine_tool_torque_name"]?.ToString();
+                        string torqueRange = token["machine_tool_torque_range"]?.ToString();
+
+                        TorqueScanSuccess?.Invoke(torqueName, torqueValue);
+
+                        // Check if serial already exists
+                        var existingRow = dataGridView1.Rows
+                            .Cast<DataGridViewRow>()
+                            .FirstOrDefault(r => r.Cells["serial_number"].Value?.ToString() == serial);
+
+                        if (existingRow == null)
+                        {
+                            // 🔹 Add new row
+                            tempcount++;
+                            int rowIndex = dataGridView1.Rows.Add();
+
+                            var row = dataGridView1.Rows[rowIndex];
+                            row.Cells["row_number"].Value = rowIndex + 1;
+                            row.Cells["serial_number"].Value = serial;
+                            row.Cells["torque_name"].Value = torqueName;
+                            row.Cells["torque_value"].Value = torqueValue;
+                            row.Cells["torque_range"].Value = torqueRange;
+                        }
+                        else
+                        {
+                            // 🔹 Update existing row’s torque info
+                            existingRow.Cells["torque_name"].Value = torqueName;
+                            existingRow.Cells["torque_value"].Value = torqueValue;
+                            existingRow.Cells["torque_range"].Value = torqueRange;
+                        }
+
+                        ShowMessage($"Success.. Torque Tool: {torqueName} | Value: {torqueValue} | Range: {torqueRange}", Color.Green);
+                    }
+
+
                 }
             }
             catch (JsonReaderException ex)
@@ -130,7 +194,12 @@ namespace BTC_EnterpriseV2.Modal
             lbl_msg.Text = message;
         }
 
+        private void scantorque_Load(object sender, EventArgs e)
+        {
+            tempqty = int.Parse(qty);
+            tempcount = int.Parse(count);
+            lbl_scancount.Text = count + " out of " + qty;
 
-
+        }
     }
 }

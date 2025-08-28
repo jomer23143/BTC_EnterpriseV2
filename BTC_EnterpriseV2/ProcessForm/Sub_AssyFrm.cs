@@ -539,9 +539,9 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 if (isKitList == "1")
                 {
-                    var scan = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
-                    scan.ShowDialog();
-                    return;
+                    //var scan = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
+                    //scan.ShowDialog();
+                    //return;
                 }
                 else
                 {
@@ -563,8 +563,8 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             if (isMultipleIPN && trackdata != "Serialized")
             {
-                var scanMulti = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
-                scanMulti.ShowDialog();
+                //var scanMulti = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
+                //scanMulti.ShowDialog();
                 return;
             }
 
@@ -582,8 +582,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                 return;
             }
 
-            var scanSub = new ProcessScanner(rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
-            scanSub.ShowDialog();
+            //var scanSub = new ProcessScanner(this,rowIndex, processIdStr, processName, lbl_generatedserial.Text, serialQtyStr, serialCountStr, is_kit_list, dtserials);
+            //scanSub.ShowDialog();
         }
 
 

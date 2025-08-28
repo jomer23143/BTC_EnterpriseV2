@@ -36,8 +36,8 @@
             public int manufacturing_order_process_status_id { get; set; }
             public string name { get; set; }
             public string ipn_number { get; set; }
-            public int serial_quantity { get; set; }
-            public int serial_count { get; set; }
+            public string? serial_quantity { get; set; }
+            public string? serial_count { get; set; }
             public int is_kit_list { get; set; }
             public int is_serial { get; set; }
             public int is_torque { get; set; }

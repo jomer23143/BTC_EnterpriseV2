@@ -10,8 +10,8 @@
         public static readonly string Scan = $"{BaseUrl}scan";
         public static readonly string GetSubP = $"{BaseUrl}view-sub-process";
         public static readonly string PostProcess = $"{BaseUrl}process";
-        public static readonly string PostMaterialAssignSerial = $"{BaseUrl}material-assign-serial";
-        public static readonly string PostMaterialAssignTorque = $"{BaseUrl}material-assign-torque";
+        public static readonly string PostMaterialAssignSerial = $"{BaseUrl}material_assign_serial";
+        public static readonly string PostMaterialAssignTorque = $"{BaseUrl}material_assign_torque";
         public static readonly string KitList = $"{BaseUrl}kit-list";
         public static readonly string ManufacturingOrders = $"{BaseUrl}manufacturing-order";
         public static readonly string LoginProduction = $"{BaseUrl}login-production";
