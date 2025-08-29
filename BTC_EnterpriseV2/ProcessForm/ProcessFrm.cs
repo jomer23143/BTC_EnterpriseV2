@@ -215,6 +215,9 @@ namespace BTC_EnterpriseV2.ProcessForm
             sfDataGrid1.RowHeight = 90;
             sfDataGrid1.AutoSizeColumnsMode = AutoSizeColumnsMode.Fill;
             sfDataGrid1.AllowEditing = false;
+            //  sfDataGrid1.ShowRowHeader = false;
+            sfDataGrid1.RowHeaderWidth = 70; // default is ~21
+
 
 
             CellStyleInfo cellstyle = new CellStyleInfo
@@ -241,6 +244,17 @@ namespace BTC_EnterpriseV2.ProcessForm
             sfDataGrid1.AllowEditing = true;
             sfDataGrid1.SelectionMode = Syncfusion.WinForms.DataGrid.Enums.GridSelectionMode.Single;
             sfDataGrid1.NavigationMode = Syncfusion.WinForms.DataGrid.Enums.NavigationMode.Row;
+
+            sfDataGrid1.Columns.Add(new GridButtonColumn()
+            {
+                MappingName = "ExpandCollapse",
+                HeaderText = "",
+                CellStyle = cellstyle,
+                Width = 90,
+                Visible = false,
+                AllowDefaultButtonText = true
+
+            });
             // --- Parent Columns ---
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Index", HeaderText = "#", Width = 50, CellStyle = cellstyle1 });
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Name", HeaderText = "Process", Width = 450, AllowTextWrapping = true, CellStyle = cellstyle1 });
@@ -249,10 +263,6 @@ namespace BTC_EnterpriseV2.ProcessForm
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Duration", HeaderText = "Duration", CellStyle = cellstyle1, AllowTextWrapping = true });
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Status", HeaderText = "Status", Visible = true, CellStyle = cellstyle1, AllowTextWrapping = true });
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Color", HeaderText = "Color", Visible = false });
-
-            if (!isSubAssembly)
-                sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "IsKitList", HeaderText = "KitList", Visible = false });
-
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Id", HeaderText = "ID", Visible = false });
 
 
@@ -286,7 +296,6 @@ namespace BTC_EnterpriseV2.ProcessForm
                     .Where(ipn => !string.IsNullOrWhiteSpace(ipn))
                     .Distinct()
                     .ToList();
-
 
             }
 
@@ -352,7 +361,9 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 viewModels.Add(new ViewModel.ProcessViewModel
                 {
+
                     Index = index++,
+                    expandIcon = "⏹",
                     ProcessId = process.id,
                     Name = process.name,
                     StartTime = startTimeDisplay,
@@ -601,6 +612,9 @@ namespace BTC_EnterpriseV2.ProcessForm
 
 
         // Disable for now, as it is not used
+
+
+
         private void sfDataGrid1_QueryCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryCellStyleEventArgs e)
         {
             //// Skip if not a data column
@@ -612,6 +626,13 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             var record = sfDataGrid1.View.Records.GetItemAt(recordIndex) as ViewModel.ProcessViewModel;
             if (record == null) return;
+
+            if (e.Column.MappingName == "ExpandCollapse")
+            {
+                e.Style.Font = new GridFontInfo(new Font("Segoe UI", 12, FontStyle.Bold));
+                e.Style.TextColor = Color.Red;
+                //e.Style.HorizontalAlignment = HorizontalAlignment.Center;
+            }
 
             // ✅ Only apply style to the "Status" column
             if (e.Column.MappingName == "Status")
@@ -661,6 +682,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                 e.Style.TextColor = Color.DarkGray;
             }
 
+
+
         }
 
         private void sfDataGrid1_QueryButtonCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryButtonCellStyleEventArgs e)
@@ -672,6 +695,8 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             var record = sfDataGrid1.View.Records.GetItemAt(recordIndex) as ViewModel.ProcessViewModel;
             if (record == null) return;
+
+
 
             bool isRowEnabled = false;
 
@@ -736,6 +761,25 @@ namespace BTC_EnterpriseV2.ProcessForm
                         e.Style.Enabled = true;
                     }
                     break;
+
+                case "ExpandCollapse":
+                    if (record.IsExpanded)
+                    {
+                        e.Style.TextColor = Color.Red;
+                        e.Style.Enabled = true;
+                        e.Style.BackColor = Color.SeaGreen;
+                        record.expandIcon = "➖";
+
+                    }
+                    else
+                    {
+                        e.Style.TextColor = Color.Green;
+                        e.Style.Enabled = true;
+                        e.Style.BackColor = Color.LimeGreen;
+                        record.expandIcon = "➕";
+
+                    }
+                    break;
             }
         }
 
@@ -769,6 +813,11 @@ namespace BTC_EnterpriseV2.ProcessForm
 
             var record = sfDataGrid1.View.Records.GetItemAt(recordIndex) as ViewModel.ProcessViewModel;
             if (record == null) return;
+
+
+
+
+
 
             var processid = 0;
             var status = "";
@@ -918,8 +967,6 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 record.IsEnded = true;
                                 status = "END_TIME";
 
-
-                                // ✅ instead of adding new row, update last subprocess
                                 var lastSubProcess = record.SubProcesses.LastOrDefault();
                                 if (lastSubProcess != null && string.IsNullOrEmpty(lastSubProcess.TimeEnd))
                                 {
@@ -928,7 +975,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 }
                                 else
                                 {
-                                    // fallback: if no subprocess found, create new one (optional)
+
                                     record.SubProcesses.Add(new ViewModel.ChildProcessViewModel
                                     {
                                         Id = record.SubProcesses.Count + 1,
@@ -938,9 +985,13 @@ namespace BTC_EnterpriseV2.ProcessForm
                                         Remarks = "Process Completed"
                                     });
                                 }
-                                var Rmarks = "Process Completed";
+                                TimeSpan totalDuration = CalculateTotalDuration(record.SubProcesses);
 
+                                record.Duration = timeFormat.FormatDuration(totalDuration);
+
+                                var Rmarks = "Process Completed";
                                 await PostProcessWithDictionary(processid, Rmarks, status, rfid);
+
                             }
                             else
                             {
@@ -955,9 +1006,55 @@ namespace BTC_EnterpriseV2.ProcessForm
                         endProcess.ShowDialog();
                     }
                     break;
+                case "ExpandCollapse":
+
+                    int recordIndex1 = sfDataGrid1.TableControl.ResolveToRecordIndex(e.RowIndex);
+                    if (recordIndex < 0) return;
+
+                    var expandRecord = sfDataGrid1.View.Records.GetItemAt(recordIndex1) as ViewModel.ProcessViewModel;
+                    if (expandRecord == null) return;
+
+                    if (expandRecord.IsExpanded)
+                    {
+
+                        sfDataGrid1.CollapseDetailsViewAt(recordIndex1);
+                        expandRecord.IsExpanded = false;
+                        expandRecord.expandIcon = "➖";
+                    }
+                    else
+                    {
+                        sfDataGrid1.ExpandDetailsViewAt(recordIndex1);
+                        expandRecord.IsExpanded = true;
+                        expandRecord.expandIcon = "➕";
+
+                    }
+
+
+                    break;
+
+
+
             }
 
             sfDataGrid1.Refresh();
+        }
+        private TimeSpan CalculateTotalDuration(IEnumerable<ViewModel.ChildProcessViewModel> subProcesses)
+        {
+            TimeSpan total = TimeSpan.Zero;
+
+            foreach (var sub in subProcesses)
+            {
+                if (!string.IsNullOrEmpty(sub.TimeStart) && !string.IsNullOrEmpty(sub.TimeEnd))
+                {
+                    if (DateTime.TryParse(sub.TimeStart, out var start) &&
+                        DateTime.TryParse(sub.TimeEnd, out var end))
+                    {
+                        total += (end - start);
+                    }
+                }
+            }
+
+            return total;
         }
 
 

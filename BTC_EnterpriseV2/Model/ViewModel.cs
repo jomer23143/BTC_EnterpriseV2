@@ -7,6 +7,7 @@ namespace BTC_EnterpriseV2.Model
     {
         public class ProcessViewModel
         {
+            public string expandIcon { get; set; }
             public int Index { get; set; }
             public string? ProcessId { get; set; }
             public string Name { get; set; }
@@ -23,6 +24,7 @@ namespace BTC_EnterpriseV2.Model
             public bool IsOnHold { get; set; }
             public bool IsCancelled { get; set; }
             public bool IsEnded { get; set; }
+            public bool IsExpanded { get; set; }
 
             // ✅ Use BindingList directly
             public BindingList<ChildProcessViewModel> SubProcesses { get; set; } = new BindingList<ChildProcessViewModel>();

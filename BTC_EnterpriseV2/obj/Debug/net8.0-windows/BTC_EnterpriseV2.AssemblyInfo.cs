@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BTC_EnterpriseV2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+350e24233bc999077f1a222cdf10d7aa914108d9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17c49ea36de0413bd305cb4b2b964aa1b1820ba4")]
 [assembly: System.Reflection.AssemblyProductAttribute("BTC_EnterpriseV2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BTC_EnterpriseV2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -369,6 +369,7 @@
             sfDataGrid1.Location = new Point(0, 0);
             sfDataGrid1.Name = "sfDataGrid1";
             sfDataGrid1.PreviewRowHeight = 35;
+            sfDataGrid1.RowHeaderWidth = 40D;
             sfDataGrid1.Size = new Size(704, 595);
             sfDataGrid1.Style.Border3DStyle = Border3DStyle.Flat;
             sfDataGrid1.Style.BorderColor = Color.FromArgb(100, 100, 100);
