@@ -131,6 +131,7 @@ namespace BTC_EnterpriseV2.Forms
                 kit_date = row[8]?.ToString() ?? "",
                 start_date = row[9]?.ToString() ?? "",
                 end_date = row[10]?.ToString() ?? "",
+                is_build_america_buy_america ="0",
                 kit_list_items = items
             };
         }

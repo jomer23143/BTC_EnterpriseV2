@@ -102,7 +102,7 @@ namespace BTC_EnterpriseV2.Class
                 ,'' [rack]
                 FROM [MIMOH] m join [MIMOMD] d on d.mohid = m.mohid
                 join MIITEM item on item.itemId = d.partId
-                where m.mohId ='{mo_number}'");
+                where m.mohId ='{mo_number}' and type in(0,2)");
             return dt;
         }
         public static DataSet GetMohDetails_DS(string mo_number)
@@ -152,7 +152,7 @@ namespace BTC_EnterpriseV2.Class
                 ,momd.cmnt [comment]
                 FROM [MIMOMD] momd
                 join MIITEM item on item.itemId = momd.partId
-                where mohId = '{mo_number}'");
+                where mohId = '{mo_number}' and type in(0,2)");
             return ds;
         }
     }

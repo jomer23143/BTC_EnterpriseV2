@@ -15,8 +15,10 @@
             public string kit_date { get; set; }
             public string start_date { get; set; }
             public string end_date { get; set; }
+            public string is_build_america_buy_america { get; set; }
             public List<item> kit_list_items { get; set; }
         }
+
         //public class item
         //{
         //    public object mo_id { get; set; }

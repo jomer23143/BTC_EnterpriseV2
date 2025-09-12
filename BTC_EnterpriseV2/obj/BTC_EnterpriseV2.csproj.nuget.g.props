@@ -5,12 +5,12 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\JomerAlo\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.13.2</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="C:\Users\GlynnDelaCruz\.nuget\packages\" />
+    <SourceRoot Include="C:\Users\JomerAlo\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
@@ -18,14 +18,14 @@
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.analyzers\3.3.4\buildTransitive\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.analyzers\3.3.4\buildTransitive\Microsoft.CodeAnalysis.Analyzers.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgZen_Barcode_Rendering_Framework Condition=" '$(PkgZen_Barcode_Rendering_Framework)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\zen.barcode.rendering.framework\3.1.10729.1</PkgZen_Barcode_Rendering_Framework>
-    <PkgSyncfusion_Shared_Base Condition=" '$(PkgSyncfusion_Shared_Base)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.shared.base\29.1.33</PkgSyncfusion_Shared_Base>
-    <PkgSyncfusion_Grid_Windows Condition=" '$(PkgSyncfusion_Grid_Windows)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.grid.windows\22.1.34</PkgSyncfusion_Grid_Windows>
-    <PkgSyncfusion_Tools_Windows Condition=" '$(PkgSyncfusion_Tools_Windows)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.tools.windows\22.1.34</PkgSyncfusion_Tools_Windows>
-    <PkgSyncfusion_Core_WinForms Condition=" '$(PkgSyncfusion_Core_WinForms)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.core.winforms\29.1.33</PkgSyncfusion_Core_WinForms>
-    <PkgSyncfusion_SfListView_WinForms Condition=" '$(PkgSyncfusion_SfListView_WinForms)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.sflistview.winforms\29.1.33</PkgSyncfusion_SfListView_WinForms>
-    <PkgSyncfusion_SfInput_WinForms Condition=" '$(PkgSyncfusion_SfInput_WinForms)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.sfinput.winforms\29.1.33</PkgSyncfusion_SfInput_WinForms>
-    <PkgSyncfusion_SfDataGrid_WinForms Condition=" '$(PkgSyncfusion_SfDataGrid_WinForms)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\syncfusion.sfdatagrid.winforms\29.1.33</PkgSyncfusion_SfDataGrid_WinForms>
-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\GlynnDelaCruz\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.4</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgZen_Barcode_Rendering_Framework Condition=" '$(PkgZen_Barcode_Rendering_Framework)' == '' ">C:\Users\JomerAlo\.nuget\packages\zen.barcode.rendering.framework\3.1.10729.1</PkgZen_Barcode_Rendering_Framework>
+    <PkgSyncfusion_Shared_Base Condition=" '$(PkgSyncfusion_Shared_Base)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.shared.base\29.1.33</PkgSyncfusion_Shared_Base>
+    <PkgSyncfusion_Grid_Windows Condition=" '$(PkgSyncfusion_Grid_Windows)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.grid.windows\22.1.34</PkgSyncfusion_Grid_Windows>
+    <PkgSyncfusion_Tools_Windows Condition=" '$(PkgSyncfusion_Tools_Windows)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.tools.windows\22.1.34</PkgSyncfusion_Tools_Windows>
+    <PkgSyncfusion_Core_WinForms Condition=" '$(PkgSyncfusion_Core_WinForms)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.core.winforms\29.1.33</PkgSyncfusion_Core_WinForms>
+    <PkgSyncfusion_SfListView_WinForms Condition=" '$(PkgSyncfusion_SfListView_WinForms)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.sflistview.winforms\29.1.33</PkgSyncfusion_SfListView_WinForms>
+    <PkgSyncfusion_SfInput_WinForms Condition=" '$(PkgSyncfusion_SfInput_WinForms)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.sfinput.winforms\29.1.33</PkgSyncfusion_SfInput_WinForms>
+    <PkgSyncfusion_SfDataGrid_WinForms Condition=" '$(PkgSyncfusion_SfDataGrid_WinForms)' == '' ">C:\Users\JomerAlo\.nuget\packages\syncfusion.sfdatagrid.winforms\29.1.33</PkgSyncfusion_SfDataGrid_WinForms>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\JomerAlo\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.4</PkgMicrosoft_CodeAnalysis_Analyzers>
   </PropertyGroup>
 </Project>
