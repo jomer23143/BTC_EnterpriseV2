@@ -182,13 +182,13 @@ namespace BTC_EnterpriseV2.Class
         private async Task<List<Pre_Assy_Model.ManufacturingStation>?> CheckData(string serial, int stationId, int sequence)
         {
             var postData = new Dictionary<string, object>
-         {
-        { "serial_number", serial.Trim() },
-        { "manufacturing_order_segment_sequence_number", stationId },
-        { "sequence_number", sequence }
-         };
+                 {
+                { "serial_number", serial.Trim() },
+                { "manufacturing_order_segment_sequence_number", stationId },
+                { "sequence_number", sequence }
+                 };
 
-            var token = await ApiHelper.PostJsonAsync(scanserial_api, postData);
+            var token = await ApiHelper.PostJsonAsync(scanserial_api, postData,Global.UserToken);
             if (token == null)
                 return null;
 

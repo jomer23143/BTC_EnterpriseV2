@@ -110,12 +110,12 @@ namespace BTC_EnterpriseV2.SideBar
 
         private void button3_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new Warehousekitting(), sender);
+            formManager.OpenChildForm(new Warehouse_Kitting(), sender);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new KitlistRecieving(), sender);
+            formManager.OpenChildForm(new Kitlist_Recieving(), sender);
         }
 
         //for chart

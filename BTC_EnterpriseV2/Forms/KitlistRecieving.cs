@@ -117,7 +117,7 @@ namespace BTC_EnterpriseV2.Forms
             Model.kitlist.update_kitting_quantity list = new Model.kitlist.update_kitting_quantity
             {
                 kit_list_id = kitlist_id1,
-                kit_list_items = list_kitted_quantity
+                //kit_list_items = list_kitted_quantity
             };
             string res = JsonConvert.SerializeObject(list);
             string responseData = "";
@@ -266,7 +266,7 @@ namespace BTC_EnterpriseV2.Forms
             dataGridView1.Columns.Add(column);
 
             column = new DataGridViewTextBoxColumn();
-            column.HeaderText = "Uni UOM";
+            column.HeaderText = "Unit UOM";
             column.DataPropertyName = "unit";
             column.Name = "colunit";
             column.Width = 70;

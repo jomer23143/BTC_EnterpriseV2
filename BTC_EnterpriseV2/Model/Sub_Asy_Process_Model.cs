@@ -1,4 +1,6 @@
-﻿namespace BTC_EnterpriseV2.Model
+﻿using static BTC_EnterpriseV2.Model.SubProcessViewModel;
+
+namespace BTC_EnterpriseV2.Model
 {
     internal class Sub_Asy_Process_Model
     {
@@ -43,6 +45,7 @@
             public Status status { get; set; }
             public List<Duration> duration { get; set; }
             public List<Serial> serial { get; set; }
+            public List<SubProcess> sub_process { get; set; }
         }
 
         public class Status

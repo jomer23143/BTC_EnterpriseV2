@@ -12,15 +12,15 @@ namespace BTCP_EnterpriseV2.Utillities
         private SqlConnection conn;
         public static int id = 1;
 
-        public static String GetWarehouseCode()
-        {
-            return RunDataSet(String.Format("SELECT TOP 1 [Warehouse_code] FROM base_warehouses WHERE Warehouse_code = '{0}'", Utils.DBConnection["OMS"]["WNAME"])).Tables[0].Rows[0][0].ToString();
-        }
+        //public static String GetWarehouseCode()
+        //{
+        //    return RunDataSet(String.Format("SELECT TOP 1 [Warehouse_code] FROM base_warehouses WHERE Warehouse_code = '{0}'", Utils.DBConnection["OMS"]["WNAME"])).Tables[0].Rows[0][0].ToString();
+        //}
 
-        public static String GetWarehouseIndex()
-        {
-            return RunDataSet(String.Format("SELECT TOP 1 warehouse_index FROM base_warehouses WHERE Warehouse_code = '{0}'", Utils.DBConnection["OMS"]["WNAME"])).Tables[0].Rows[0][0].ToString();
-        }
+        //public static String GetWarehouseIndex()
+        //{
+        //    return RunDataSet(String.Format("SELECT TOP 1 warehouse_index FROM base_warehouses WHERE Warehouse_code = '{0}'", Utils.DBConnection["OMS"]["WNAME"])).Tables[0].Rows[0][0].ToString();
+        //}
 
         public String ConnectionString
         {
@@ -221,22 +221,22 @@ namespace BTCP_EnterpriseV2.Utillities
             return result;
         }
 
-        public static String GetNextMenuCodeInt(String menu, String menu_affix)
-        {
-            String result = "";
+        //public static String GetNextMenuCodeInt(String menu, String menu_affix)
+        //{
+        //    String result = "";
 
-            DataSet ds = RunDataSet(String.Format("SELECT current_no FROM Base_DocType WHERE doctype_index = '{0}' ", menu) + UpdateMenuCode(menu));
-            String next_value = ds.Tables[0].Rows[0][0].ToString();
-            result = GetWarehouseCode() + "-" + menu_affix + "-" + next_value;
-            return result;
-        }
+        //    DataSet ds = RunDataSet(String.Format("SELECT current_no FROM Base_DocType WHERE doctype_index = '{0}' ", menu) + UpdateMenuCode(menu));
+        //    String next_value = ds.Tables[0].Rows[0][0].ToString();
+        //    result = GetWarehouseCode() + "-" + menu_affix + "-" + next_value;
+        //    return result;
+        //}
 
-        public static String GetNextMenuCodeIntNonUpdate(String menu, string menu_affix)
-        {
-            DataSet ds = DataSupport.RunDataSet(String.Format("SELECT current_no FROM Base_DocType WHERE doctype_index = '{0}' ", menu));
-            string next_value = ds.Tables[0].Rows[0]["current_no"].ToString();
-            return $"{GetWarehouseCode()}-{menu_affix}-{next_value}";
-        }
+        //public static String GetNextMenuCodeIntNonUpdate(String menu, string menu_affix)
+        //{
+        //    DataSet ds = DataSupport.RunDataSet(String.Format("SELECT current_no FROM Base_DocType WHERE doctype_index = '{0}' ", menu));
+        //    string next_value = ds.Tables[0].Rows[0]["current_no"].ToString();
+        //    return $"{GetWarehouseCode()}-{menu_affix}-{next_value}";
+        //}
 
         public static void IncrementDocumentNumber(string menu)
         {

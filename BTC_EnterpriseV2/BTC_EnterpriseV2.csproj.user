@@ -10,6 +10,9 @@
     <Compile Update="Forms\KitlistRecieving.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Kitlist_Recieving.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\MainDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -22,6 +25,9 @@
     <Compile Update="Forms\Warehousekitting.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Warehouse_Kitting.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\AddSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -32,6 +38,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\EndProcessScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\PasswordForm.cs">

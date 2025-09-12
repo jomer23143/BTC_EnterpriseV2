@@ -131,7 +131,7 @@ namespace BTC_EnterpriseV2.Forms
                 kit_date = row[8]?.ToString() ?? "",
                 start_date = row[9]?.ToString() ?? "",
                 end_date = row[10]?.ToString() ?? "",
-                is_build_america_buy_america ="0",
+                is_build_america_buy_america = false,
                 kit_list_items = items
             };
         }
@@ -228,16 +228,16 @@ namespace BTC_EnterpriseV2.Forms
                     //return;
                 }
 
-                foreach (var item in row.serial)
-                {
-                    dt_items.Rows.Add(
-                         item.id,
-                         item.kit_list_item_id,
-                         item.kit_list_item_serial_number_status_id,
-                         item.kit_list_part_serial_number,
-                         item.is_scan
-                     );
-                }
+                //foreach (var item in row.serial)
+                //{
+                //    dt_items.Rows.Add(
+                //         item.id,
+                //         item.kit_list_item_id,
+                //         item.kit_list_item_serial_number_status_id,
+                //         item.kit_list_part_serial_number,
+                //         item.is_scan
+                //     );
+                //}
 
             }
 
@@ -450,8 +450,8 @@ namespace BTC_EnterpriseV2.Forms
         {
             bunifuloading.Show();
             string modetails = await GetMohDetails(next_page + "&per_row=9999");
-            Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
-            string res3 = JsonConvert.SerializeObject(model_modetails.data);
+           var model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
+            string res3 = JsonConvert.SerializeObject(model_modetails?.data);
             next_page = (string)model_modetails.next_page_url;
             prev_page = (string)model_modetails.prev_page_url;
             if (next_page == null)
@@ -459,7 +459,7 @@ namespace BTC_EnterpriseV2.Forms
             if (prev_page != null)
                 btnprevious_page.Enabled = true;
             lbl_rowcount.Text = model_modetails.to.ToString() + " out of " + model_modetails.total;
-            List<Model.kitlist.manufacturing_order_items> model = (List<Model.kitlist.manufacturing_order_items>)JsonConvert.DeserializeObject(res3, typeof(List<Model.kitlist.manufacturing_order_items>));
+            var model = JsonConvert.DeserializeObject<List<Model.kitlist.manufacturing_order_items>>(res3) ?? new List<Model.kitlist.manufacturing_order_items>();
             btnprevious_page.Enabled = true;
             bunifuloading.Hide();
             dataGridView1.DataSource = model;
@@ -469,7 +469,7 @@ namespace BTC_EnterpriseV2.Forms
         {
             bunifuloading.Show();
             string modetails = await GetMohDetails(prev_page + "&per_row=9999");
-            Model.kitlist.GetData model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
+            var model_modetails = JsonConvert.DeserializeObject<Model.kitlist.GetData>(modetails);
             string res3 = JsonConvert.SerializeObject(model_modetails.data);
             next_page = (string)model_modetails.next_page_url;
             prev_page = (string)model_modetails.prev_page_url;
@@ -478,7 +478,7 @@ namespace BTC_EnterpriseV2.Forms
             if (next_page != null)
                 btnnext.Enabled = true;
             lbl_rowcount.Text = model_modetails.to.ToString() + " out of " + model_modetails.total;
-            List<Model.kitlist.manufacturing_order_items> model = (List<Model.kitlist.manufacturing_order_items>)JsonConvert.DeserializeObject(res3, typeof(List<Model.kitlist.manufacturing_order_items>));
+            var model = JsonConvert.DeserializeObject<List<Model.kitlist.manufacturing_order_items>>(res3) ?? new List<Model.kitlist.manufacturing_order_items>();
             bunifuloading.Hide();
             dataGridView1.DataSource = model;
         }
@@ -496,8 +496,8 @@ namespace BTC_EnterpriseV2.Forms
                 Model.kitlist.kitted_quantity data_kitted_quantity = new Model.kitlist.kitted_quantity
                 {
                     id = Convert.ToInt32(item.Cells[colid.Name].Value.ToString()),
-                    kitted = item.Cells[colkitted.Name].Value.ToString(),
-                    comment = item.Cells[colcomment.Name].Value == null ? "" : item.Cells[colcomment.Name].Value.ToString(),
+                    kitted = item.Cells[colkitted.Name]?.Value?.ToString() ?? string.Empty,
+                    comment = item.Cells[colcomment.Name]?.Value?.ToString() ?? string.Empty,
                     kit_list_item_status_id = 1
                 };
 
@@ -507,7 +507,7 @@ namespace BTC_EnterpriseV2.Forms
             {
                 kit_list_id = kit_list_id1,
                 kit_list_status_id = status,
-                kit_list_items = list_kitted_quantity
+               // kit_list_items = list_kitted_quantity
             };
             string res = JsonConvert.SerializeObject(list);
             string responseData = "";
@@ -790,7 +790,7 @@ namespace BTC_EnterpriseV2.Forms
 
         }
 
-        private void btnAddSerial_Click(object sender, EventArgs e)
+        private async void btnAddSerial_Click(object sender, EventArgs e)
         {
             if (track != "Serialized")
             {
@@ -798,6 +798,21 @@ namespace BTC_EnterpriseV2.Forms
                 return;
             }
             list_serial.Rows.Clear();
+            string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
+            string responseData = await GetMohDetails(url);
+            List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
+            foreach (var item in serials)
+            {
+                string[] data1 = new string[]
+                 {
+                    Convert.ToInt32(item.id).ToString(),
+                    item.kit_list_item_id.ToString(),
+                    item.kit_list_item_serial_number_status_id.ToString(),
+                    item.kit_list_part_serial_number.ToString(),
+                    Convert.ToInt32(item.is_scan).ToString()
+                 };
+                dt_items.Rows.Add(data1);
+            }
             //// Always reset the column structure to avoid duplicates
             //list_serial.Columns.Clear();
             //list_serial.Columns.Add("id");
@@ -821,7 +836,7 @@ namespace BTC_EnterpriseV2.Forms
             {
                 list_serial = rows.CopyToDataTable<DataRow>();//Copying the rows into the DataTable as DataRow
             }
-            AddSerialNumber addSerialnumber = new AddSerialNumber(list_serial);
+            AddSerialNumber addSerialnumber = new AddSerialNumber(list_serial,"",0,0,"");
             addSerialnumber.Show();
         }
 
@@ -836,6 +851,22 @@ namespace BTC_EnterpriseV2.Forms
                 return;
             }
             list_serial.Clear();
+            list_serial.Rows.Clear();
+            string url = $@"https://app.btcp-enterprise.com/api/serial/view-serial?kit_list_item_id={kit_list_item_id}";
+            string responseData = await GetMohDetails(url);
+            List<Model.kitlist.get_serial> serials = (List<Model.kitlist.get_serial>)JsonConvert.DeserializeObject(responseData, typeof(List<Model.kitlist.get_serial>));
+            foreach (var item in serials)
+            {
+                string[] data1 = new string[]
+                 {
+                    Convert.ToInt32(item.id).ToString(),
+                    item.kit_list_item_id.ToString(),
+                    item.kit_list_item_serial_number_status_id.ToString(),
+                    item.kit_list_part_serial_number.ToString(),
+                    Convert.ToInt32(item.is_scan).ToString()
+                 };
+                dt_items.Rows.Add(data1);
+            }
             //list_serial.Columns.Clear();
             //list_serial.Columns.Add("id");
             //list_serial.Columns.Add("kit_list_part_serial_number");

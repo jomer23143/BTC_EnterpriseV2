@@ -82,10 +82,12 @@ namespace BTC_EnterpriseV2.Modal
                             //        item.Cells[26].Value = scan_qty;
                             //    }
                             //}
+                            break;
                         }
                         else
                         {
                             MessageBox.Show("Already Scan");
+                            break;
                         }
                     }
                 }
@@ -98,6 +100,7 @@ namespace BTC_EnterpriseV2.Modal
             List<Model.kitlist.serial_details> list_serial_details = new List<Model.kitlist.serial_details>();
             foreach (DataGridViewRow row in dgSerialnumber.Rows)
             {
+                if (row.IsNewRow) continue;
                 Model.kitlist.serial_details data = new Model.kitlist.serial_details()
                 {
                     id = Convert.ToInt32(row.Cells[colid.Name].Value.ToString()),
@@ -116,7 +119,7 @@ namespace BTC_EnterpriseV2.Modal
             {
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                response = await client.PostAsync($@"https://app.btcp-enterprise.com/api/kit-list-item-serial/scan-serial", content);
+                response = await client.PostAsync($@"https://app.btcp-enterprise.com/api/serial/scan-serial", content);
                 responseData = await response.Content.ReadAsStringAsync();
             }
             for (int i = 0; i < Kitlistfrm.dataGridView1.Rows.Count; i++)

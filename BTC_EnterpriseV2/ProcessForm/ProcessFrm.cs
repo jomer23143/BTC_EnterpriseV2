@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Syncfusion.WinForms.DataGrid;
 using Syncfusion.WinForms.DataGrid.Enums;
 using Syncfusion.WinForms.DataGrid.Styles;
+using Syncfusion.XlsIO.Implementation;
 using JsonReaderException = Newtonsoft.Json.JsonReaderException;
 
 namespace BTC_EnterpriseV2.ProcessForm
@@ -24,7 +25,7 @@ namespace BTC_EnterpriseV2.ProcessForm
         private string GetSubPUrl = GlobalApi.GetGetSubPUrl();
         private string Postprocess = GlobalApi.GetPostProcessUrl();
         private TimeFormat timeFormat = new TimeFormat();
-
+        private DataTable dt_sub_process = new DataTable("sub_process");
         public DataTable dtserials = new DataTable("tbname");
 
         public string? _MoID;
@@ -71,8 +72,21 @@ namespace BTC_EnterpriseV2.ProcessForm
 
 
         }
+        private void sub_process_columns()
+        {
+           // dt_sub_process.Columns.Add("id");
+            dt_sub_process.Columns.Add("manufacturing_order_process_id");
+            dt_sub_process.Columns.Add("name");
+            dt_sub_process.Columns.Add("ipn_number");
+            dt_sub_process.Columns.Add("serial_quantity");
+            dt_sub_process.Columns.Add("serial_count");
+            dt_sub_process.Columns.Add("is_kit_list");
+            dt_sub_process.Columns.Add("is_serial");
+            dt_sub_process.Columns.Add("is_torque");
+        }
         private async void ProcessFrm_Load(object sender, EventArgs e)
         {
+            sub_process_columns();
             await LoadSegmentProcessAsync(_serial, _segmentID);
         }
 
@@ -86,7 +100,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
-                var token = await ApiHelper.PostJsonAsync(ScanUrl, postData);
+                var token = await ApiHelper.PostJsonAsync(ScanUrl, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)
@@ -99,12 +113,20 @@ namespace BTC_EnterpriseV2.ProcessForm
                         //pb_loader.Visible = false;
                         return;
                     }
+                    int index = 1;
                     dtserials.Rows.Clear();
                     dtserials.Columns.Clear();
                     dtserials.Columns.Add("id");
                     dtserials.Columns.Add("process_id");
                     dtserials.Columns.Add("serial_number");
-
+                    foreach (var process in data.process)
+                    {
+                        foreach (var subprocess in process.sub_process)
+                        {
+                            dt_sub_process.Rows.Add(subprocess.manufacturing_order_process_id, subprocess.name, subprocess.ipn_number,
+                                subprocess.serial_quantity, subprocess.serial_count, subprocess.is_kit_list, subprocess.is_serial, subprocess.is_torque);
+                        }
+                    }
                     foreach (var data_process in data.name)
                     {
                         //foreach (var data_serial in data_process.serial_number)
@@ -151,7 +173,65 @@ namespace BTC_EnterpriseV2.ProcessForm
                 Debug.WriteLine($"API Error: {ex.Message}");
             }
         }
+        private void get_materials(int process_id)
+        {
+            pb_child.Show();
+            sfDataGrid2.RowHeight = 90;
+            sfDataGrid2.AutoSizeColumnsMode = AutoSizeColumnsMode.Fill;
+            sfDataGrid2.AllowEditing = true;
+            sfDataGrid2.SelectionMode = Syncfusion.WinForms.DataGrid.Enums.GridSelectionMode.Single;
+            sfDataGrid2.NavigationMode = Syncfusion.WinForms.DataGrid.Enums.NavigationMode.Row;
+            CellStyleInfo cellstyle1 = new CellStyleInfo
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                TextColor = Color.FromArgb(0, 0, 0),
+            };
+            cellstyle1.Font = new GridFontInfo(new Font("Segoe UI", 12, FontStyle.Regular));
+            sfDataGrid2.HeaderRowHeight = 45;
+            sfDataGrid2.Style.HeaderStyle.Font = new GridFontInfo(new Font("Segoe UI", 12, FontStyle.Bold));
+            sfDataGrid2.Style.HeaderStyle.BackColor = Color.Gray;
+            sfDataGrid2.Style.HeaderStyle.TextColor = Color.Black;
+            sfDataGrid2.Style.SelectionStyle.BackColor = Color.LimeGreen;
+            sfDataGrid2.Style.SelectionStyle.TextColor = Color.White;
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "id", HeaderText = "#", Width = 50, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "manufacturing_order_process_id", HeaderText = "ID", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "name", HeaderText = "Material", Width = 300, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "ipn_number", HeaderText = "IPN", AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "Torque", HeaderText = "Torque", Visible = true, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "serial_quantity", HeaderText = "Qty", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "serial_count", HeaderText = "s", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "is_serial", HeaderText = "IsSerialized", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "is_kit_list", HeaderText = "IsTorque", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
+            sfDataGrid2.Columns.Add(new GridTextColumn() { MappingName = "is_torque", HeaderText = "tc", Visible = false, AllowTextWrapping = true, CellStyle = cellstyle1 });
 
+            var res = dt_sub_process.AsEnumerable().Where(p => p.Field<string>("manufacturing_order_process_id") == process_id.ToString());
+            DataTable filteredDataTable = new DataTable(); // Initialize the variable to avoid CS0165
+            if (res.Any())
+            {
+                filteredDataTable = res.CopyToDataTable<System.Data.DataRow>();
+                filteredDataTable.Columns.Add("id", typeof(int));
+            }
+
+            foreach (System.Data.DataRow row in filteredDataTable.Rows)
+            {
+                row["id"] = filteredDataTable.Rows.IndexOf(row) + 1;
+            }
+            //filteredDataTable.DefaultView.RowFilter = string.Format($"manufacturing_order_process_id  = '{process_id}'");
+            //dt_sub_process.DefaultView.RowFilter = string.Format($"manufacturing_order_process_id  = '{process_id}'");
+            //string? isnull = "";
+            //DataTable dt = dt_sub_process.DefaultView.ToTable();
+            //foreach (System.Data.DataRow item in dt.Rows)
+            //{
+            //    isnull = item["serial_count"].ToString();
+            //}
+            //if (string.IsNullOrWhiteSpace(isnull))
+            //{
+            //    dt_sub_process.DefaultView.RowFilter = string.Format($"manufacturing_order_process_id  = '123131231aaaa'");
+            //}
+            sfDataGrid2.DataSource = filteredDataTable;
+            //sfDataGrid2.DataSource = dt_sub_process.DefaultView;
+            pb_child.Hide();
+        }
         //Start of bullshitness 
         Image ResizeImage(Image img, int width, int height)
         {
@@ -243,6 +323,12 @@ namespace BTC_EnterpriseV2.ProcessForm
                 HeaderText = "Hold",
                 CellStyle = cellstyle,
             });
+            sfDataGrid1.Columns.Add(new GridButtonColumn()
+            {
+                MappingName = "hide",
+                HeaderText = "hide",
+                CellStyle = cellstyle,
+            });
 
             // --- Preload Track Data if Kit List ---
             List<dynamic> response_list = null;
@@ -330,6 +416,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     StartButton = "▶",
                     EndButton = "⏹",
                     HoldButton = "⏸",
+                    hide = "⏹",
                     // SubProcesses = childDurations
                     // 🔑 Convert List → BindingList
                     SubProcesses = new BindingList<ViewModel.ChildProcessViewModel>(childDurations)
@@ -390,7 +477,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             DictionaryBuilder Dbuilder = new DictionaryBuilder();
             var postData = Dbuilder.Build_PostSubP(processID);
 
-            var token = await ApiHelper.PostJsonAsync(GetSubPUrl, postData);
+            var token = await ApiHelper.PostJsonAsync(GetSubPUrl, postData, Global.UserToken);
             if (token == null) return;
 
             // Deserialize to dynamic Root model
@@ -443,7 +530,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                 foreach (var subprocess in data.sub_process)
                 {
                     // string test = string.Format("({0}) {1}", subprocess.machine_tool_torque_name, subprocess.machine_tool_torque_value);
-
+                    if (string.IsNullOrWhiteSpace(subprocess.serial_count))
+                        continue;
                     viewModels.Add(new ViewModel.SubProcessView
                     {
                         Torque_count = subprocess.is_torque == 1 ? "1" : "0",
@@ -454,7 +542,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                         Name = subprocess.name,
                         Ipn = subprocess.ipn_number ?? "N/A",
                         Torque = string.Format("({0}) {1}", subprocess.machine_tool_torque_name, subprocess.machine_tool_torque_value),
-                        Serial_qty = subprocess.serial_quantity.ToString(),
+                        Serial_qty = string.IsNullOrWhiteSpace(subprocess.serial_quantity)?"0": subprocess.serial_quantity,
                         IsSerialized = subprocess.is_serial,
                         IsTorque = subprocess.is_torque,
                     });
@@ -634,7 +722,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                 sfDataGrid2.Columns.Clear();
                 pb_child.Visible = true;
                 lbl_subprocessInfo.Text = "";
-                await LoadSubProcessData(selectedId);
+                get_materials(selectedId);
+               // await LoadSubProcessData(selectedId);
             }
         }
         private async void sfDataGrid1_CellButtonClick_1(object sender, Syncfusion.WinForms.DataGrid.Events.CellButtonClickEventArgs e)
@@ -657,7 +746,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                     record.Status = "Processing";   // ✅ update status
                     processid = Convert.ToInt32(record.ProcessId);
                     status = "START_TIME";
-
+                    processstatus = record.Status;
                     record.SubProcesses.Add(new ViewModel.ChildProcessViewModel
                     {
                         Id = record.SubProcesses.Count + 1,
@@ -816,7 +905,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                 var postData = Dbuilder.BuilderPost_Process(processid, remark, status, rfid);
 
 
-                var token = await ApiHelper.PostJsonAsync(Postprocess, postData);
+                var token = await ApiHelper.PostJsonAsync(Postprocess, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)
@@ -851,30 +940,38 @@ namespace BTC_EnterpriseV2.ProcessForm
                 return;
 
             // Get your bound object
-            var record = e.DataRow.RowData as ViewModel.SubProcessView;
-            if (record == null) return;
-
-            string selectedName = record.Name;
+            var selectedName = sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "name").ToString();
+            var processid = sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "manufacturing_order_process_id").ToString();
+            var qty = sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "serial_quantity").ToString();
+            var count = sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "serial_count").ToString();
+            var is_torque = Convert.ToInt32(sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "is_torque"));
+            var is_serial = Convert.ToInt32(sfDataGrid2.View.GetPropertyAccessProvider().GetValue(e.DataRow.RowData, "is_serial"));
             var rowindex = 0;
-            var processid = Convert.ToString(record.MaterialID);
-            var qty = record.Serial_qty;
-            var count = Convert.ToInt32(record.Serial_count) > 0 ? 0 : 1;
             var iskitlist = 0;
+            //var record = e.DataRow.RowData as ViewModel.SubProcess;
+            //if (record == null) return;
+
+            //string selectedName = record.name?.ToString();
+            //var rowindex = 0;
+            //var processid = Convert.ToString(record.manufacturing_order_process_id);
+            //var qty = record.serial_quantity;
+            //var count = Convert.ToInt32(record.serial_count) > 0 ? 0 : 1;
+            //var iskitlist = 0;
             var buffcount = Convert.ToString(count);
 
-            if (record.IsTorque == 0 && record.IsSerialized == 1)
+            if (is_torque == 0 && is_serial == 1)
             {
                 IsScanItem = true;
                 checkBoxAdv1.Checked = false;
                 checkBoxAdv2.Checked = true;
             }
-            else if (record.IsTorque == 1 && record.IsSerialized == 0)
+            else if (is_torque == 1 && is_serial == 0)
             {
                 IsScanItem = false;
                 checkBoxAdv1.Checked = true;
                 checkBoxAdv2.Checked = false;
             }
-            else if (record.IsTorque == 1 && record.IsSerialized == 1)
+            else if (is_torque == 1 && is_serial == 1)
             {
                 // both torque and serial
                 if (IsScanItem == true)
@@ -892,13 +989,59 @@ namespace BTC_EnterpriseV2.ProcessForm
             }
             else
             {
+                formManager.closeAForm();
                 lbl_subprocessInfo.Text = "This material is neither serialized nor requires torque.";
                 return;
             }
+            //master
+            //var record = e.DataRow.RowData as ViewModel.SubProcessView;
+            //if (record == null) return;
+
+            //string selectedName = record.Name;
+            //var rowindex = 0;
+            //var processid = Convert.ToString(record.MaterialID);
+            //var qty = record.Serial_qty;
+            //var count = Convert.ToInt32(record.Serial_count) > 0 ? 0 : 1;
+            //var iskitlist = 0;
+            //var buffcount = Convert.ToString(count);
+
+            //if (record.IsTorque == 0 && record.IsSerialized == 1)
+            //{
+            //    IsScanItem = true;
+            //    checkBoxAdv1.Checked = false;
+            //    checkBoxAdv2.Checked = true;
+            //}
+            //else if (record.IsTorque == 1 && record.IsSerialized == 0)
+            //{
+            //    IsScanItem = false;
+            //    checkBoxAdv1.Checked = true;
+            //    checkBoxAdv2.Checked = false;
+            //}
+            //else if (record.IsTorque == 1 && record.IsSerialized == 1)
+            //{
+            //    // both torque and serial
+            //    if (IsScanItem == true)
+            //    {
+            //        IsScanItem = true;
+            //        checkBoxAdv1.Checked = false;
+            //        checkBoxAdv2.Checked = true;
+            //    }
+            //    else
+            //    {
+            //        IsScanItem = false;
+            //        checkBoxAdv1.Checked = true;
+            //        checkBoxAdv2.Checked = false;
+            //    }
+            //}
+            //else
+            //{
+            //    lbl_subprocessInfo.Text = "This material is neither serialized nor requires torque.";
+            //    return;
+            //}
 
             if (IsScanItem == true && processstatus == "Processing")
             {
-                var scanner = new ProcessScanner(rowindex, processid, selectedName, lbl_generatedSerial.Text, qty, buffcount, iskitlist, dtserials);
+                var scanner = new ProcessScanner(rowindex, processid, selectedName, lbl_generatedSerial.Text, qty.ToString(), buffcount, iskitlist, dtserials);
                 formManager.OpenChildForm(scanner, sender);
 
                 scanner.Shown += (s, args) => scanner.txt_serialnumber.Focus();

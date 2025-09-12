@@ -85,7 +85,7 @@ namespace BTC_EnterpriseV2.Modal
                 if (tempcount < tempqty)
                 {
                     await PostItemSerial(
-                        lbl_generatedserial.Text,
+                        txt_serialnumber.Text,
                         processId
                     );
 
@@ -141,8 +141,8 @@ namespace BTC_EnterpriseV2.Modal
                 // Sanitize inputs
                 var postData = new
                 {
-                    serial = processid.Trim(),
-                    material_id = serial.Trim(),
+                    serial = serial.Trim(),
+                    material_id = processId.Trim(),
 
                 };
                 string json = JsonConvert.SerializeObject(postData);

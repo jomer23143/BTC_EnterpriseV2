@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using BTC_EnterpriseV2;
+using BTC_EnterpriseV2.Controllers;
 using BTC_EnterpriseV2.Forms;
 using BTC_EnterpriseV2.Modal;
 using BTC_EnterpriseV2.ProcessForm;
@@ -8,6 +10,7 @@ using BTC_EnterpriseV2.Utillities;
 using BTC_EnterpriseV2.YaoUI;
 using BTCP_EnterpriseV2.Class;
 using BTCP_EnterpriseV2.YaoUI;
+using Syncfusion.Windows.Forms.Diagram;
 namespace BTCP_EnterpriseV2.Forms
 {
     public partial class MainDashboard : Form
@@ -85,88 +88,97 @@ namespace BTCP_EnterpriseV2.Forms
         }
         private void Refresh_Main_Menu(object sender)
         {
-            try
+            var login = new Login();
+            if (login.ShowDialog() == DialogResult.OK)
             {
-                RegistrySupport_Operation registry = new RegistrySupport_Operation();
-                String data = registry.Read(Def.REGKEY_SUB);
-                if (data == null)
+
+                try
                 {
-                    data += String.Format($"BTC_ENTERPRISE<limiter>DEFualSection<limiter>DefualtCode<limiter>");
-                    registry.Write(Def.REGKEY_SUB, data);
-                }
-                String[] programs = data.Split(new String[] { "<limiter1>" }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (String program in programs)
-                {
-                    String[] records = program.Split(new String[] { "<limiter>" }, StringSplitOptions.RemoveEmptyEntries);
-                    if (records.Length >= 3)
+                    RegistrySupport_Operation registry = new RegistrySupport_Operation();
+                    String data = registry.Read(Def.REGKEY_SUB);
+                    if (data == null)
                     {
-                        var departmentName = records[0].Trim();
-                        switch (processType = records[1].Trim())
+                        data += String.Format($"BTC_ENTERPRISE<limiter>DEFualSection<limiter>DefualtCode<limiter>");
+                        registry.Write(Def.REGKEY_SUB, data);
+                    }
+                    String[] programs = data.Split(new String[] { "<limiter1>" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (String program in programs)
+                    {
+                        String[] records = program.Split(new String[] { "<limiter>" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (records.Length >= 3)
                         {
-                            case "101":
-                                btn_subasemble.Visible = false;
-                                lbl_departmemnt.Text = departmentName;
-                                fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
-                                break;
-                            case "102":
-                                btn_subasemble.Visible = false;
-                                lbl_departmemnt.Text = departmentName;
-                                fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
-                                break;
-                            case "1":
-                                fulldisplaycontroll.closeAForm();
-                                Manage_SubAssy.Reset();
-                                btn_subasemble.Visible = true;
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "2":
-                                fulldisplaycontroll.closeAForm();
-                                Manage_SubAssy.Reset();
-                                btn_subasemble.Visible = true;
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "3":
-                                fulldisplaycontroll.closeAForm();
-                                Manage_SubAssy.Reset();
-                                btn_subasemble.Visible = true;
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "4":
-                                btn_subasemble.Visible = true;
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "5":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "6":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "7":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "8":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            case "9":
-                                lbl_departmemnt.Text = departmentName;
-                                break;
-                            default:
-                                lbl_departmemnt.Text = departmentName;
-                                break;
+                            var departmentName = records[0].Trim();
+                            switch (processType = records[1].Trim())
+                            {
+                                case "101":
+                                    btn_subasemble.Visible = false;
+                                    lbl_departmemnt.Text = departmentName;
+                                    fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
+                                    break;
+                                case "102":
+                                    btn_subasemble.Visible = false;
+                                    lbl_departmemnt.Text = departmentName;
+                                    fulldisplaycontroll.OpenChildForm(new PerantFrm(), sender);
+                                    break;
+                                case "1":
+                                    fulldisplaycontroll.closeAForm();
+                                    Manage_SubAssy.Reset();
+                                    btn_subasemble.Visible = true;
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "2":
+                                    fulldisplaycontroll.closeAForm();
+                                    Manage_SubAssy.Reset();
+                                    btn_subasemble.Visible = true;
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "3":
+                                    fulldisplaycontroll.closeAForm();
+                                    Manage_SubAssy.Reset();
+                                    btn_subasemble.Visible = true;
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "4":
+                                    btn_subasemble.Visible = true;
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "5":
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "6":
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "7":
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "8":
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                case "9":
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+                                default:
+                                    lbl_departmemnt.Text = departmentName;
+                                    break;
+
+                            }
+
 
                         }
-
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid data format in registry.");
+                        else
+                        {
+                            MessageBox.Show("Invalid data format in registry.");
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
+                login.ShowDialog();
             }
 
         }

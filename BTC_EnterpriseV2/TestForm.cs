@@ -106,7 +106,7 @@ namespace BTC_EnterpriseV2
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
-                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData);
+                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)
@@ -473,7 +473,7 @@ namespace BTC_EnterpriseV2
             DictionaryBuilder Dbuilder = new DictionaryBuilder();
             var postData = Dbuilder.Build_PostSubP(processID);
 
-            var token = await ApiHelper.PostJsonAsync(GetSubPUrl, postData);
+            var token = await ApiHelper.PostJsonAsync(GetSubPUrl, postData, Global.UserToken);
             if (token == null) return;
 
             // Deserialize to dynamic Root model

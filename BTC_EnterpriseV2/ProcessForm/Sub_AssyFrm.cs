@@ -156,7 +156,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
-                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData);
+                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)
@@ -802,7 +802,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                 var postData = segment != 1 ? Dbuilder.BuildPost_EndProcessData2(serialClean, segment, status, rfidClean)
                     : Dbuilder.BuildPost_EndProcessData1(serialClean, status, remarks, rfidClean);
 
-                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData);
+                var token = await ApiHelper.PostJsonAsync(ApiUrl, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)

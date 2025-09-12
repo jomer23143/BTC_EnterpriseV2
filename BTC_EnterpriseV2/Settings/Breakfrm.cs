@@ -70,7 +70,7 @@ namespace BTC_EnterpriseV2.Settings
                 var postData = Dbuilder.BuilderPost_Process(processid, remark, status, temprfid);
 
 
-                var token = await ApiHelper.PostJsonAsync(Postprocess, postData);
+                var token = await ApiHelper.PostJsonAsync(Postprocess, postData, Global.UserToken);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)

@@ -111,7 +111,7 @@ namespace BTC_EnterpriseV2.Modal
                 }
                 else
                 {
-                    ShowMessage("Unexpected response format.", Color.Red);
+                    ShowMessage("Successfully Scan", Color.Green);
                 }
             }
             catch (JsonReaderException ex)

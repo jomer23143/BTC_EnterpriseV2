@@ -15,7 +15,7 @@
             public string kit_date { get; set; }
             public string start_date { get; set; }
             public string end_date { get; set; }
-            public string is_build_america_buy_america { get; set; }
+            public bool is_build_america_buy_america { get; set; }
             public List<item> kit_list_items { get; set; }
         }
 
@@ -70,6 +70,7 @@
             public string track { get; set; }
             public string rack { get; set; }
             public string comment { get; set; }
+            public bool Selected { get; internal set; }
         }
         public class Link
         {
@@ -138,6 +139,8 @@
             public string updated_at { get; set; }
             public List<serials> serial { get; set; }
             public status status { get; set; }
+            public bool Selected { get; internal set; }
+            public string item_status { get; set; }
             // public string[] history { get; set; }
         }
         public class serials
@@ -170,6 +173,15 @@
         {
             public string[] mo_id { get; set; }
         }
+        public class Root
+        {
+            public int kit_list_item_id { get; set; }
+            public int short_quantity { get; set; }
+            public int kit_quantity { get; set; }
+            public string comment { get; set; }
+            public int kit_list_item_status_id {get; set; }
+            public List<serial_number> kit_list_item_serial { get; set; }
+        }
 
         public class serial_number
         {
@@ -191,7 +203,7 @@
         {
             public int kit_list_id { get; set; }
             public int kit_list_status_id { get; set; }
-            public List<kitted_quantity> kit_list_items { get; set; }
+           // public List<kitted_quantity> kit_list_items { get; set; }
         }
         public class result
         {

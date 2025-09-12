@@ -10,14 +10,20 @@
         public static readonly string Scan = $"{BaseUrl}scan";
         public static readonly string GetSubP = $"{BaseUrl}view-sub-process";
         public static readonly string PostProcess = $"{BaseUrl}process";
-        public static readonly string PostMaterialAssignSerial = $"{BaseUrl}material-assign-serial";
-        public static readonly string PostMaterialAssignTorque = $"{BaseUrl}material-assign-torque";
+        public static readonly string PostMaterialAssignSerial = $"{BaseUrl}material_assign_serial";
+        public static readonly string PostMaterialAssignTorque = $"{BaseUrl}material_assign_torque";
         public static readonly string KitList = $"{BaseUrl}kit-list";
         public static readonly string ManufacturingOrders = $"{BaseUrl}manufacturing-order";
         public static readonly string LoginProduction = $"{BaseUrl}login-production";
         public static readonly string kitlistItem_scanbulk = $"{BaseUrl}kit-list-item/scan-bulk";
         public static readonly string Save_Serial = $"{BaseUrl}serial/save-serial";
         public static readonly string AdminLogin = $"{BaseUrl}login";
+        public static readonly string Scan_MO = $"{BaseUrl}kit-list-item";
+        public static readonly string View_Sub = $"{BaseUrl}view-sub-process";
+        public static readonly string kitlistRecievingView = $"{BaseUrl}kit-list-received/scan";
+        public static readonly string kitlistRecievingUpdateHeader = $"{BaseUrl}kit-list-received/process";
+        public static readonly string kitlistRecievingItem = $"{BaseUrl}kit-list-received/received";
+        public static readonly string Login = $"{BaseUrl}employee-access";
 
         public static string GetScanSerialUrl()
         {
@@ -74,6 +80,30 @@
         public static string GetAdminLoginUrl()
         {
             return AdminLogin;
+        }
+        public static string GetMo()
+        {
+            return Scan_MO;
+        }
+        public static string ViewSub()
+        {
+            return View_Sub;
+        }
+        public static string KitlistRecievingView()
+        {
+            return kitlistRecievingView;
+        }
+        public static string KitlistRecievingUpdateHeader()
+        {
+            return kitlistRecievingUpdateHeader;
+        }
+        public static string KitlistRecievingItem()
+        {
+            return kitlistRecievingItem;
+        }
+        public static string GetLogin()
+        {
+            return Login;
         }
     }
 }

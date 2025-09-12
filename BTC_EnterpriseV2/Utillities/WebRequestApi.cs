@@ -56,6 +56,23 @@ namespace BTC_EnterpriseV2.Utillities
 
             }
         }
+        public static async Task<string> GetData_httpclient(string url,string jsonData)
+        {
+            string responseData = "";
+
+            using (HttpClient client = new HttpClient())
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(url),
+                    Content = new StringContent(jsonData,Encoding.UTF8, "application/json")
+                };
+                HttpResponseMessage response = await client.SendAsync(request);
+                responseData = await response.Content.ReadAsStringAsync();
+            }
+            return responseData;
+        }
         public static async Task<string> GetData_httpclient(string url)
         {
             string responseData = "";
@@ -66,14 +83,12 @@ namespace BTC_EnterpriseV2.Utillities
                 {
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(url),
-
                 };
                 HttpResponseMessage response = await client.SendAsync(request);
                 responseData = await response.Content.ReadAsStringAsync();
             }
             return responseData;
         }
-
         public static async Task<string> GetData_Token_httpclient(string url, string TheToken)
         {
             using var client = new HttpClient();
@@ -136,6 +151,36 @@ namespace BTC_EnterpriseV2.Utillities
             {
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url),
+                    Content = new StringContent(jsonData, Encoding.UTF8, "application/json")
+                };
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseData = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var token = JToken.Parse(responseData);
+                    var errorMessage = token.ToObject<kitlist.ApiError>();
+
+
+
+                    throw new Exception(errorMessage.message);
+
+                }
+
+                return responseData;
+            }
+        }
+        public static async Task<string> PostRequest(string url, string jsonData,string Token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,

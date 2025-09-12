@@ -18,6 +18,7 @@ namespace BTC_EnterpriseV2.Model
             public string StartButton { get; set; }
             public string EndButton { get; set; }
             public string HoldButton { get; set; }
+            public string hide { get; set; }
 
             public bool IsStarted { get; set; }
             public bool IsOnHold { get; set; }
@@ -56,6 +57,18 @@ namespace BTC_EnterpriseV2.Model
             public string? Serial_count { get; set; }
             public string? Torque_count { get; set; }
 
+        }
+        public class SubProcess
+        {
+            public int id { get; set; }
+            public int manufacturing_order_process_id { get; set; }
+            public object? name { get; set; }
+            public object? ipn_number { get; set; }
+            public object? serial_quantity { get; set; }
+            public object? serial_count { get; set; }
+            public int is_kit_list { get; set; }
+            public int is_serial { get; set; }
+            public int is_torque { get; set; }
         }
     }
 }
