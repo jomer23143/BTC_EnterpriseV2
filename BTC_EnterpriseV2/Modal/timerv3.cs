@@ -22,9 +22,9 @@ namespace BTC_EnterpriseV2.Modal
             InitializeComponent();
             taskList = new List<TaskTimer>
         {
-            new TaskTimer { TaskName = "Task A", Elapsed = TimeSpan.Zero },
-            new TaskTimer { TaskName = "Task B", Elapsed = TimeSpan.Zero },
-            new TaskTimer { TaskName = "Task C", Elapsed = TimeSpan.Zero }
+            new TaskTimer { TaskName = "Task A",StartTime = "00:03:03", Elapsed = TimeSpan.Zero },
+            new TaskTimer { TaskName = "Task B",StartTime = "00:10:29", Elapsed = TimeSpan.Zero },
+            new TaskTimer { TaskName = "Task C",StartTime = "00:14:54", Elapsed = TimeSpan.Zero }
         };
 
             timers = new Dictionary<TaskTimer, System.Windows.Forms.Timer>();
@@ -33,7 +33,9 @@ namespace BTC_EnterpriseV2.Modal
             sfDataGrid1.DataSource = taskList;
 
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "TaskName", HeaderText = "Task" });
+            sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "StartTime", HeaderText = "Duration" });
             sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Elapsed", HeaderText = "Elapsed Time" });
+            sfDataGrid1.Columns.Add(new GridTextColumn() { MappingName = "Status", HeaderText = "Status" });
             CellStyleInfo cellStyleInfo = new CellStyleInfo();
             cellStyleInfo.HorizontalAlignment = HorizontalAlignment.Center;
             List<CellButton> button_add = new List<CellButton>();
@@ -85,8 +87,10 @@ namespace BTC_EnterpriseV2.Modal
         public class TaskTimer
         {
             public string TaskName { get; set; }
+            public string StartTime { get; set; }
             public TimeSpan Elapsed { get; set; }
             public bool IsRunning { get; set; }
+            public string Status { get; set; }
             public BindingList<ChildProcessViewModel> SubProcesses { get; set; } = new BindingList<ChildProcessViewModel>();
         }
         public class ChildProcessViewModel
@@ -111,11 +115,17 @@ namespace BTC_EnterpriseV2.Modal
                     break;
                 case "Stop":
                     StopTimer(rowData);
+
                     break;
             }
         }
         private void StartTimer(TaskTimer task)
         {
+            if (task.IsRunning)
+            {
+                MessageBox.Show("Already Started");
+                return;
+            }
             task.SubProcesses.Add(new ChildProcessViewModel
             {
                 ProcessId = task.TaskName,
@@ -128,6 +138,10 @@ namespace BTC_EnterpriseV2.Modal
                 var timer = new System.Windows.Forms.Timer { Interval = 1000 };
                 timer.Tick += (s, e) =>
                 {
+                    task.Status = "Running";
+                    var timestart = TimeSpan.Parse(task.StartTime);
+                    var totalElapsed = timestart + task.Elapsed + TimeSpan.FromSeconds(1);
+                    task.StartTime = totalElapsed.ToString(@"hh\:mm\:ss");
                     task.Elapsed = task.Elapsed.Add(TimeSpan.FromSeconds(1));
                     sfDataGrid1.Refresh();
                 };
@@ -135,14 +149,20 @@ namespace BTC_EnterpriseV2.Modal
             }
             timers[task].Start();
             task.IsRunning = true;
-           
+
 
         }
 
         private void PauseTimer(TaskTimer task)
         {
+            if (!task.IsRunning)
+            {
+                MessageBox.Show("Already Pause");
+                return;
+            }
             if (timers.ContainsKey(task))
             {
+                task.Status = "Paused";
                 var lastSubProcess = task.SubProcesses.LastOrDefault();
                 if (lastSubProcess != null && string.IsNullOrEmpty(lastSubProcess.TimeEnd))
                 {
@@ -157,8 +177,30 @@ namespace BTC_EnterpriseV2.Modal
 
         private void StopTimer(TaskTimer task)
         {
+            if (task.Status == "Pause")
+            {
+                MessageBox.Show("Status is Pause");
+                return;
+            }
+            else if (task.Status == "") 
+            {
+                MessageBox.Show("Status is not running");
+                return;
+            }
+            else if (task.Status == null)
+            {
+                MessageBox.Show("Status is not running");
+                return;
+            }
+            if (!task.IsRunning)
+            {
+                MessageBox.Show("Already Stop");
+                return;
+            }
+          
             if (timers.ContainsKey(task))
             {
+                task.Status = "Done";
                 var lastSubProcess = task.SubProcesses.LastOrDefault();
                 if (lastSubProcess != null && string.IsNullOrEmpty(lastSubProcess.TimeEnd))
                 {
@@ -166,6 +208,7 @@ namespace BTC_EnterpriseV2.Modal
                     lastSubProcess.Remarks = "Done";
                 }
                 timers[task].Stop();
+                //task.StartTime = "00:00:00";
                 task.Elapsed = TimeSpan.Zero;
                 sfDataGrid1.Refresh();
                 task.IsRunning = false;
@@ -182,6 +225,27 @@ namespace BTC_EnterpriseV2.Modal
         {
             var frm = new Modal.timer();
             frm.Show();
+        }
+
+        private void sfDataGrid1_QueryButtonCellStyle(object sender, Syncfusion.WinForms.DataGrid.Events.QueryButtonCellStyleEventArgs e)
+        {
+            int recordIndex = sfDataGrid1.TableControl.ResolveToRecordIndex(e.RowIndex);
+            if (recordIndex < 0) return;
+            var record = sfDataGrid1.View.Records.GetItemAt(recordIndex) as TaskTimer;
+            if (record == null) return;
+
+            if (record.Status == "Done")
+            {
+                e.Style.BackColor = Color.LightGray;
+                e.Style.TextColor = Color.DarkGray;
+                e.Style.Enabled = false;
+            }
+            else
+            {
+                e.Style.BackColor = Color.CornflowerBlue;
+                e.Style.TextColor = Color.White;
+                e.Style.Enabled = true;
+            }
         }
     }
 }

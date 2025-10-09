@@ -24,9 +24,9 @@ namespace BTC_EnterpriseV2.Modal
             InitializeComponent();
             taskList = new List<TaskItem>()
                 {
-                    new TaskItem(){ TaskName="Task 1"},
-                    new TaskItem(){ TaskName="Task 2"},
-                    new TaskItem(){ TaskName ="Task 3" }
+                    new TaskItem(){ TaskName="Task 1",TimeDisplay = "00:23:04"},
+                    new TaskItem(){ TaskName="Task 2",TimeDisplay = "00:03:30"},
+                    new TaskItem(){ TaskName ="Task 3" , TimeDisplay = "00:05:08"}
                 };
 
             sfDataGrid1.DataSource = taskList;
@@ -92,8 +92,11 @@ namespace BTC_EnterpriseV2.Modal
                 task.Timer.Interval = 1000; // 1 second
                 task.Timer.Tick += (s, e) =>
                 {
-                    task.Elapsed = task.Elapsed.Add(TimeSpan.FromSeconds(1));
-                    task.TimeDisplay = task.Elapsed.ToString(@"hh\:mm\:ss");
+                    var timestart = TimeSpan.Parse(task.TimeDisplay);
+                    var totalElapsed = timestart + task.Elapsed + TimeSpan.FromSeconds(1);
+                    task.TimeDisplay = totalElapsed.ToString(@"hh\:mm\:ss");
+                    //task.Elapsed = task.Elapsed.Add(TimeSpan.FromSeconds(1));
+                    //task.TimeDisplay = task.Elapsed.ToString(@"hh\:mm\:ss");
                     sfDataGrid1.Refresh(); // Update grid display
                 };
             }

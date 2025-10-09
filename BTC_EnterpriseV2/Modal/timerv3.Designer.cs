@@ -48,6 +48,7 @@
             sfDataGrid1.Style.HyperlinkStyle.DefaultLinkColor = Color.FromArgb(0, 120, 215);
             sfDataGrid1.TabIndex = 0;
             sfDataGrid1.Text = "sfDataGrid1";
+            sfDataGrid1.QueryButtonCellStyle += sfDataGrid1_QueryButtonCellStyle;
             // 
             // button1
             // 
