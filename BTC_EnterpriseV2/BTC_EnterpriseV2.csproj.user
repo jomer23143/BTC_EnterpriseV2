@@ -76,6 +76,15 @@
     <Compile Update="Modal\TabFrm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\timer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\timerv2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\timerv3.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\ViewScanedDetails.cs">
       <SubType>Form</SubType>
     </Compile>

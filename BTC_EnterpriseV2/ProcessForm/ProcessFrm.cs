@@ -452,7 +452,7 @@ namespace BTC_EnterpriseV2.ProcessForm
             childGrid.AutoSizeColumnsMode = AutoSizeColumnsMode.Fill;
             childGrid.HeaderRowHeight = 45;
             childGrid.RowHeight = 80;
-            childGrid.Style.HeaderStyle.BackColor = Color.Gray;
+            childGrid.Style.HeaderStyle.BackColor = Color.Wheat;
             cellstyle1.Font = new GridFontInfo(new Font("Segoe UI", 12, FontStyle.Regular));
             childGrid.Columns.Add(new GridTextColumn { MappingName = "Id", HeaderText = "#", Visible = false, CellStyle = cellstyle1 });
             childGrid.Columns.Add(new GridTextColumn { MappingName = "ProcessId", HeaderText = "Process ID", CellStyle = cellstyle1 });

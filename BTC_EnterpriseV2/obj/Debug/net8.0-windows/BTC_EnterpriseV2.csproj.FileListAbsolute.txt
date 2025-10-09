@@ -689,3 +689,6 @@ C:\Users\JomerAlo\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.
 C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Forms.Warehouse_Kitting.resources
 C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Forms.Kitlist_Recieving.resources
 C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Login.resources
+C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.timer.resources
+C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.timerv2.resources
+C:\Users\JomerAlo\source\repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.timerv3.resources

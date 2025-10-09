@@ -11433,7 +11433,7 @@
       "projectName": "BTC_EnterpriseV2",
       "projectPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
       "packagesPath": "C:\\Users\\JomerAlo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JomerAlo\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
+      "outputPath": "C:\\Users\\JomerAlo\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -11448,6 +11448,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
