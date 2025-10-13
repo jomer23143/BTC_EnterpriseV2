@@ -52,6 +52,92 @@ namespace BTC_EnterpriseV2.Utillities
             }
         }
 
+        public static async Task<JToken?> PostTokenJsonAsync(string url, Dictionary<string, object> postData, string TheToken)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(postData);
+                Debug.WriteLine("Request JSON: " + json);
+
+                string response = await WebRequestApi.PostData_Token_httpclient(url, json, TheToken);
+                Debug.WriteLine("Response: " + response);
+
+                if (string.IsNullOrWhiteSpace(response) || response.StartsWith("<"))
+                {
+                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                var token = JToken.Parse(response);
+
+                // Check for known error structure
+                if (token.Type == JTokenType.Object && token["errors"] != null)
+                {
+                    string message = token["message"]?.ToString() ?? "Unknown error.";
+
+                    ShowAlert("QC Notification", $" {message}", CustomeAlert.Alertype.Information);
+
+                }
+
+                return token;
+            }
+            catch (JsonReaderException ex)
+            {
+                MessageBox.Show($"JSON parsing failed: {ex.Message}", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                ShowAlert("Process Notification", $" {ex.Message}", CustomeAlert.Alertype.Information);
+                return null;
+            }
+        }
+
+
+
+        public static async Task<(bool IsSuccess, JToken? Data)> PostTokenJsonAsync_response(string url, Dictionary<string, object> postData, string TheToken)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(postData);
+                Debug.WriteLine("Request JSON: " + json);
+
+                string response = await WebRequestApi.PostData_Token_httpclient(url, json, TheToken);
+                Debug.WriteLine("Response: " + response);
+
+                if (string.IsNullOrWhiteSpace(response) || response.StartsWith("<"))
+                {
+                    MessageBox.Show("Invalid response from server.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return (false, null);
+                }
+
+                var token = JToken.Parse(response);
+
+                // detect QC Notification
+                if (token.Type == JTokenType.Object && token["errors"] != null)
+                {
+                    string message = token["message"]?.ToString() ?? "Unknown error.";
+                    ShowAlert("QC Checklist Notification", $" {message}", CustomeAlert.Alertype.Warning);
+
+                    return (false, token);
+                }
+
+                return (true, token);
+            }
+            catch (JsonReaderException ex)
+            {
+                MessageBox.Show($"JSON parsing failed: {ex.Message}", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return (false, null);
+            }
+            catch (Exception ex)
+            {
+                ShowAlert("Process Notification", $" {ex.Message}", CustomeAlert.Alertype.Information);
+                return (false, null);
+            }
+        }
+
+
+
 
         private static void ShowAlert(string title, string message, CustomeAlert.Alertype type)
         {

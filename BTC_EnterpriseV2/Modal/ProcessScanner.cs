@@ -246,7 +246,7 @@ namespace BTC_EnterpriseV2.Modal
                     }
 
 
-                    ShowMessage($"Success!! . Item Serial Code :{serial} Scanned Successfully.  ", Color.Green);
+                    ShowMessage($"Scanned Successfully!.", Color.Green);
 
                 }
             }

@@ -149,7 +149,7 @@ namespace BTC_EnterpriseV2.Modal
                         // Check if serial already exists
                         var existingRow = dataGridView1.Rows
                             .Cast<DataGridViewRow>()
-                            .FirstOrDefault(r => r.Cells["serial_number"].Value?.ToString() == serial);
+                            .FirstOrDefault(r => r.Cells["torque_name"].Value?.ToString() == torqueName);
 
                         if (existingRow == null)
                         {
@@ -159,7 +159,6 @@ namespace BTC_EnterpriseV2.Modal
 
                             var row = dataGridView1.Rows[rowIndex];
                             row.Cells["row_number"].Value = rowIndex + 1;
-                            row.Cells["serial_number"].Value = serial;
                             row.Cells["torque_name"].Value = torqueName;
                             row.Cells["torque_value"].Value = torqueValue;
                             row.Cells["torque_range"].Value = torqueRange;
@@ -172,7 +171,7 @@ namespace BTC_EnterpriseV2.Modal
                             existingRow.Cells["torque_range"].Value = torqueRange;
                         }
 
-                        ShowMessage($"Success.. Torque Tool: {torqueName} | Value: {torqueValue} | Range: {torqueRange}", Color.Green);
+                        ShowMessage($"Torque Machine Tools Scanned Successfully.", Color.Green);
                     }
 
 
@@ -199,6 +198,13 @@ namespace BTC_EnterpriseV2.Modal
             tempqty = int.Parse(qty);
             tempcount = int.Parse(count);
             lbl_scancount.Text = count + " out of " + qty;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("row_number", "#");
+            dataGridView1.Columns.Add("torque_name", "Torque Name");
+            dataGridView1.Columns.Add("torque_value", "Torque Value");
+            dataGridView1.Columns.Add("torque_range", "Torque Range");
+            dataGridView1.Columns["row_number"].Width = 50;
 
         }
     }

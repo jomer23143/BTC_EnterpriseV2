@@ -13,15 +13,17 @@ namespace BTC_EnterpriseV2.Settings
     {
         private TabFrm _tabForm;
         private ProcessFrm _processFrm;
-        private int processid = 0; // Assuming you will set this value appropriately before calling PostProcessWithDictionary
+        private int processid = 0;
         private string Postprocess = GlobalApi.GetPostProcessUrl();
-        public Breakfrm(TabFrm tabForm, ProcessFrm processFrm, int Pid)
+        private string _token;
+        public Breakfrm(TabFrm tabForm, ProcessFrm processFrm, int Pid, string token)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             _tabForm = tabForm; //store Reference
             _processFrm = processFrm;
             this.processid = Pid;
+            this._token = token;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -70,7 +72,7 @@ namespace BTC_EnterpriseV2.Settings
                 var postData = Dbuilder.BuilderPost_Process(processid, remark, status, temprfid);
 
 
-                var token = await ApiHelper.PostJsonAsync(Postprocess, postData);
+                var token = await ApiHelper.PostTokenJsonAsync(Postprocess, postData, _token);
                 if (token == null) return;
 
                 if (token.Type == JTokenType.Array)

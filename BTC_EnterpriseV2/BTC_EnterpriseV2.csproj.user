@@ -25,6 +25,9 @@
     <Compile Update="Modal\AddSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\CheckFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\CustomDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +58,12 @@
     <Compile Update="Modal\ProcessScanner.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modal\QC_Checklist_QR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\ScanChemical.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modal\ScanSerialNumber.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +74,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\TabFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modal\ToastForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Modal\ViewScanedDetails.cs">

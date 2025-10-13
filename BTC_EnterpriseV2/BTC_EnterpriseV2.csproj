@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Syncfusion\WinForms\DataGrid\Events\" />
   </ItemGroup>
 
   <ItemGroup>

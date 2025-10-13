@@ -12,8 +12,8 @@ namespace BTCP_EnterpriseV2
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzk4NDE2MkAzMjM5MmUzMDJlMzAzYjMyMzkzYmk4QzNZdUlrVmdUclliT2VkRDFsZU0xcnJBeTQrN1JPMDB2MnNkYlJmOHM9"); //license for 29.1.33 version
             ApplicationConfiguration.Initialize();
             Application.Run(new Forms.MainDashboard());
-            //  Application.Run(new TestForm());
-            // Application.Run(new ProcessFrm());
+            //  Application.Run(new QC_Checklist_QR());
+            //  Application.Run(new BTC_EnterpriseV2.Modal.CheckFrm());
         }
     }
 }

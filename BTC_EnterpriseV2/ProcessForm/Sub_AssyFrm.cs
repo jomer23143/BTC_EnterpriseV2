@@ -612,6 +612,7 @@ namespace BTC_EnterpriseV2.ProcessForm
         private void EndProcessValidation()
         {
             bool hasMismatch = false;
+            var token = "";
             bool result = _segmentID == 1 ? true : false;
             switch (result)
             {
@@ -633,7 +634,8 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 dialog.ShowDialog();
                                 if (dialog.Result == DialogResult.OK)
                                 {
-                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+
+                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname, token);
                                     aBI_Frm.ShowDialog();
                                     return;
                                 }
@@ -659,7 +661,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                             dialog.ShowDialog();
                             if (dialog.Result == DialogResult.OK)
                             {
-                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname, token);
                                 aBI_Frm.ShowDialog();
                                 return;
                             }
@@ -708,7 +710,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                                 dialog.ShowDialog();
                                 if (dialog.Result == DialogResult.OK)
                                 {
-                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+                                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname, token);
                                     aBI_Frm.ShowDialog();
                                     return;
                                 }
@@ -757,7 +759,7 @@ namespace BTC_EnterpriseV2.ProcessForm
                             dialog.ShowDialog();
                             if (dialog.Result == DialogResult.OK)
                             {
-                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+                                ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname, token);
                                 aBI_Frm.ShowDialog();
                                 return;
                             }
@@ -904,6 +906,7 @@ namespace BTC_EnterpriseV2.ProcessForm
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            var token = "";
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             var dgv = dataGridView1;
@@ -935,7 +938,7 @@ namespace BTC_EnterpriseV2.ProcessForm
 
                 if (currentText == "Hold")
                 {
-                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname);
+                    ABI_Frm aBI_Frm = new ABI_Frm(Convert.ToInt32(lbl_segment.Text), lbl_toplvlipn.Text, _serial, processname, token);
                     aBI_Frm.ShowDialog();
                     cell.Value = "OnHold";
                     cell.Style.BackColor = Color.Orange;

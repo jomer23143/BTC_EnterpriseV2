@@ -11433,7 +11433,7 @@
       "projectName": "BTC_EnterpriseV2",
       "projectPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\BTC_EnterpriseV2.csproj",
       "packagesPath": "C:\\Users\\GlynnDelaCruz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\GlynnDelaCruz\\Source\\Repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
+      "outputPath": "C:\\Users\\GlynnDelaCruz\\source\\repos\\BTC_EnterpriseV2\\BTC_EnterpriseV2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

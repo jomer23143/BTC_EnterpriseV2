@@ -16,8 +16,9 @@ namespace BTC_EnterpriseV2.ABI
         public string moid = "";
         public string generatedSerial = "";
         public string processname = "";
+        private string _token;
         private const string ApiUrl = "https://app.btcp-enterprise.com/api/scan-serial";
-        public ABI_Frm(int processid, string moid, string generatedSerial, string processname)
+        public ABI_Frm(int processid, string moid, string generatedSerial, string processname, string token)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -35,7 +36,7 @@ namespace BTC_EnterpriseV2.ABI
             this.moid = moid;
             this.generatedSerial = generatedSerial;
             this.processname = processname;
-
+            this._token = token;
         }
 
         private void ABI_Frm_Load(object sender, EventArgs e)
@@ -95,7 +96,7 @@ namespace BTC_EnterpriseV2.ABI
                 string json = JsonConvert.SerializeObject(postData);
                 Debug.WriteLine("Request JSON: " + json);
 
-                string jsonResponse = await WebRequestApi.PostRequest(ApiUrl, json);
+                string jsonResponse = await WebRequestApi.PostData_Token_httpclient(ApiUrl, json, _token);
                 Debug.WriteLine("Response: " + jsonResponse);
 
                 if (string.IsNullOrWhiteSpace(jsonResponse) || jsonResponse.StartsWith("<"))

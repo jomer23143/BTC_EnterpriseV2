@@ -39,8 +39,10 @@
             panel5 = new Panel();
             lbl_public_event = new Label();
             panel6 = new Panel();
+            panel10 = new Panel();
+            btn_qcChecklist = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
-            label7 = new Label();
+            lbl_operatorname = new Label();
             label1 = new Label();
             lbl_QCinspector = new Label();
             label6 = new Label();
@@ -65,15 +67,19 @@
             checkBoxAdv2 = new Syncfusion.Windows.Forms.Tools.CheckBoxAdv();
             checkBoxAdv1 = new Syncfusion.Windows.Forms.Tools.CheckBoxAdv();
             btn_material = new Button();
+            btn_chemical = new Button();
             btn_torque = new Button();
             panel_parent_tab_subprocess = new Panel();
             lbl_subprocessInfo = new Label();
             timer2 = new System.Windows.Forms.Timer(components);
+            process_duration_timer = new System.Windows.Forms.Timer(components);
+            timer_duration = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel5.SuspendLayout();
             panel6.SuspendLayout();
+            panel10.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pb_parent).BeginInit();
@@ -168,6 +174,7 @@
             // panel6
             // 
             panel6.BackColor = Color.White;
+            panel6.Controls.Add(panel10);
             panel6.Controls.Add(tableLayoutPanel1);
             panel6.Dock = DockStyle.Top;
             panel6.Location = new Point(10, 55);
@@ -175,16 +182,42 @@
             panel6.Size = new Size(1488, 120);
             panel6.TabIndex = 2;
             // 
+            // panel10
+            // 
+            panel10.Controls.Add(btn_qcChecklist);
+            panel10.Dock = DockStyle.Right;
+            panel10.Location = new Point(1249, 0);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(239, 120);
+            panel10.TabIndex = 1;
+            // 
+            // btn_qcChecklist
+            // 
+            btn_qcChecklist.Anchor = AnchorStyles.Right;
+            btn_qcChecklist.FlatAppearance.BorderColor = Color.White;
+            btn_qcChecklist.FlatStyle = FlatStyle.Flat;
+            btn_qcChecklist.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_qcChecklist.ForeColor = Color.White;
+            btn_qcChecklist.Location = new Point(13, 11);
+            btn_qcChecklist.Name = "btn_qcChecklist";
+            btn_qcChecklist.Size = new Size(214, 103);
+            btn_qcChecklist.TabIndex = 0;
+            btn_qcChecklist.Text = "Scan QC Checklist";
+            btn_qcChecklist.UseVisualStyleBackColor = true;
+            btn_qcChecklist.Click += btn_qcChecklist_Click;
+            // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble;
             tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.666666F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.Controls.Add(label7, 3, 2);
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6484938F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 29.2969875F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6484947F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 41.4060173F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Controls.Add(lbl_operatorname, 3, 2);
             tableLayoutPanel1.Controls.Add(label1, 2, 2);
             tableLayoutPanel1.Controls.Add(lbl_QCinspector, 3, 1);
             tableLayoutPanel1.Controls.Add(label6, 2, 1);
@@ -200,30 +233,30 @@
             tableLayoutPanel1.Location = new Point(6, 6);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            tableLayoutPanel1.Size = new Size(1476, 111);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.Size = new Size(1237, 111);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // label7
+            // lbl_operatorname
             // 
-            label7.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(988, 79);
-            label7.Name = "label7";
-            label7.Size = new Size(482, 29);
-            label7.TabIndex = 2;
-            label7.Text = "Test Operator";
-            label7.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_operatorname.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_operatorname.Location = new Point(731, 73);
+            lbl_operatorname.Name = "lbl_operatorname";
+            lbl_operatorname.Size = new Size(482, 29);
+            lbl_operatorname.TabIndex = 2;
+            lbl_operatorname.Text = "Test Operator";
+            lbl_operatorname.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
-            label1.Location = new Point(742, 79);
+            label1.Location = new Point(549, 73);
             label1.Name = "label1";
-            label1.Size = new Size(237, 29);
+            label1.Size = new Size(173, 35);
             label1.TabIndex = 1;
             label1.Text = "Operator :";
             label1.TextAlign = ContentAlignment.MiddleLeft;
@@ -231,7 +264,7 @@
             // lbl_QCinspector
             // 
             lbl_QCinspector.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_QCinspector.Location = new Point(988, 41);
+            lbl_QCinspector.Location = new Point(731, 38);
             lbl_QCinspector.Name = "lbl_QCinspector";
             lbl_QCinspector.Size = new Size(482, 31);
             lbl_QCinspector.TabIndex = 0;
@@ -243,9 +276,9 @@
             label6.AutoSize = true;
             label6.Dock = DockStyle.Fill;
             label6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
-            label6.Location = new Point(742, 41);
+            label6.Location = new Point(549, 38);
             label6.Name = "label6";
-            label6.Size = new Size(237, 35);
+            label6.Size = new Size(173, 32);
             label6.TabIndex = 0;
             label6.Text = "QC Inspector :";
             label6.TextAlign = ContentAlignment.MiddleLeft;
@@ -255,9 +288,9 @@
             label3.AutoSize = true;
             label3.Dock = DockStyle.Fill;
             label3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
-            label3.Location = new Point(6, 41);
+            label3.Location = new Point(6, 38);
             label3.Name = "label3";
-            label3.Size = new Size(237, 35);
+            label3.Size = new Size(173, 32);
             label3.TabIndex = 0;
             label3.Text = "Process Segment :";
             label3.TextAlign = ContentAlignment.MiddleLeft;
@@ -265,9 +298,9 @@
             // lbl_inspectionDate
             // 
             lbl_inspectionDate.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_inspectionDate.Location = new Point(988, 3);
+            lbl_inspectionDate.Location = new Point(731, 3);
             lbl_inspectionDate.Name = "lbl_inspectionDate";
-            lbl_inspectionDate.Size = new Size(482, 35);
+            lbl_inspectionDate.Size = new Size(482, 32);
             lbl_inspectionDate.TabIndex = 0;
             lbl_inspectionDate.Text = "000-0000-000";
             lbl_inspectionDate.TextAlign = ContentAlignment.MiddleCenter;
@@ -277,9 +310,9 @@
             label5.AutoSize = true;
             label5.Dock = DockStyle.Fill;
             label5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
-            label5.Location = new Point(742, 3);
+            label5.Location = new Point(549, 3);
             label5.Name = "label5";
-            label5.Size = new Size(237, 35);
+            label5.Size = new Size(173, 32);
             label5.TabIndex = 0;
             label5.Text = "Inspection Date :";
             label5.TextAlign = ContentAlignment.MiddleLeft;
@@ -287,7 +320,7 @@
             // lbl_generatedSerial
             // 
             lbl_generatedSerial.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_generatedSerial.Location = new Point(252, 79);
+            lbl_generatedSerial.Location = new Point(188, 73);
             lbl_generatedSerial.Name = "lbl_generatedSerial";
             lbl_generatedSerial.Size = new Size(347, 23);
             lbl_generatedSerial.TabIndex = 0;
@@ -297,7 +330,7 @@
             // lbl_segment
             // 
             lbl_segment.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_segment.Location = new Point(252, 41);
+            lbl_segment.Location = new Point(188, 38);
             lbl_segment.Name = "lbl_segment";
             lbl_segment.Size = new Size(347, 31);
             lbl_segment.TabIndex = 0;
@@ -307,9 +340,9 @@
             // lbl_mo
             // 
             lbl_mo.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_mo.Location = new Point(252, 3);
+            lbl_mo.Location = new Point(188, 3);
             lbl_mo.Name = "lbl_mo";
-            lbl_mo.Size = new Size(347, 35);
+            lbl_mo.Size = new Size(347, 32);
             lbl_mo.TabIndex = 0;
             lbl_mo.Text = "Product MO :";
             lbl_mo.TextAlign = ContentAlignment.MiddleCenter;
@@ -319,9 +352,9 @@
             label4.AutoSize = true;
             label4.Dock = DockStyle.Fill;
             label4.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
-            label4.Location = new Point(6, 79);
+            label4.Location = new Point(6, 73);
             label4.Name = "label4";
-            label4.Size = new Size(237, 29);
+            label4.Size = new Size(173, 35);
             label4.TabIndex = 0;
             label4.Text = "Sub-Assembly Serial Number :";
             label4.TextAlign = ContentAlignment.MiddleLeft;
@@ -333,7 +366,7 @@
             label2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
             label2.Location = new Point(6, 3);
             label2.Name = "label2";
-            label2.Size = new Size(237, 35);
+            label2.Size = new Size(173, 32);
             label2.TabIndex = 0;
             label2.Text = "Product MO :";
             label2.TextAlign = ContentAlignment.MiddleLeft;
@@ -374,10 +407,6 @@
             sfDataGrid1.Style.Border3DStyle = Border3DStyle.Flat;
             sfDataGrid1.Style.BorderColor = Color.FromArgb(100, 100, 100);
             sfDataGrid1.Style.BorderStyle = BorderStyle.None;
-            sfDataGrid1.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid1.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid1.Style.CheckBoxStyle.IndeterminateBorderColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid1.Style.HyperlinkStyle.DefaultLinkColor = Color.FromArgb(0, 120, 215);
             sfDataGrid1.TabIndex = 0;
             sfDataGrid1.Text = "sfDataGrid1";
             sfDataGrid1.QueryCellStyle += sfDataGrid1_QueryCellStyle;
@@ -418,12 +447,9 @@
             sfDataGrid2.Style.Border3DStyle = Border3DStyle.Flat;
             sfDataGrid2.Style.BorderColor = Color.FromArgb(100, 100, 100);
             sfDataGrid2.Style.BorderStyle = BorderStyle.None;
-            sfDataGrid2.Style.CheckBoxStyle.CheckedBackColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid2.Style.CheckBoxStyle.CheckedBorderColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid2.Style.CheckBoxStyle.IndeterminateBorderColor = Color.FromArgb(0, 120, 215);
-            sfDataGrid2.Style.HyperlinkStyle.DefaultLinkColor = Color.FromArgb(0, 120, 215);
             sfDataGrid2.TabIndex = 0;
             sfDataGrid2.Text = "sfDataGrid2";
+            sfDataGrid2.QueryCellStyle += sfDataGrid2_QueryCellStyle;
             sfDataGrid2.SelectionChanged += sfDataGrid2_SelectionChanged;
             sfDataGrid2.CellClick += sfDataGrid2_CellClick;
             // 
@@ -460,6 +486,7 @@
             panel_top.Controls.Add(checkBoxAdv2);
             panel_top.Controls.Add(checkBoxAdv1);
             panel_top.Controls.Add(btn_material);
+            panel_top.Controls.Add(btn_chemical);
             panel_top.Controls.Add(btn_torque);
             panel_top.Dock = DockStyle.Top;
             panel_top.Location = new Point(0, 0);
@@ -508,13 +535,29 @@
             btn_material.FlatStyle = FlatStyle.Flat;
             btn_material.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             btn_material.ForeColor = Color.White;
-            btn_material.Location = new Point(393, 3);
+            btn_material.Location = new Point(514, 3);
             btn_material.Name = "btn_material";
-            btn_material.Size = new Size(347, 65);
+            btn_material.Size = new Size(226, 65);
             btn_material.TabIndex = 0;
             btn_material.Text = "Scan Item Material";
             btn_material.UseVisualStyleBackColor = false;
             btn_material.Click += btn_material_Click;
+            // 
+            // btn_chemical
+            // 
+            btn_chemical.Anchor = AnchorStyles.Top;
+            btn_chemical.BackColor = Color.RoyalBlue;
+            btn_chemical.FlatAppearance.BorderSize = 0;
+            btn_chemical.FlatStyle = FlatStyle.Flat;
+            btn_chemical.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            btn_chemical.ForeColor = Color.White;
+            btn_chemical.Location = new Point(276, 3);
+            btn_chemical.Name = "btn_chemical";
+            btn_chemical.Size = new Size(226, 65);
+            btn_chemical.TabIndex = 0;
+            btn_chemical.Text = "Scan Chemical";
+            btn_chemical.UseVisualStyleBackColor = false;
+            btn_chemical.Click += btn_chemical_Click;
             // 
             // btn_torque
             // 
@@ -526,7 +569,7 @@
             btn_torque.ForeColor = Color.White;
             btn_torque.Location = new Point(38, 3);
             btn_torque.Name = "btn_torque";
-            btn_torque.Size = new Size(349, 65);
+            btn_torque.Size = new Size(226, 65);
             btn_torque.TabIndex = 0;
             btn_torque.Text = "Scan Torque";
             btn_torque.UseVisualStyleBackColor = false;
@@ -554,6 +597,14 @@
             lbl_subprocessInfo.TabIndex = 0;
             lbl_subprocessInfo.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // process_duration_timer
+            // 
+            process_duration_timer.Tick += process_duration_timer_Tick;
+            // 
+            // timer_duration
+            // 
+            timer_duration.Tick += timer_duration_Tick;
+            // 
             // ProcessFrm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -579,6 +630,7 @@
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             panel6.ResumeLayout(false);
+            panel10.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             panel7.ResumeLayout(false);
@@ -635,6 +687,11 @@
         private System.Windows.Forms.Timer timer2;
         private Label lbl_subprocessInfo;
         private Label label1;
-        private Label label7;
+        private Label lbl_operatorname;
+        private Button btn_chemical;
+        private System.Windows.Forms.Timer process_duration_timer;
+        private Panel panel10;
+        private Button btn_qcChecklist;
+        private System.Windows.Forms.Timer timer_duration;
     }
 }

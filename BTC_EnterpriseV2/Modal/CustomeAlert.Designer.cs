@@ -71,7 +71,7 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Location = new Point(12, 169);
+            panel1.Location = new Point(12, 177);
             panel1.Name = "panel1";
             panel1.Size = new Size(440, 5);
             panel1.TabIndex = 2;
@@ -85,9 +85,9 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(312, 184);
+            button1.Location = new Point(304, 193);
             button1.Name = "button1";
-            button1.Size = new Size(140, 36);
+            button1.Size = new Size(148, 48);
             button1.TabIndex = 3;
             button1.Text = "Ok";
             button1.UseVisualStyleBackColor = false;
@@ -102,7 +102,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
-            ClientSize = new Size(464, 232);
+            ClientSize = new Size(464, 252);
             Controls.Add(button1);
             Controls.Add(panel1);
             Controls.Add(lblMessage);

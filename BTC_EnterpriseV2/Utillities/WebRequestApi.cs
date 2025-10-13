@@ -91,6 +91,29 @@ namespace BTC_EnterpriseV2.Utillities
             return responseData;
         }
 
+
+        public static async Task<string> PostData_Token_httpclient(string url, string jsonBody, string TheToken)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TheToken);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(url),
+                Content = new StringContent(jsonBody, Encoding.UTF8, "application/json") // ✅ attach body
+            };
+
+            HttpResponseMessage response = await client.SendAsync(request);
+            string responseData = await response.Content.ReadAsStringAsync();
+
+            return responseData;
+        }
+
+
+
+
+
         public static async Task<string> PostData_httpclient(string url, string data)
         {
             string responseData = "";

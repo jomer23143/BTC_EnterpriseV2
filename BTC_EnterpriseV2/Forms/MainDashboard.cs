@@ -51,7 +51,16 @@ namespace BTCP_EnterpriseV2.Forms
 
         private void Logout_Click(object? sender, EventArgs e)
         {
-            this.Close();
+            if (!string.IsNullOrEmpty(lbl_operatorlogin.Text))
+            {
+                lbl_operatorlogin.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("Please Log  Scan RFID first.", "Log In.", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            }
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -180,26 +189,21 @@ namespace BTCP_EnterpriseV2.Forms
         private DataTable response_list;
         private void button2_Click(object sender, EventArgs e)
         {
-            using var scannerForm = new SubAssy_Serial_Scanner();
 
-            string scannedSerial = string.Empty;
-            string processType = string.Empty;
+            using var CheckProcessForm = new CheckFrm(this, lbl_operatorlogin.Text);
 
+            CheckProcessForm.AfterScanned += (moid, segmentid, segmentname, processname, serialnumber, operatorName, token, processlist, subprocesslist) =>
+        {
+            string scannedSerial = serialnumber ?? string.Empty;
+            string processType = segmentname ?? string.Empty;
+            string Pname = processname ?? string.Empty;
+            string MoId = moid ?? string.Empty;
+            int _segmentID = segmentid;
 
-            scannerForm.SerialScanned += async (serial, processtype, segmentname, itemsTable) =>
-            {
-                scannedSerial = serial ?? string.Empty;
-                segmentname = segmentname ?? string.Empty;
-                processType = processtype ?? string.Empty;
-                int _segmentID = Convert.ToInt32(processType);
-                response_list = itemsTable ?? new DataTable("thedata");
-                // fulldisplaycontroll.OpenChildForm(new Sub_AssyFrm(scannedSerial, response_list, _segmentID, segmentname), sender);
-                //  fulldisplaycontroll.OpenChildForm(new TestForm(scannedSerial, response_list, _segmentID, segmentname), sender); // Open TestForm as an example
+            fulldisplaycontroll.OpenChildForm(new ProcessFrm(scannedSerial, _segmentID, MoId, processType, Pname, operatorName, token, processlist, subprocesslist), sender);
+        };
 
-                fulldisplaycontroll.OpenChildForm(new ProcessFrm(scannedSerial, _segmentID, segmentname), sender);
-            };
-
-            scannerForm.ShowDialog(this);
+            CheckProcessForm.ShowDialog(this);
         }
 
 

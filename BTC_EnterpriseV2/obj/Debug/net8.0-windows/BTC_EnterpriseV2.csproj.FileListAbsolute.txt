@@ -590,3 +590,7 @@ C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.pdb
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.genruntimeconfig.cache
 C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\ref\BTC_EnterpriseV2.dll
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.CheckFrm.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ToastForm.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.ScanChemical.resources
+C:\Users\GlynnDelaCruz\Source\Repos\BTC_EnterpriseV2\BTC_EnterpriseV2\obj\Debug\net8.0-windows\BTC_EnterpriseV2.Modal.QC_Checklist_QR.resources

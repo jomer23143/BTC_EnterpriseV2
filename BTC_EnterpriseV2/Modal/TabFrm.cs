@@ -13,7 +13,8 @@ namespace BTC_EnterpriseV2.Modal
         private string moid;
         private string generatedSerial;
         private ProcessFrm _processFrm;
-        public TabFrm(ProcessFrm processFrm, int processid, string processName, string moid, string generatedSerial)
+        private string _token;
+        public TabFrm(ProcessFrm processFrm, int processid, string processName, string moid, string generatedSerial, string token)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -30,6 +31,7 @@ namespace BTC_EnterpriseV2.Modal
             this.moid = moid;
             this.generatedSerial = generatedSerial;
             this._processFrm = processFrm;
+            this._token = token;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -50,18 +52,18 @@ namespace BTC_EnterpriseV2.Modal
 
         private void btn_break_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new Settings.Breakfrm(this, _processFrm, processid), sender);
+            formManager.OpenChildForm(new Settings.Breakfrm(this, _processFrm, processid, _token), sender);
         }
 
         private void btn_abi_Click(object sender, EventArgs e)
         {
-            formManager.OpenChildForm(new ABI_Frm(processid, moid, generatedSerial, processName), sender);
+            formManager.OpenChildForm(new ABI_Frm(processid, moid, generatedSerial, processName, _token), sender);
         }
 
         private void TabFrm_Load(object sender, EventArgs e)
         {
             formManager.ActivateButton(btn_break);
-            formManager.OpenChildForm(new Settings.Breakfrm(this, _processFrm, processid), btn_break);
+            formManager.OpenChildForm(new Settings.Breakfrm(this, _processFrm, processid, _token), btn_break);
         }
     }
 }
