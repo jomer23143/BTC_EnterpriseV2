@@ -31,6 +31,7 @@
             sfDataGrid1 = new Syncfusion.WinForms.DataGrid.SfDataGrid();
             button1 = new Button();
             button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)sfDataGrid1).BeginInit();
             SuspendLayout();
             // 
@@ -70,11 +71,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(326, 12);
+            button3.Name = "button3";
+            button3.Size = new Size(110, 37);
+            button3.TabIndex = 3;
+            button3.Text = "Datagridview";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // timerv3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(sfDataGrid1);
@@ -89,5 +101,6 @@
         private Syncfusion.WinForms.DataGrid.SfDataGrid sfDataGrid1;
         private Button button1;
         private Button button2;
+        private Button button3;
     }
 }

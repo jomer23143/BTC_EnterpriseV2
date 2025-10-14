@@ -177,12 +177,12 @@ namespace BTC_EnterpriseV2.Modal
 
         private void StopTimer(TaskTimer task)
         {
-            if (task.Status == "Pause")
+            if (task.Status == "Paused")
             {
                 MessageBox.Show("Status is Pause");
                 return;
             }
-            else if (task.Status == "") 
+            else if (task.Status == "")
             {
                 MessageBox.Show("Status is not running");
                 return;
@@ -197,7 +197,7 @@ namespace BTC_EnterpriseV2.Modal
                 MessageBox.Show("Already Stop");
                 return;
             }
-          
+
             if (timers.ContainsKey(task))
             {
                 task.Status = "Done";
@@ -246,6 +246,13 @@ namespace BTC_EnterpriseV2.Modal
                 e.Style.TextColor = Color.White;
                 e.Style.Enabled = true;
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var frm = new Modal.timerv3();
+            frm.Show();
         }
     }
 }
